@@ -1,4 +1,4 @@
-# Vue-Socket.io
+# Vue-Socket.io-Extended
 
 [![NPM version](https://img.shields.io/npm/v/vue-socket.io.svg)](https://www.npmjs.com/package/vue-socket.io)
 ![VueJS v2 compatible](https://img.shields.io/badge/Vuejs%202-compatible-green.svg)
@@ -6,7 +6,9 @@
 <img id="dependency_badge" src="https://www.versioneye.com/javascript/metinseylan:vue-socket.io/2.0.1/badge.svg" alt="Dependency Badge" rel="nofollow">
 <a href="https://www.npmjs.com/package/vue-socket.io"><img src="https://img.shields.io/npm/l/vue-socket.io.svg" alt="License"></a>
 
-socket.io implementation for Vuejs 2 and Vuex
+socket.io bindings for Vuejs 2 and Vuex (based on `Vue-Socket.io`)
+
+**In progress.** If you like to help - create an issue.
 
 ## Install
 
