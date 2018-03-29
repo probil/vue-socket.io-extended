@@ -1,26 +1,29 @@
 # Vue-Socket.io-Extended
 
-[![NPM version](https://img.shields.io/npm/v/vue-socket.io.svg)](https://www.npmjs.com/package/vue-socket.io)
+[![NPM version](https://img.shields.io/npm/v/vue-socket.io-extended.svg)](https://www.npmjs.com/package/vue-socket.io-extended)
 ![VueJS v2 compatible](https://img.shields.io/badge/Vuejs%202-compatible-green.svg)
-<a href="https://www.npmjs.com/package/vue-socket.io"><img src="https://img.shields.io/npm/dt/vue-socket.io.svg" alt="Downloads"></a>
-<img id="dependency_badge" src="https://www.versioneye.com/javascript/metinseylan:vue-socket.io/2.0.1/badge.svg" alt="Dependency Badge" rel="nofollow">
-<a href="https://www.npmjs.com/package/vue-socket.io"><img src="https://img.shields.io/npm/l/vue-socket.io.svg" alt="License"></a>
+<a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://img.shields.io/npm/dt/vue-socket.io-extended.svg" alt="Downloads"></a>
+<a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://img.shields.io/npm/l/vue-socket.io-extended.svg" alt="License"></a>
 
-socket.io bindings for Vuejs 2 and Vuex (based on `Vue-Socket.io`)
+Socket.io bindings for Vuejs and Vuex (based on `Vue-Socket.io`)
 
-**In progress.** If you like to help - create an issue.
+## Motivation
+
+I used `Vue-Socket.io` for a long time and I like it. But bugs, lack of support, no tests, no CI and a huge amount of issues makes me cry. So I decided to create my own fork with all the desirable staff (features/fixes/tests/support etc). 
+
+If you'd like to help - create an issue or PR. I will be glad to see any contribution.  Let's make the world a better place :)
 
 ## Install
 
 ``` bash
-npm install vue-socket.io --save
+npm install vue-socket.io-extended --save
 ```
 
 ## Usage
 #### Configuration
 Automatic socket connection from an URL string
 ``` js
-import VueSocketio from 'vue-socket.io';
+import VueSocketio from 'vue-socket.io-extended';
 Vue.use(VueSocketio, 'http://socketserver.com:1923');
 ```
 
@@ -109,8 +112,3 @@ export default new Vuex.Store({
     }
 })
 ```
-
-## Example
-[Realtime Car Tracker System](http://metinseylan.com/)
-
-[Simple Chat App](http://metinseylan.com/vuesocketio/)
