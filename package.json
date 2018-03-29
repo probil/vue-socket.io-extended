@@ -1,15 +1,18 @@
 {
-  "name": "vue-socket.io",
-  "version": "2.1.1-b",
-  "description": "socket.io implemantation for vuejs and vuex",
+  "name": "vue-socket.io-extended",
+  "version": "1.0.0",
+  "description": "Socket.io bindings for Vuejs and Vuex (based on Vue-Socket.io)",
   "main": "dist/build.js",
   "scripts": {
     "build": "webpack --progress --hide-modules"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MetinSeylan/Vue-Socket.io.git"
+    "url": "git+https://github.com/probil/vue-socket.io-extended.git"
   },
+  "files": [
+    "dist/"
+  ],
   "keywords": [
     "vuejs",
     "socket",
@@ -20,14 +23,15 @@
     "realtime",
     "flux",
     "vuex",
-    "redux"
+    "redux",
+    "vue-socket.io"
   ],
-  "author": "Metin Seylan",
+  "author": "Max Lyashuk <m_lyashuk@ukr.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MetinSeylan/Vue-Socket.io/issues"
+    "url": "https://github.com/probil/vue-socket.io-extended/issues"
   },
-  "homepage": "https://github.com/MetinSeylan/Vue-Socket.io#readme",
+  "homepage": "https://github.com/probil/vue-socket.io-extended#readme",
   "dependencies": {
     "socket.io-client": "^2.0.0"
   },
