@@ -29,6 +29,7 @@ npm install vue-socket.io-extended --save
 Automatic socket connection from an URL string
 ``` js
 import VueSocketio from 'vue-socket.io-extended';
+
 Vue.use(VueSocketio, 'http://socketserver.com:1923');
 ```
 
@@ -40,24 +41,25 @@ Vue.use(VueSocketio, socketio('http://socketserver.com:1923'));
 Enable Vuex integration
 ``` js
 import store from './yourstore'
+
 Vue.use(VueSocketio, socketio('http://socketserver.com:1923'), store);
 ```
 
 #### On Vuejs instance usage
 ``` js
 var vm = new Vue({
-  sockets:{
-    connect: function(){
+  sockets: {
+    connect: function () {
       console.log('socket connected')
     },
-    customEmit: function(val){
+    customEmit: function (val) {
       console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
     }
   },
   methods: {
-    clickButton: function(val){
-        // $socket is socket.io-client instance
-        this.$socket.emit('emit_method', val);
+    clickButton: function (val) {
+      // $socket is socket.io-client instance
+      this.$socket.emit('emit_method', val);
     }
   }
 })
@@ -67,7 +69,7 @@ var vm = new Vue({
 Create a new listener
 ``` js
 this.$options.sockets.event_name = (data) => {
-    console.log(data)
+  console.log(data)
 }
 ```
 Remove existing listener
@@ -90,30 +92,30 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state: {
-        connect: false,
-        message: null
+  state: {
+    connect: false,
+    message: null,
+  },
+  mutations: {
+    SOCKET_CONNECT: (state, status) => {
+      state.connect = true;
     },
-    mutations:{
-        SOCKET_CONNECT: (state,  status ) => {
-            state.connect = true;
-        },
-        SOCKET_USER_MESSAGE: (state,  message) => {
-            state.message = message;
-        }
+    SOCKET_USER_MESSAGE: (state, message) => {
+      state.message = message;
     },
-    actions: {
-        otherAction: (context, type) => {
-            return true;
-        },
-        socket_userMessage: (context, message) => {
-            context.dispatch('newMessage', message);
-            context.commit('NEW_MESSAGE_RECEIVED', message);
-            if (message.is_important) {
-                context.dispatch('alertImportantMessage', message);
-            }
-            ...
-        }
-    }
+  },
+  actions: {
+    otherAction: (context, type) => {
+      return true;
+    },
+    socket_userMessage: (context, message) => {
+      context.dispatch('newMessage', message);
+      context.commit('NEW_MESSAGE_RECEIVED', message);
+      if (message.is_important) {
+        context.dispatch('alertImportantMessage', message);
+      }
+      // ...
+    },
+  },
 })
 ```
