@@ -7,5 +7,10 @@
       }
     }]
   ],
-  "comments": false
+  "comments": false,
+  "env": {
+    "test": {
+      "presets": ["env"]
+    }
+  }
 }
