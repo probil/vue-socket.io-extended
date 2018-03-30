@@ -49,16 +49,16 @@ Vue.use(VueSocketio, socketio('http://socketserver.com:1923'), store);
 ``` js
 var vm = new Vue({
   sockets: {
-    connect: function () {
+    connect() {
       console.log('socket connected')
     },
-    customEmit: function (val) {
+    customEmit(val) {
       console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
     }
   },
   methods: {
-    clickButton: function (val) {
-      // $socket is socket.io-client instance
+    clickButton(val) {
+      // this.$socket is `socket.io-client` instance
       this.$socket.emit('emit_method', val);
     }
   }
@@ -93,12 +93,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    connect: false,
+    isConnected: false,
     message: null,
   },
   mutations: {
     SOCKET_CONNECT: (state, status) => {
-      state.connect = true;
+      state.isConnected = true;
     },
     SOCKET_USER_MESSAGE: (state, message) => {
       state.message = message;
@@ -108,11 +108,11 @@ export default new Vuex.Store({
     otherAction: (context, type) => {
       return true;
     },
-    socket_userMessage: (context, message) => {
-      context.dispatch('newMessage', message);
-      context.commit('NEW_MESSAGE_RECEIVED', message);
+    socket_userMessage: ({ commit, dispatch }, message) => {
+      dispatch('newMessage', message);
+      commit('NEW_MESSAGE_RECEIVED', message);
       if (message.is_important) {
-        context.dispatch('alertImportantMessage', message);
+        dispatch('alertImportantMessage', message);
       }
       // ...
     },
