@@ -5,6 +5,7 @@
   "main": "dist/vue-socket.io-ext.min.js",
   "module": "dist/vue-socket.io-ext.esm.js",
   "scripts": {
+    "test": "jest",
     "build": "rollup -c scripts/rollup-build.js"
   },
   "repository": {
