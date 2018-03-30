@@ -4,7 +4,7 @@
   "description": "Socket.io bindings for Vuejs and Vuex (based on Vue-Socket.io)",
   "main": "dist/build.js",
   "scripts": {
-    "build": "webpack --progress --hide-modules"
+    "build": "rollup -c scripts/rollup-build.js"
   },
   "repository": {
     "type": "git",
