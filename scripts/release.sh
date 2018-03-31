@@ -17,6 +17,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo 'Nothing'
     # npm run lint
     # npm run flow
+    npm run test -- --coverage
     # npm run test:coverage
     # npm run test:e2e
     # npm run test:ssr
