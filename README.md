@@ -1,4 +1,4 @@
-<h1 align="center"> Vue-Socket.io-Extended</h1>
+<h1 style="text-align: center"> Vue-Socket.io-Extended</h1>
 
 <p align="center">
   <a href="https://circleci.com/gh/probil/vue-socket.io-extended/tree/master"><img src="https://img.shields.io/circleci/project/probil/vue-socket.io-extended/master.svg" alt="Build Status"></a>
