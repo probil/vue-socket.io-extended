@@ -5,3 +5,5 @@ npm-debug.log
 
 # Release notes
 RELEASE_NOTE*.md
+
+coverage/
