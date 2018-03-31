@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import nodeResolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import uglify from 'rollup-plugin-uglify';
@@ -8,12 +9,12 @@ export default {
   plugins: [
     nodeResolve({
       browser: {
-        'socket.io-client': 'socket.io-client/dist/socket.io.js'
-      }
+        'socket.io-client': 'socket.io-client/dist/socket.io.js',
+      },
     }),
     commonjs(),
     babel({
-      plugins: ['external-helpers']
+      plugins: ['external-helpers'],
     }),
     uglify(),
   ],
@@ -28,5 +29,5 @@ export default {
       exports: 'default',
       file: 'dist/vue-socket.io-ext.min.js',
     },
-  ]
-}
+  ],
+};
