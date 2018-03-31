@@ -6,6 +6,7 @@
   "module": "dist/vue-socket.io-ext.esm.js",
   "scripts": {
     "test": "jest",
+    "release": "bash scripts/release.sh",
     "build": "rollup -c scripts/rollup-build.js"
   },
   "repository": {
