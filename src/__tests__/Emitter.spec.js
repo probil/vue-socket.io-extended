@@ -1,4 +1,4 @@
-import Emitter from '../Emitter'
+import Emitter from '../Emitter';
 
 it('should be an object', () => {
   expect(Emitter).toEqual(expect.any(Object));

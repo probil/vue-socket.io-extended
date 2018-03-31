@@ -1,5 +1,5 @@
-import index from '../index'
-import Main from '../Main'
+import index from '../index';
+import Main from '../Main';
 
 it('passes this canary test', () => {
   expect(true).toBe(true);
