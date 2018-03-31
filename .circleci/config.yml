@@ -22,15 +22,24 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: npm i
+      - run:
+          name: install dependences
+          command: npm i
 
+      # Save cache for next run
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # catch build-time errors (if any)
-      - run: npm run build
+      - run:
+          name: check build for errors
+          command: npm run build
 
-      # run tests!
-      - run: npm run test
+      - run:
+          name: test
+          command: npm run test -- --coverage
+
+      - run:
+          name: upload coverage
+          command: bash <(curl -s https://codecov.io/bash)
