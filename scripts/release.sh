@@ -31,7 +31,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     dist/*.js
   git commit -m "build: build $VERSION"
   # generate release note
-  # npm run release:note $VERSION
+  npm run release:note $VERSION
   # tag version
   npm version $VERSION --message "build: release $VERSION"
 
