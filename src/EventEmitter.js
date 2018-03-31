@@ -1,4 +1,4 @@
-export default new class {
+export default class EventEmitter {
   constructor() {
     this.listeners = new Map();
   }
@@ -43,4 +43,4 @@ export default new class {
     }
     return false;
   }
-}();
+}

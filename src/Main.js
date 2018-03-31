@@ -1,5 +1,5 @@
 import Observer from './Observer';
-import Emitter from './Emitter';
+import GlobalEmitter from './GlobalEmitter';
 
 export default {
 
@@ -16,12 +16,12 @@ export default {
 
         this.$options.sockets = new Proxy({}, {
           set: (target, key, value) => {
-            Emitter.addListener(key, value, this);
+            GlobalEmitter.addListener(key, value, this);
             target[key] = value;
             return true;
           },
           deleteProperty: (target, key) => {
-            Emitter.removeListener(key, this.$options.sockets[key], this);
+            GlobalEmitter.removeListener(key, this.$options.sockets[key], this);
             delete target.key;
             return true;
           },

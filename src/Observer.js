@@ -1,5 +1,5 @@
 import Socket from 'socket.io-client';
-import Emitter from './Emitter';
+import GlobalEmitter from './GlobalEmitter';
 
 export default class {
   constructor(connection, store) {
@@ -19,7 +19,7 @@ export default class {
     this.Socket.onevent = (packet) => {
       super_onevent.call(this.Socket, packet);
 
-      Emitter.emit(...packet.data);
+      GlobalEmitter.emit(...packet.data);
 
       if (this.store) this.passToStore(`SOCKET_${packet.data[0]}`, [...packet.data.slice(1)]);
     };
@@ -29,7 +29,7 @@ export default class {
     ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong']
       .forEach((value) => {
         _this.Socket.on(value, (data) => {
-          Emitter.emit(value, data);
+          GlobalEmitter.emit(value, data);
           if (_this.store) _this.passToStore(`SOCKET_${value}`, data);
         });
       });
