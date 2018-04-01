@@ -1,7 +1,7 @@
 import Socket from 'socket.io-client';
 import GlobalEmitter from './GlobalEmitter';
 
-export default class {
+export default class Observer {
   constructor(connection, store) {
     if (typeof connection === 'string') {
       this.Socket = Socket(connection);
