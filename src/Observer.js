@@ -13,10 +13,10 @@ export default class Observer {
 
     if (store) this.store = store;
 
-    this.onEvent();
+    this.registerEventHandler();
   }
 
-  onEvent() {
+  registerEventHandler() {
     const superOnEvent = this.Socket.onevent;
     this.Socket.onevent = (packet) => {
       superOnEvent.call(this.Socket, packet);
