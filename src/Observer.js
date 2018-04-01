@@ -17,9 +17,9 @@ export default class Observer {
   }
 
   onEvent() {
-    const super_onevent = this.Socket.onevent;
+    const superOnEvent = this.Socket.onevent;
     this.Socket.onevent = (packet) => {
-      super_onevent.call(this.Socket, packet);
+      superOnEvent.call(this.Socket, packet);
 
       GlobalEmitter.emit(...packet.data);
 
