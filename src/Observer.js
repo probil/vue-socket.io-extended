@@ -1,5 +1,6 @@
 import Socket from 'socket.io-client';
 import GlobalEmitter from './GlobalEmitter';
+import { eventToAction } from './utils';
 
 const DEFAULT_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
 
@@ -51,13 +52,7 @@ export default class Observer {
 
       if (!action.startsWith('socket_')) continue;
 
-      // TODO: use `lodash.camelCase` here
-      const camelcased = `socket_${
-        event
-          .replace('SOCKET_', '')
-          .toLowerCase()
-          .replace(/[\W\s_]+(\w)/g, (match, p1) => p1.toUpperCase())
-      }`;
+      const camelcased = eventToAction(event);
 
       if (action === camelcased) this.store.dispatch(namespaced, payload);
     }
