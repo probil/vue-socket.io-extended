@@ -1,8 +1,4 @@
 /* eslint-disable import/prefer-default-export */
+import camelcase from 'camelcase';
 
-export const eventToAction = event => `socket_${
-  event
-    .replace('SOCKET_', '')
-    .toLowerCase()
-    .replace(/[\W\s_]+(\w)/g, (match, p1) => p1.toUpperCase())
-}`;
+export const eventToAction = event => `socket_${camelcase(event.replace('SOCKET', ''))}`;
