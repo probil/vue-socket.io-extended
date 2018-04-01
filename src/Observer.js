@@ -1,7 +1,9 @@
 import Socket from 'socket.io-client';
 import GlobalEmitter from './GlobalEmitter';
 
-export default class {
+const DEFAULT_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
+
+export default class Observer {
   constructor(connection, store) {
     if (typeof connection === 'string') {
       this.Socket = Socket(connection);
@@ -11,13 +13,13 @@ export default class {
 
     if (store) this.store = store;
 
-    this.onEvent();
+    this.registerEventHandler();
   }
 
-  onEvent() {
-    const super_onevent = this.Socket.onevent;
+  registerEventHandler() {
+    const superOnEvent = this.Socket.onevent;
     this.Socket.onevent = (packet) => {
-      super_onevent.call(this.Socket, packet);
+      superOnEvent.call(this.Socket, packet);
 
       GlobalEmitter.emit(...packet.data);
 
@@ -26,13 +28,13 @@ export default class {
 
     const _this = this;
 
-    ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong']
-      .forEach((value) => {
-        _this.Socket.on(value, (data) => {
-          GlobalEmitter.emit(value, data);
-          if (_this.store) _this.passToStore(`SOCKET_${value}`, data);
-        });
+
+    DEFAULT_EVENTS.forEach((value) => {
+      _this.Socket.on(value, (data) => {
+        GlobalEmitter.emit(value, data);
+        if (_this.store) _this.passToStore(`SOCKET_${value}`, data);
       });
+    });
   }
 
 
@@ -49,9 +51,11 @@ export default class {
 
       if (!action.startsWith('socket_')) continue;
 
+      // TODO: use `lodash.camelCase` here
       const camelcased = `socket_${
-        event.toLowerCase()
+        event
           .replace('SOCKET_', '')
+          .toLowerCase()
           .replace(/[\W\s_]+(\w)/g, (match, p1) => p1.toUpperCase())
       }`;
 
