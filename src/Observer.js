@@ -51,9 +51,11 @@ export default class Observer {
 
       if (!action.startsWith('socket_')) continue;
 
+      // TODO: use `lodash.camelCase` here
       const camelcased = `socket_${
-        event.toLowerCase()
+        event
           .replace('SOCKET_', '')
+          .toLowerCase()
           .replace(/[\W\s_]+(\w)/g, (match, p1) => p1.toUpperCase())
       }`;
 
