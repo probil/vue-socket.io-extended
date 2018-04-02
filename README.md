@@ -14,19 +14,26 @@
   Socket.io bindings for Vuejs and Vuex (based on `Vue-Socket.io`)
 </p>
 
-## Motivation
+## :seedling: Motivation
 
 I used `Vue-Socket.io` for a long time and I like it. But bugs, lack of support, no tests, no CI and a huge amount of issues makes me cry. So I decided to create my own fork with all the desirable staff (features/fixes/tests/support etc). 
 
 If you'd like to help - create an issue or PR. I will be glad to see any contribution.  Let's make the world a better place :)
 
-## Install
+## :grey_exclamation: Requirements
+
+- [Vue.js](http://eslint.org/) `>=2.X`
+- [Socket.io-client](https://socket.io) `>=2.X` (optional, for custom socket.io client instance only)
+- [Vuex](https://vuex.vuejs.org/) `>=2.X` (optional, for integration with Vuex only)
+
+## :cd: Installation
 
 ``` bash
-npm install vue-socket.io-extended --save
+npm install vue-socket.io-extended
 ```
 
-## Usage
+## :rocket: Usage
+
 #### Configuration
 Automatic socket connection from an URL string
 ``` js
@@ -35,7 +42,7 @@ import VueSocketio from 'vue-socket.io-extended';
 Vue.use(VueSocketio, 'http://socketserver.com:1923');
 ```
 
-Bind custom socket.io-client instance
+Bind custom `socket.io-client` instance
 ``` js
 Vue.use(VueSocketio, socketio('http://socketserver.com:1923'));
 ```
@@ -47,7 +54,7 @@ import store from './yourstore'
 Vue.use(VueSocketio, socketio('http://socketserver.com:1923'), store);
 ```
 
-#### On Vuejs instance usage
+#### On Vue.js component
 ``` js
 var vm = new Vue({
   sockets: {
@@ -121,3 +128,19 @@ export default new Vuex.Store({
   },
 })
 ```
+
+## :anchor: Semantic Versioning Policy
+
+This plugin follows [semantic versioning](http://semver.org/).
+
+## :newspaper: Changelog
+
+We're using [GitHub Releases](https://github.com/probil/vue-socket.io-extended/releases).
+
+## :beers: Contribution
+
+We're more than happy to see potential contributions, so don't hesitate. If you have any suggestions, ideas or problems feel free to add new [issue](https://github.com/probil/vue-socket.io-extended/issues/new), but first please make sure your question does not repeat previous ones.
+
+## :lock: License
+
+See the [LICENSE](LICENSE) file for license rights and limitations (MIT).
