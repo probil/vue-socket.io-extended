@@ -22,7 +22,7 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 
 ## :grey_exclamation: Requirements
 
-- [Vue.js](http://eslint.org/) `>=2.X`
+- [Vue.js](https://vuejs.org/) `>=2.X`
 - [Socket.io-client](https://socket.io) `>=2.X` (optional, for custom socket.io client instance only)
 - [Vuex](https://vuex.vuejs.org/) `>=2.X` (optional, for integration with Vuex only)
 
