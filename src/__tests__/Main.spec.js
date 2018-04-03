@@ -1,5 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils';
 import Main from '../Main';
+import io from '../__mocks__/socket.io-client';
 
 it('should be vue plugin (is an object with `install` method)', () => {
   expect(Main).toMatchObject({
@@ -17,18 +18,27 @@ describe('.install()', () => {
     expect(Main.install).toHaveProperty('length', 3);
   });
 
-  it('should throw an error when no connection passed', () => {
+  it('should throw an error when no second argument passed', () => {
     expect(() => Vue.use(Main))
-      .toThrowError('[vue-socket.io-ext] cannot locate connection');
+      .toThrowError('[vue-socket.io-ext] you have to pass `socket.io-client` instance');
   });
 
-  it('should not throw an error when connection passed', () => {
+  it('should throw an error when second argument is not socket.io instance', () => {
+    expect(() => Vue.use(Main, { a: 1 }))
+      .toThrowError('[vue-socket.io-ext] you have to pass `socket.io-client` instance');
     expect(() => Vue.use(Main, 'ws://localhost'))
-      .not.toThrowError('[vue-socket.io-ext] cannot locate connection');
+      .toThrowError('[vue-socket.io-ext] you have to pass `socket.io-client` instance');
+  });
+
+  it('should not throw an error when second argument is socket.io instance', () => {
+    const socket = io('ws://localhost');
+    expect(() => Vue.use(Main, socket))
+      .not
+      .toThrowError();
   });
 
   it('defines socket.io instance as `$socket` on Vue prototype', () => {
-    Vue.use(Main, 'http://localhost');
+    Vue.use(Main, io('ws://localhost'));
     const wrapper = mount({ render: () => null }, { localVue: Vue });
     expect(wrapper.vm.$socket).toBeDefined();
     expect(wrapper.vm.$socket).toEqual(expect.any(Object));
@@ -38,7 +48,7 @@ describe('.install()', () => {
 
   it('registers mixin on Vue', () => {
     const spy = jest.spyOn(Vue, 'mixin');
-    Vue.use(Main, 'http://localhost');
+    Vue.use(Main, io('ws://localhost'));
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(expect.any(Object));
   });
