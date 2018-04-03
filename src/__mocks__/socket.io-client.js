@@ -9,6 +9,7 @@ export default (params) => {
     on: (label, cb) => {
       handlers[label] = [...(handlers[label] || []), cb];
     },
+    emit: jest.fn(),
 
     // helpers
     fireEventFromServer(label, ...args) {
