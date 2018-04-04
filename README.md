@@ -23,7 +23,7 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 ## :grey_exclamation: Requirements
 
 - [Vue.js](https://vuejs.org/) `>=2.X`
-- [Socket.io-client](https://socket.io) `>=2.X` (optional, for custom socket.io client instance only)
+- [Socket.io-client](https://socket.io) `>=2.X`
 - [Vuex](https://vuex.vuejs.org/) `>=2.X` (optional, for integration with Vuex only)
 
 ## :cd: Installation
@@ -32,26 +32,22 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 npm install vue-socket.io-extended
 ```
 
-## :rocket: Usage
+## :rocket: Initialization
 
-#### Configuration
-Automatic socket connection from an URL string
+#### Basic Setup
+*Note:* you have to pass instance of `socket.io-client` as second argument
 ``` js
 import VueSocketio from 'vue-socket.io-extended';
+import io from 'socket.io-client';
 
-Vue.use(VueSocketio, 'http://socketserver.com:1923');
+Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 ```
 
-Bind custom `socket.io-client` instance
+To enable Vuex integration just pass the store as the third argument, e.g.:
 ``` js
-Vue.use(VueSocketio, socketio('http://socketserver.com:1923'));
-```
+import store from './store'
 
-Enable Vuex integration
-``` js
-import store from './yourstore'
-
-Vue.use(VueSocketio, socketio('http://socketserver.com:1923'), store);
+Vue.use(VueSocketio, io('http://socketserver.com:1923'), store);
 ```
 
 #### On Vue.js component
