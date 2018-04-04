@@ -1,4 +1,4 @@
-import { eventToAction } from '../';
+import { eventToAction, isFunction } from '../';
 
 describe('.eventToAction()', () => {
   it('should be a function', () => {
@@ -15,5 +15,28 @@ describe('.eventToAction()', () => {
   it('should add `socket_` prefix to action', () => {
     expect(eventToAction('message')).toBe('socket_message');
     expect(eventToAction('USER_MESSAGE')).toBe('socket_userMessage');
+  });
+});
+
+describe('.isFunction()', () => {
+  it('should return false for values other than function', () => {
+    [undefined, null, '', true, NaN, 42, {}, []]
+      .forEach((val) => {
+        expect(isFunction(val)).toBe(false);
+      });
+  });
+
+  it('should return true for arrow function', () => {
+    expect(isFunction(() => {})).toBe(true);
+  });
+
+  it('should return true for common function', () => {
+    // eslint-disable-next-line prefer-arrow-callback
+    expect(isFunction(function test() {})).toBe(true);
+  });
+
+  it('should return true for class', () => {
+    class Test {}
+    expect(isFunction(Test)).toBe(true);
   });
 });
