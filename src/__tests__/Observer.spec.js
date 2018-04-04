@@ -38,7 +38,7 @@ it('should use given instance of the socket if passed', () => {
   expect(observer.Socket).toBe(socket);
 });
 
-it('should register default event handlers', () => {
+it('should register system event handlers', () => {
   const observer = new Observer('wss://localhost');
   expect(observer.Socket.getHandlers()).toMatchObject({
     connect: [expect.any(Function)],
@@ -57,7 +57,7 @@ it('should register default event handlers', () => {
   });
 });
 
-it('should invoke mutation on store when default event is fired', () => {
+it('should invoke mutation on store when system event is fired', () => {
   const fn = jest.fn();
   const store = new Store({
     mutations: {
@@ -65,7 +65,7 @@ it('should invoke mutation on store when default event is fired', () => {
     },
   });
   const observer = new Observer('wss://localhost', store);
-  observer.Socket.fireEventFromServer('connect');
+  observer.Socket.fireSystemEvent('connect');
   expect(fn).toHaveBeenCalled();
 });
 
@@ -77,11 +77,11 @@ it('should invoke mutation on store when server event is fired', () => {
     },
   });
   const observer = new Observer('wss://localhost', store);
-  observer.Socket.fireEventFromServer('message', { id: 15, body: 'Hi there' });
+  observer.Socket.fireServerEvent('message', { id: 15, body: 'Hi there' });
   expect(fn).toHaveBeenCalled();
 });
 
-it('should invoke action on store when default event is fired', () => {
+it('should invoke action on store when system event is fired', () => {
   const fn = jest.fn();
   const store = new Store({
     actions: {
@@ -89,7 +89,7 @@ it('should invoke action on store when default event is fired', () => {
     }
   });
   const observer = new Observer('wss://localhost', store);
-  observer.Socket.fireEventFromServer('connect');
+  observer.Socket.fireSystemEvent('connect');
   expect(fn).toHaveBeenCalled();
 });
 
@@ -101,6 +101,6 @@ it('should invoke action on store when server event is fired', () => {
     }
   });
   const observer = new Observer('wss://localhost', store);
-  observer.Socket.fireEventFromServer('message');
+  observer.Socket.fireServerEvent('message');
   expect(fn).toHaveBeenCalled();
 });

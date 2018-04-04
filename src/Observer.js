@@ -2,7 +2,7 @@ import Socket from 'socket.io-client';
 import GlobalEmitter from './GlobalEmitter';
 import { eventToAction } from './utils';
 
-const DEFAULT_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
+const SYSTEM_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
 
 export default class Observer {
   constructor(connection, store) {
@@ -30,7 +30,7 @@ export default class Observer {
     const _this = this;
 
 
-    DEFAULT_EVENTS.forEach((value) => {
+    SYSTEM_EVENTS.forEach((value) => {
       _this.Socket.on(value, (data) => {
         GlobalEmitter.emit(value, data);
         if (_this.store) _this.passToStore(`SOCKET_${value}`, data);

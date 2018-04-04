@@ -1,3 +1,5 @@
+const SYSTEM_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
+
 export default (params) => {
   const onevent = jest.fn();
   const handlers = {};
@@ -12,8 +14,13 @@ export default (params) => {
     emit: jest.fn(),
 
     // helpers
-    fireEventFromServer(label, ...args) {
+    fireServerEvent(label, ...args) {
+      if(SYSTEM_EVENTS.includes(label)) return;
       this.onevent({ data: [label, ...args] });
+    },
+
+    fireSystemEvent(label, ...args) {
+      if(!SYSTEM_EVENTS.includes(label)) return;
       (handlers[label] || []).forEach(cb => cb(label, ...args));
     },
     getHandlers: () => handlers,
