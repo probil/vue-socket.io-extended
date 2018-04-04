@@ -1,4 +1,4 @@
-import { eventToAction, isFunction } from '../';
+import { eventToAction, isFunction, isSocketIo } from '../';
 
 describe('.eventToAction()', () => {
   it('should be a function', () => {
@@ -19,7 +19,7 @@ describe('.eventToAction()', () => {
 });
 
 describe('.isFunction()', () => {
-  it('should return false for values other than function', () => {
+  it('should return false for value other than function', () => {
     [undefined, null, '', true, NaN, 42, {}, []]
       .forEach((val) => {
         expect(isFunction(val)).toBe(false);
@@ -38,5 +38,19 @@ describe('.isFunction()', () => {
   it('should return true for class', () => {
     class Test {}
     expect(isFunction(Test)).toBe(true);
+  });
+});
+
+describe('.isSocketIo()', () => {
+  it('should return false for value with no socket.io client interface', () => {
+    [undefined, null, '', true, NaN, 42, {}, []]
+      .forEach((val) => {
+        expect(isSocketIo(val)).toBe(false);
+      });
+  });
+
+  it('should return true for object with socket.io client interface', () => {
+    const socket = { on: jest.fn(), emit: jest.fn() };
+    expect(isSocketIo(socket)).toBe(true);
   });
 });
