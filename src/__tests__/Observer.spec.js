@@ -1,4 +1,8 @@
+import Vuex, { Store } from 'vuex';
+import { createLocalVue } from '@vue/test-utils';
 import Observer from '../Observer';
+
+createLocalVue().use(Vuex);
 
 it('should be a class', () => {
   expect(Observer).toEqual(expect.any(Function));
@@ -55,15 +59,11 @@ it('should register default event handlers', () => {
 
 it('should invoke mutation on store when default event is fired', () => {
   const fn = jest.fn();
-  const store = {
-    _mutations: {
+  const store = new Store({
+    mutations: {
       SOCKET_CONNECT: fn,
     },
-    commit(mutation, payload) {
-      // eslint-disable-next-line no-underscore-dangle
-      this._mutations[mutation](payload);
-    },
-  };
+  });
   const observer = new Observer('wss://localhost', store);
   observer.Socket.fireEventFromServer('connect');
   expect(fn).toHaveBeenCalled();
@@ -71,15 +71,11 @@ it('should invoke mutation on store when default event is fired', () => {
 
 it('should invoke mutation on store when server event is fired', () => {
   const fn = jest.fn();
-  const store = {
-    _mutations: {
+  const store = new Store({
+    mutations: {
       SOCKET_MESSAGE: fn,
     },
-    commit(mutation, payload) {
-      // eslint-disable-next-line no-underscore-dangle
-      this._mutations[mutation](payload);
-    },
-  };
+  });
   const observer = new Observer('wss://localhost', store);
   observer.Socket.fireEventFromServer('message', { id: 15, body: 'Hi there' });
   expect(fn).toHaveBeenCalled();
@@ -87,15 +83,11 @@ it('should invoke mutation on store when server event is fired', () => {
 
 it('should invoke action on store when default event is fired', () => {
   const fn = jest.fn();
-  const store = {
-    _actions: {
+  const store = new Store({
+    actions: {
       socket_connect: fn,
-    },
-    dispatch(action, payload) {
-      // eslint-disable-next-line no-underscore-dangle
-      this._actions[action](payload);
-    },
-  };
+    }
+  });
   const observer = new Observer('wss://localhost', store);
   observer.Socket.fireEventFromServer('connect');
   expect(fn).toHaveBeenCalled();
@@ -103,15 +95,11 @@ it('should invoke action on store when default event is fired', () => {
 
 it('should invoke action on store when server event is fired', () => {
   const fn = jest.fn();
-  const store = {
-    _actions: {
+  const store = new Store({
+    actions: {
       socket_message: fn,
-    },
-    dispatch(action, payload) {
-      // eslint-disable-next-line no-underscore-dangle
-      this._actions[action](payload);
-    },
-  };
+    }
+  });
   const observer = new Observer('wss://localhost', store);
   observer.Socket.fireEventFromServer('message');
   expect(fn).toHaveBeenCalled();
