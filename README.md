@@ -32,23 +32,18 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 npm install vue-socket.io-extended
 ```
 
-## :rocket: Initialization
+## :checkered_flag: Initialization
 
-#### Basic Setup
-*Note:* you have to pass instance of `socket.io-client` as second argument
+#### ES2015 (Webpack/Rollup/Browserify/Parcel/etc)
 ``` js
 import VueSocketio from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 
 Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 ```
+*Note:* you have to pass instance of `socket.io-client` as second argument to prevent library duplication. Read more [here](https://github.com/probil/vue-socket.io-extended/issues/19).
 
-To enable Vuex integration just pass the store as the third argument, e.g.:
-``` js
-import store from './store'
-
-Vue.use(VueSocketio, io('http://socketserver.com:1923'), store);
-```
+## :rocket: Usage
 
 #### On Vue.js component
 ``` js
@@ -83,6 +78,13 @@ delete this.$options.sockets.event_name;
 ```
 
 #### Vuex Store integration
+
+To enable Vuex integration just pass the store as the third argument, e.g.:
+``` js
+import store from './store'
+
+Vue.use(VueSocketio, io('http://socketserver.com:1923'), store);
+```
 
 Socket **mutations** always have `SOCKET_` prefix.
 
