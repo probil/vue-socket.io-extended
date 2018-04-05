@@ -20,14 +20,14 @@ describe('.install()', () => {
 
   it('should throw an error when no second argument passed', () => {
     expect(() => Vue.use(Main))
-      .toThrowError('[vue-socket.io-ext] you have to pass `socket.io-client` instance');
+      .toThrowErrorMatchingSnapshot();
   });
 
   it('should throw an error when second argument is not socket.io instance', () => {
     expect(() => Vue.use(Main, { a: 1 }))
-      .toThrowError('[vue-socket.io-ext] you have to pass `socket.io-client` instance');
+      .toThrowErrorMatchingSnapshot();
     expect(() => Vue.use(Main, 'ws://localhost'))
-      .toThrowError('[vue-socket.io-ext] you have to pass `socket.io-client` instance');
+      .toThrowErrorMatchingSnapshot();
   });
 
   it('should not throw an error when second argument is socket.io instance', () => {

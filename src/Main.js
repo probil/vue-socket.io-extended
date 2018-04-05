@@ -6,7 +6,7 @@ import { isSocketIo } from './utils';
 export default {
   install(Vue, socket, store) {
     if (!isSocketIo(socket)) {
-      throw new Error('[vue-socket.io-ext] you have to pass `socket.io-client` instance');
+      throw new Error('[vue-socket.io-ext] you have to pass `socket.io-client` instance to the plugin');
     }
 
     const observer = new Observer(socket, store);
