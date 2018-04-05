@@ -22,13 +22,12 @@ export default class Observer {
       if (this.store) this.passToStore(`SOCKET_${packet.data[0]}`, [...packet.data.slice(1)]);
     };
 
-    const _this = this;
-
-
     SYSTEM_EVENTS.forEach((value) => {
-      _this.Socket.on(value, (data) => {
+      this.Socket.on(value, (data) => {
         GlobalEmitter.emit(value, data);
-        if (_this.store) _this.passToStore(`SOCKET_${value}`, data);
+        if (this.store) {
+          this.passToStore(`SOCKET_${value}`, data);
+        }
       });
     });
   }
@@ -37,19 +36,22 @@ export default class Observer {
   passToStore(event, payload) {
     if (!event.startsWith('SOCKET_')) return;
 
-    for (const namespaced in this.store._mutations) {
-      const mutation = namespaced.split('/').pop();
-      if (mutation === event.toUpperCase()) this.store.commit(namespaced, payload);
-    }
+    // eslint-disable-next-line no-underscore-dangle
+    Object.keys(this.store._mutations)
+      .forEach((namespacedMutation) => {
+        const mutation = namespacedMutation.split('/').pop();
+        if (mutation !== event.toUpperCase()) return;
+        this.store.commit(namespacedMutation, payload);
+      });
 
-    for (const namespaced in this.store._actions) {
-      const action = namespaced.split('/').pop();
-
-      if (!action.startsWith('socket_')) continue;
-
-      const camelcased = eventToAction(event);
-
-      if (action === camelcased) this.store.dispatch(namespaced, payload);
-    }
+    // eslint-disable-next-line no-underscore-dangle
+    Object.keys(this.store._actions)
+      .forEach((namespacedAction) => {
+        const action = namespacedAction.split('/').pop();
+        if (!action.startsWith('socket_')) return;
+        const camelcased = eventToAction(event);
+        if (action !== camelcased) return;
+        this.store.dispatch(namespacedAction, payload);
+      });
   }
 }
