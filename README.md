@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  Socket.io bindings for Vuejs and Vuex (based on `Vue-Socket.io`)
+  Socket.io bindings for Vue.js and Vuex (based on `Vue-Socket.io`)
 </p>
 
 ## :seedling: Motivation
