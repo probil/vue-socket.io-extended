@@ -1,4 +1,3 @@
-import Socket from 'socket.io-client';
 import GlobalEmitter from './GlobalEmitter';
 import { eventToAction } from './utils';
 
@@ -6,11 +5,7 @@ const SYSTEM_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect
 
 export default class Observer {
   constructor(connection, store) {
-    if (typeof connection === 'string') {
-      this.Socket = Socket(connection);
-    } else {
-      this.Socket = connection;
-    }
+    this.Socket = connection;
 
     if (store) this.store = store;
 

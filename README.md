@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  Socket.io bindings for Vuejs and Vuex (based on `Vue-Socket.io`)
+  Socket.io bindings for Vue.js and Vuex (based on `Vue-Socket.io`)
 </p>
 
 ## :seedling: Motivation
@@ -23,7 +23,7 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 ## :grey_exclamation: Requirements
 
 - [Vue.js](https://vuejs.org/) `>=2.X`
-- [Socket.io-client](https://socket.io) `>=2.X` (optional, for custom socket.io client instance only)
+- [Socket.io-client](https://socket.io) `>=2.X`
 - [Vuex](https://vuex.vuejs.org/) `>=2.X` (optional, for integration with Vuex only)
 
 ## :cd: Installation
@@ -32,27 +32,18 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 npm install vue-socket.io-extended
 ```
 
-## :rocket: Usage
+## :checkered_flag: Initialization
 
-#### Configuration
-Automatic socket connection from an URL string
+#### ES2015 (Webpack/Rollup/Browserify/Parcel/etc)
 ``` js
 import VueSocketio from 'vue-socket.io-extended';
+import io from 'socket.io-client';
 
-Vue.use(VueSocketio, 'http://socketserver.com:1923');
+Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 ```
+*Note:* you have to pass instance of `socket.io-client` as second argument to prevent library duplication. Read more [here](https://github.com/probil/vue-socket.io-extended/issues/19).
 
-Bind custom `socket.io-client` instance
-``` js
-Vue.use(VueSocketio, socketio('http://socketserver.com:1923'));
-```
-
-Enable Vuex integration
-``` js
-import store from './yourstore'
-
-Vue.use(VueSocketio, socketio('http://socketserver.com:1923'), store);
-```
+## :rocket: Usage
 
 #### On Vue.js component
 ``` js
@@ -87,6 +78,13 @@ delete this.$options.sockets.event_name;
 ```
 
 #### Vuex Store integration
+
+To enable Vuex integration just pass the store as the third argument, e.g.:
+``` js
+import store from './store'
+
+Vue.use(VueSocketio, io('http://socketserver.com:1923'), store);
+```
 
 Socket **mutations** always have `SOCKET_` prefix.
 
