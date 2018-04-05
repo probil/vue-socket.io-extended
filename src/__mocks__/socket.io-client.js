@@ -15,12 +15,12 @@ export default (params) => {
 
     // helpers
     fireServerEvent(label, ...args) {
-      if(SYSTEM_EVENTS.includes(label)) return;
+      if (SYSTEM_EVENTS.includes(label)) return;
       this.onevent({ data: [label, ...args] });
     },
 
     fireSystemEvent(label, ...args) {
-      if(!SYSTEM_EVENTS.includes(label)) return;
+      if (!SYSTEM_EVENTS.includes(label)) return;
       (handlers[label] || []).forEach(cb => cb(label, ...args));
     },
     getHandlers: () => handlers,
