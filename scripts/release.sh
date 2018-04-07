@@ -15,7 +15,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   if [[ -z $SKIP_TESTS ]]; then
     echo 'Nothing'
-    # npm run lint
+    npm run lint
     # npm run flow
     npm run test -- --coverage
     # npm run test:coverage

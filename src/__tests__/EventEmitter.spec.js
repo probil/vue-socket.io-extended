@@ -93,7 +93,7 @@ describe('#removeListener()', () => {
     const emitter = new EventEmitter();
     emitter.listeners = new Map([['foo', [{ callback: spy, vm: undefined }]]]);
     emitter.removeListener('foo', spy, undefined);
-    expect(emitter.listeners).toEqual(new Map([['foo', []]]));
+    expect(emitter.listeners).toEqual(new Map());
   });
 
   it('should do nothing if it was not registered', () => {
@@ -109,6 +109,12 @@ describe('#removeListener()', () => {
     const spy = jest.fn();
     const emitter = new EventEmitter();
     emitter.removeListener('foo', spy, undefined);
+    expect(emitter.listeners).toEqual(new Map());
+  });
+
+  it('should do nothing if given listener is not a function', () => {
+    const emitter = new EventEmitter();
+    emitter.removeListener('foo', {}, undefined);
     expect(emitter.listeners).toEqual(new Map());
   });
 });

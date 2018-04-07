@@ -10,6 +10,7 @@ export default {
     }
 
     const observer = new Observer(socket, store);
+    // eslint-disable-next-line no-param-reassign
     Vue.prototype.$socket = observer.Socket;
     Vue.mixin(mixin(GlobalEmitter));
   },

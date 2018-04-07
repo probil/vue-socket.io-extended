@@ -5,11 +5,13 @@ export default GlobalEmitter => ({
     this.$options.sockets = new Proxy({}, {
       set: (target, key, value) => {
         GlobalEmitter.addListener(key, value, this);
+        // eslint-disable-next-line no-param-reassign
         target[key] = value;
         return true;
       },
       deleteProperty: (target, key) => {
         GlobalEmitter.removeListener(key, this.$options.sockets[key], this);
+        // eslint-disable-next-line no-param-reassign
         delete target.key;
         return true;
       },

@@ -1,35 +1,33 @@
+import { isFunction } from './utils';
+
 export default class EventEmitter {
   constructor() {
     this.listeners = new Map();
   }
 
   addListener(label, callback, vm) {
-    if (typeof callback === 'function') {
-      this.listeners.has(label) || this.listeners.set(label, []);
-      this.listeners.get(label).push({ callback, vm });
+    if (!isFunction(callback)) return false;
 
-      return true;
-    }
+    if (!this.listeners.has(label)) this.listeners.set(label, []);
+    this.listeners.get(label).push({ callback, vm });
 
-    return false;
+    return true;
   }
 
   removeListener(label, callback, vm) {
-    const listeners = this.listeners.get(label);
-    let index;
+    if (!isFunction(callback)) return false;
+    const listeners = this.listeners.get(label) || [];
 
-    if (listeners && listeners.length) {
-      index = listeners.reduce((i, listener, index) => ((typeof listener.callback === 'function' && listener.callback === callback && listener.vm == vm) ?
-        i = index :
-        i), -1);
+    const filteredListeners = listeners.filter(listener => (
+      listener.callback !== callback || listener.vm !== vm
+    ));
 
-      if (index > -1) {
-        listeners.splice(index, 1);
-        this.listeners.set(label, listeners);
-        return true;
-      }
+    if (filteredListeners.length > 0) {
+      this.listeners.set(label, filteredListeners);
+    } else {
+      this.listeners.delete(label);
     }
-    return false;
+    return filteredListeners.length === listeners.length;
   }
 
   emit(label, ...args) {
