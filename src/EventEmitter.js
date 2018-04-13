@@ -6,16 +6,14 @@ export default class EventEmitter {
   }
 
   addListener(label, callback, vm) {
-    if (!isFunction(callback)) return false;
+    if (!isFunction(callback)) return;
 
     if (!this.listeners.has(label)) this.listeners.set(label, []);
     this.listeners.get(label).push({ callback, vm });
-
-    return true;
   }
 
   removeListener(label, callback, vm) {
-    if (!isFunction(callback)) return false;
+    if (!isFunction(callback)) return;
     const listeners = this.listeners.get(label) || [];
 
     const filteredListeners = listeners.filter(listener => (
@@ -27,18 +25,13 @@ export default class EventEmitter {
     } else {
       this.listeners.delete(label);
     }
-    return filteredListeners.length === listeners.length;
   }
 
   emit(label, ...args) {
-    const listeners = this.listeners.get(label);
+    const listeners = this.listeners.get(label) || [];
 
-    if (listeners && listeners.length) {
-      listeners.forEach((listener) => {
-        listener.callback.call(listener.vm, ...args);
-      });
-      return true;
-    }
-    return false;
+    listeners.forEach((listener) => {
+      listener.callback.call(listener.vm, ...args);
+    });
   }
 }
