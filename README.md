@@ -77,7 +77,7 @@ Remove existing listener
 delete this.$options.sockets.event_name;
 ```
 
-#### Vuex Store integration
+## :evergreen_tree: Vuex Store integration
 
 To enable Vuex integration just pass the store as the third argument, e.g.:
 ``` js
@@ -86,11 +86,21 @@ import store from './store'
 Vue.use(VueSocketio, io('http://socketserver.com:1923'), store);
 ```
 
-Socket **mutations** always have `SOCKET_` prefix.
+The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called:
 
-Socket **actions** always have `socket_` prefix and the socket event name is `camelCased` (ex. `SOCKET_USER_MESSAGE` => `socket_userMessage`) 
+* a **mutation** should start with `SOCKET_` prefix and continue with an uppercase version of the event
+* an **action** should start with `socket_` prefix and continue with camelcase version of the event
 
-You can use either one or another or both in your store. Namespaced modules are supported.
+| Server Event | Mutation | Action
+| --- | --- | --- |
+| `chat message` | `SOCKET_CHAT MESSAGE` | `socket_chatMessage` |
+| `chat_message` | `SOCKET_CHAT_MESSAGE` | `socket_chatMessage` |
+| `chatMessage`  | `SOCKET_CHATMESSAGE`  | `socket_chatMessage` |
+| `CHAT_MESSAGE` | `SOCKET_CHAT_MESSAGE` | `socket_chatMessage` |
+
+**Note**: different server events can commit/dispatch the same mutation or/and the same action. So try to use only one naming convention to avoid possible bugs. In any case, this behavior is going to be changed soon and considered as problematic.
+
+You can use either mutation or action or even both in your store. Don't forget that mutations are synchronous transactions. If you have any async operations inside, it's better to use actions instead. Learn more about Vuex [here](https://vuex.vuejs.org/en/).
 
 ``` js
 import Vue from 'vue'
@@ -126,6 +136,58 @@ export default new Vuex.Store({
   },
 })
 ```
+
+#### Namespaced vuex modules
+
+Namespaced modules are supported out-of-the-box when plugin initialized with Vuex store. You can easily divide your store into modules without worrying that mutation or action will not be called. The plugin checks all your modules for mutation and action that are formatted by convention described above and call them all. That means you can listen for the same event from multiple stores with no issue.
+
+Check the following example:
+
+```js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex);
+
+const messages = {
+  state: {
+    messages: []
+  },
+  mutations: {
+    SOCKET_CHAT_MESSAGE(state, message) {
+      state.messages.push(message);
+    }
+  },
+  actions: {
+    socket_chatMessage() {
+      console.log('this action will be called');
+    }
+  },
+};
+
+const notifications = {
+  state: {
+    notifications: []
+  },
+  mutations: {
+    SOCKET_CHAT_MESSAGE(state, message) {
+      state.notifications.push({ type: 'message', payload: message });
+    }
+  },
+}
+
+export default new Vuex.Store({
+  modules: {
+    messages,
+    notifications,
+  }
+})
+```
+That's what will happen, on `chat_message` from the server:
+* `SOCKET_CHAT_MESSAGE` mutation commited on `messages` module
+* `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
+* `socket_chatMessage` action dispated on `messages` module
+
 
 ## :anchor: Semantic Versioning Policy
 
