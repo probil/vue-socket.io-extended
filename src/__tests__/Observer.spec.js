@@ -120,6 +120,7 @@ it('should invoke action on store when system event is fired', () => {
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     { isConnected: true },
+    undefined,
   );
 });
 
@@ -136,6 +137,7 @@ it('should invoke action on store when system event is fired (with arguments)', 
   expect(fn).toHaveBeenCalledWith(
     vuexActionCbInterface,
     { isConnected: true },
+    undefined,
   );
 });
 
@@ -149,7 +151,11 @@ it('should invoke action on store when server event is fired', () => {
   const observer = new Observer(io('wss://localhost'), store);
   observer.Socket.fireServerEvent('message');
   expect(fn).toHaveBeenCalledTimes(1);
-  expect(fn).toHaveBeenCalledWith(vuexActionCbInterface);
+  expect(fn).toHaveBeenCalledWith(
+    vuexActionCbInterface,
+    undefined,
+    undefined,
+  );
 });
 
 it('should invoke action on store when server event is fired (with arguments)', () => {
@@ -166,5 +172,6 @@ it('should invoke action on store when server event is fired (with arguments)', 
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     message,
+    undefined,
   );
 });
