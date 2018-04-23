@@ -1,5 +1,5 @@
 import GlobalEmitter from './GlobalEmitter';
-import { eventToAction } from './utils';
+import { eventToAction, unwrapIfSingle } from './utils';
 
 const SYSTEM_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
 
@@ -19,29 +19,30 @@ export default class Observer {
 
       GlobalEmitter.emit(...packet.data);
 
-      if (this.store) this.passToStore(`SOCKET_${packet.data[0]}`, [...packet.data.slice(1)]);
+      const [eventName, ...args] = packet.data;
+      this.passToStore(`SOCKET_${eventName}`, [...args]);
     };
 
-    SYSTEM_EVENTS.forEach((value) => {
-      this.Socket.on(value, (data) => {
-        GlobalEmitter.emit(value, data);
-        if (this.store) {
-          this.passToStore(`SOCKET_${value}`, data);
-        }
+    SYSTEM_EVENTS.forEach((eventName) => {
+      this.Socket.on(eventName, (...args) => {
+        GlobalEmitter.emit(eventName, ...args);
+        this.passToStore(`SOCKET_${eventName}`, [...args]);
       });
     });
   }
 
 
   passToStore(event, payload) {
+    if (!this.store) return;
     if (!event.startsWith('SOCKET_')) return;
+    const unwrappedPayload = unwrapIfSingle(payload);
 
     // eslint-disable-next-line no-underscore-dangle
     Object.keys(this.store._mutations)
       .forEach((namespacedMutation) => {
         const mutation = namespacedMutation.split('/').pop();
         if (mutation !== event.toUpperCase()) return;
-        this.store.commit(namespacedMutation, payload);
+        this.store.commit(namespacedMutation, unwrappedPayload);
       });
 
     // eslint-disable-next-line no-underscore-dangle
@@ -51,7 +52,7 @@ export default class Observer {
         if (!action.startsWith('socket_')) return;
         const camelcased = eventToAction(event);
         if (action !== camelcased) return;
-        this.store.dispatch(namespacedAction, payload);
+        this.store.dispatch(namespacedAction, unwrappedPayload);
       });
   }
 }
