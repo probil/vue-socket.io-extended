@@ -21,7 +21,7 @@ export default (params) => {
 
     fireSystemEvent(label, ...args) {
       if (!SYSTEM_EVENTS.includes(label)) return;
-      (handlers[label] || []).forEach(cb => cb(label, ...args));
+      (handlers[label] || []).forEach(cb => cb(...args));
     },
     getHandlers: () => handlers,
   };
