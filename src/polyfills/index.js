@@ -1,0 +1,1 @@
+import './String.prototype.startsWith';
