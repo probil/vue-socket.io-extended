@@ -43,6 +43,17 @@ Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 ```
 *Note:* you have to pass instance of `socket.io-client` as second argument to prevent library duplication. Read more [here](https://github.com/probil/vue-socket.io-extended/issues/19).
 
+#### UMD (Browser)
+
+``` html
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.slim.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-socket.io-extended"></script>
+<script>
+  Vue.use(VueSocketIOExt, io('http://socketserver.com:1923'));
+</script>
+```
+
 ## :rocket: Usage
 
 #### On Vue.js component
