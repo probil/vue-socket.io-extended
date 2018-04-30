@@ -1,8 +1,13 @@
 export default GlobalEmitter => ({
   created() {
-    const { sockets } = this.$options;
+    const { sockets = {} } = this.$options;
 
-    this.$options.sockets = new Proxy({}, {
+    Object.keys(sockets).forEach((key) => {
+      GlobalEmitter.addListener(key, sockets[key], this);
+    });
+
+    if (!window.Proxy) return;
+    this.$options.sockets = new Proxy(sockets, {
       set: (target, key, value) => {
         GlobalEmitter.addListener(key, value, this);
         // eslint-disable-next-line no-param-reassign
@@ -16,20 +21,15 @@ export default GlobalEmitter => ({
         return true;
       },
     });
-
-    if (sockets) {
-      Object.keys(sockets).forEach((key) => {
-        this.$options.sockets[key] = sockets[key];
-      });
-    }
   },
   beforeDestroy() {
-    const { sockets } = this.$options;
+    const { sockets = {} } = this.$options;
 
-    if (sockets) {
-      Object.keys(sockets).forEach((key) => {
-        delete this.$options.sockets[key];
-      });
-    }
+    Object.keys(sockets).forEach((key) => {
+      if (!window.Proxy) {
+        GlobalEmitter.removeListener(key, sockets[key], this);
+      }
+      delete this.$options.sockets[key];
+    });
   },
 });
