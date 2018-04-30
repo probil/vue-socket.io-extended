@@ -66,6 +66,14 @@ describe('mixin use on component', () => {
     expect(GlobalEmitter.addListener).toHaveBeenCalledWith('connect', connect, wrapper.vm);
   });
 
+  it('should add dynamic socket listener)', () => {
+    const connect = jest.fn();
+    const wrapper = preparedMount();
+    wrapper.vm.$options.sockets.connect = connect;
+    expect(GlobalEmitter.addListener).toHaveBeenCalledTimes(1);
+    expect(GlobalEmitter.addListener).toHaveBeenCalledWith('connect', connect, wrapper.vm);
+  });
+
   it('should remove socket listeners on component destroy', () => {
     const connect = jest.fn();
     const wrapper = preparedMount({
@@ -77,7 +85,7 @@ describe('mixin use on component', () => {
     expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(1);
   });
 
-  it('should remove socket listeners when callback prop when removed from the instance', () => {
+  it('should remove socket listeners when callback prop removed from the instance', () => {
     const connect = jest.fn();
     const wrapper = preparedMount({
       sockets: {
@@ -88,7 +96,16 @@ describe('mixin use on component', () => {
     expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(1);
   });
 
-  it('should not remove socket listeners if component was not destroyed', () => {
+  it('should remove dynamic socket listener on component destroy', () => {
+    const connect = jest.fn();
+    const wrapper = preparedMount();
+    wrapper.vm.$options.sockets.connect = connect;
+    wrapper.destroy();
+    expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(1);
+    expect(GlobalEmitter.removeListener).toHaveBeenCalledWith('connect', connect, wrapper.vm);
+  });
+
+  it('should not remove socket listener if component was not destroyed', () => {
     const connect = jest.fn();
     preparedMount({
       sockets: {
@@ -113,5 +130,65 @@ describe('mixin use on component', () => {
     delete wrapper.vm.$options.sockets;
     wrapper.destroy();
     expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(0);
+  });
+});
+
+describe('no Proxy API available', () => {
+  let GlobalEmitter;
+  let preparedMount;
+  let windowProxySpy;
+  beforeEach(() => {
+    // TODO: better approach to disable Proxy API is needed
+    windowProxySpy = jest.spyOn(window, 'Proxy').mockImplementation(() => undefined);
+    GlobalEmitter = {
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      emit: jest.fn(),
+    };
+    const Vue = createLocalVue();
+    Vue.mixin(mixin(GlobalEmitter));
+    preparedMount = (comp = {}, options = {}) => (
+      mount({ render: () => null, ...comp }, { localVue: Vue, ...options })
+    );
+  });
+  afterEach(() => {
+    windowProxySpy.mockRestore();
+  });
+
+  it('should add socket listener based on instance methods defined by `socket` section', () => {
+    const connect = jest.fn();
+    const wrapper = preparedMount({
+      sockets: {
+        connect,
+      },
+    });
+    expect(GlobalEmitter.addListener).toHaveBeenCalledWith('connect', connect, wrapper.vm);
+  });
+
+  // TODO: better approach to disable Proxy API is needed
+  it.skip('should remove socket listeners on component destroy', () => {
+    const connect = jest.fn();
+    const wrapper = preparedMount({
+      sockets: {
+        connect,
+      },
+    });
+    wrapper.destroy();
+    expect(GlobalEmitter.removeListener).toHaveBeenCalledWith('connect', connect, wrapper.vm);
+  });
+
+  it('should not remove dynamic socket listener on component destroy', () => {
+    const connect = jest.fn();
+    const wrapper = preparedMount();
+    wrapper.vm.$options.sockets.connect = connect;
+    wrapper.destroy();
+    expect(GlobalEmitter.removeListener).not.toHaveBeenCalled();
+  });
+
+  it('should not add dynamic socket listeners', () => {
+    const connect = jest.fn();
+    const wrapper = preparedMount();
+    wrapper.vm.$options.sockets.connect = connect;
+    expect(GlobalEmitter.addListener).not.toBeCalled();
   });
 });
