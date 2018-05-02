@@ -87,6 +87,7 @@ Remove existing listener
 ``` js
 delete this.$options.sockets.event_name;
 ```
+**Note**: This feature supported only in [browsers with native Proxy API support](https://caniuse.com/#feat=proxy) (e.g. IE11 is not supported)
 
 ## :evergreen_tree: Vuex Store integration
 
