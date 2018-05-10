@@ -14,6 +14,15 @@
   Socket.io bindings for Vue.js and Vuex (based on `Vue-Socket.io`)
 </p>
 
+## :cherries: Features
+
+- Listen and emit `socket.io` events inside components
+- Dispatch actions and mutations in Vuex store on `socket.io` events
+- Support namespaced Vuex modules out-of-the-box
+- Listen for one event from the server from the few stores at the same time
+- Support for multiple arguments from the server (when more then one argument passed - payload is wrapped to array automatically)
+- Ability to define `socket.io` listeners in components dynamically
+
 ## :seedling: Motivation
 
 I used `Vue-Socket.io` for a long time and I like it. But bugs, lack of support, no tests, no CI and a huge amount of issues makes me cry. So I decided to create my own fork with all the desirable staff (features/fixes/tests/support etc). 
