@@ -19,7 +19,7 @@
 - Listen and emit `socket.io` events inside components
 - Dispatch actions and mutations in Vuex store on `socket.io` events
 - Support namespaced Vuex modules out-of-the-box
-- Listen for one event from the server from the few stores at the same time
+- Listen for one server event from the few stores at the same time
 - Support for multiple arguments from the server (when more then one argument passed - payload is wrapped to array automatically)
 - Ability to define `socket.io` listeners in components dynamically
 
