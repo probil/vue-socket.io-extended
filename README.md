@@ -66,6 +66,9 @@ Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 ## :rocket: Usage
 
 #### On Vue.js component
+
+Define your listeners under `sockets` section and they will listen coresponding `socket.io` events automatically.
+
 ``` js
 var vm = new Vue({
   sockets: {
@@ -84,6 +87,8 @@ var vm = new Vue({
   }
 })
 ```
+
+**Note**: Don't use arrow functions for methods or listeners if you are going to emit `socket.io` events inside. You will end up with using incorrect `this`. More info about this [here](https://github.com/probil/vue-socket.io-extended/issues/61)
 
 #### Dynamic socket event listeners
 Create a new listener
