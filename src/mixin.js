@@ -1,3 +1,5 @@
+import { hasProxy } from './utils/env';
+
 export default GlobalEmitter => ({
   created() {
     const { sockets = {} } = this.$options;
@@ -6,7 +8,7 @@ export default GlobalEmitter => ({
       GlobalEmitter.addListener(key, sockets[key], this);
     });
 
-    if (!window.Proxy) return;
+    if (!hasProxy) return;
     this.$options.sockets = new Proxy(sockets, {
       set: (target, key, value) => {
         GlobalEmitter.addListener(key, value, this);
@@ -26,7 +28,7 @@ export default GlobalEmitter => ({
     const { sockets = {} } = this.$options;
 
     Object.keys(sockets).forEach((key) => {
-      if (!window.Proxy) {
+      if (!hasProxy) {
         GlobalEmitter.removeListener(key, sockets[key], this);
       }
       delete this.$options.sockets[key];
