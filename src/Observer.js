@@ -49,7 +49,6 @@ export default class Observer {
 
     actions.forEach((namespacedAction) => {
       const action = trimNamespace(namespacedAction);
-      if (!action.startsWith('socket_')) return;
       const camelcased = eventToAction(event);
       if (action !== camelcased) return;
       this.store.dispatch(namespacedAction, unwrappedPayload);
