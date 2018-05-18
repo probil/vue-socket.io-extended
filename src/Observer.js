@@ -1,5 +1,6 @@
 import GlobalEmitter from './GlobalEmitter';
 import { eventToAction, unwrapIfSingle } from './utils';
+import { getRegisteredMutations, getRegisteredActions, trimNamespace } from './utils/vuex';
 
 const SYSTEM_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
 
@@ -35,24 +36,23 @@ export default class Observer {
   passToStore(event, payload) {
     if (!this.store) return;
     if (!event.startsWith('SOCKET_')) return;
+
     const unwrappedPayload = unwrapIfSingle(payload);
+    const mutations = getRegisteredMutations(this.store);
+    const actions = getRegisteredActions(this.store);
 
-    // eslint-disable-next-line no-underscore-dangle
-    Object.keys(this.store._mutations)
-      .forEach((namespacedMutation) => {
-        const mutation = namespacedMutation.split('/').pop();
-        if (mutation !== event.toUpperCase()) return;
-        this.store.commit(namespacedMutation, unwrappedPayload);
-      });
+    mutations.forEach((namespacedMutation) => {
+      const mutation = trimNamespace(namespacedMutation);
+      if (mutation !== event.toUpperCase()) return;
+      this.store.commit(namespacedMutation, unwrappedPayload);
+    });
 
-    // eslint-disable-next-line no-underscore-dangle
-    Object.keys(this.store._actions)
-      .forEach((namespacedAction) => {
-        const action = namespacedAction.split('/').pop();
-        if (!action.startsWith('socket_')) return;
-        const camelcased = eventToAction(event);
-        if (action !== camelcased) return;
-        this.store.dispatch(namespacedAction, unwrappedPayload);
-      });
+    actions.forEach((namespacedAction) => {
+      const action = trimNamespace(namespacedAction);
+      if (!action.startsWith('socket_')) return;
+      const camelcased = eventToAction(event);
+      if (action !== camelcased) return;
+      this.store.dispatch(namespacedAction, unwrappedPayload);
+    });
   }
 }
