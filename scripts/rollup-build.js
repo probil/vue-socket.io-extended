@@ -8,11 +8,7 @@ import filesize from 'rollup-plugin-filesize';
 export default {
   input: 'src/index.js',
   plugins: [
-    nodeResolve({
-      browser: {
-        'socket.io-client': 'socket.io-client/dist/socket.io.js',
-      },
-    }),
+    nodeResolve(),
     commonjs(),
     babel({
       plugins: ['external-helpers'],
