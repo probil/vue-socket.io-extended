@@ -1,7 +1,12 @@
 import GlobalEmitter from './GlobalEmitter';
-import { eventToAction, unwrapIfSingle } from './utils';
+import { unwrapIfSingle, prefixWith, pipe } from './utils';
+import { getRegisteredMutations, getRegisteredActions, trimNamespace } from './utils/vuex';
+import { eventToMutationTransformer, eventToActionTransformer } from './utils/observer';
 
 const SYSTEM_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
+
+const actionPrefix = 'socket_';
+const mutationPrefix = 'SOCKET_';
 
 export default class Observer {
   constructor(connection, store) {
@@ -20,13 +25,13 @@ export default class Observer {
       GlobalEmitter.emit(...packet.data);
 
       const [eventName, ...args] = packet.data;
-      this.passToStore(`SOCKET_${eventName}`, [...args]);
+      this.passToStore(eventName, [...args]);
     };
 
     SYSTEM_EVENTS.forEach((eventName) => {
       this.Socket.on(eventName, (...args) => {
         GlobalEmitter.emit(eventName, ...args);
-        this.passToStore(`SOCKET_${eventName}`, [...args]);
+        this.passToStore(eventName, [...args]);
       });
     });
   }
@@ -34,25 +39,23 @@ export default class Observer {
 
   passToStore(event, payload) {
     if (!this.store) return;
-    if (!event.startsWith('SOCKET_')) return;
+
     const unwrappedPayload = unwrapIfSingle(payload);
+    const eventToAction = pipe(eventToActionTransformer, prefixWith(actionPrefix));
+    const eventToMutation = pipe(eventToMutationTransformer, prefixWith(mutationPrefix));
 
-    // eslint-disable-next-line no-underscore-dangle
-    Object.keys(this.store._mutations)
-      .forEach((namespacedMutation) => {
-        const mutation = namespacedMutation.split('/').pop();
-        if (mutation !== event.toUpperCase()) return;
-        this.store.commit(namespacedMutation, unwrappedPayload);
-      });
+    const desiredMutation = eventToMutation(event);
+    const desiredAction = eventToAction(event);
 
-    // eslint-disable-next-line no-underscore-dangle
-    Object.keys(this.store._actions)
-      .forEach((namespacedAction) => {
-        const action = namespacedAction.split('/').pop();
-        if (!action.startsWith('socket_')) return;
-        const camelcased = eventToAction(event);
-        if (action !== camelcased) return;
-        this.store.dispatch(namespacedAction, unwrappedPayload);
-      });
+    const mutations = getRegisteredMutations(this.store);
+    const actions = getRegisteredActions(this.store);
+
+    mutations
+      .filter(namespacedMutation => trimNamespace(namespacedMutation) === desiredMutation)
+      .forEach(namespacedMutation => this.store.commit(namespacedMutation, unwrappedPayload));
+
+    actions
+      .filter(namespacedAction => trimNamespace(namespacedAction) === desiredAction)
+      .forEach(namespacedAction => this.store.dispatch(namespacedAction, unwrappedPayload));
   }
 }
