@@ -8,6 +8,7 @@
   <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Vue-2.x-brightgreen.svg" alt="Vue.js 2.x compatible"></a>
   <a href="https://raw.githubusercontent.com/probil/vue-socket.io-extended/master/dist/vue-socket.io-ext.min.js"><img src="https://img.shields.io/github/size/probil/vue-socket.io-extended/dist/vue-socket.io-ext.min.js.svg" alt="Library file size"></a>
   <a href="https://codecov.io/gh/probil/vue-socket.io-extended"><img src="https://img.shields.io/codecov/c/github/probil/vue-socket.io-extended/master.svg" alt="Code coverage (codecov)"></a>
+  <a href="https://gitter.im/vue-socket-io-extended/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="Join us Gitter"></a>
 </p>
 
 <p align="center">
