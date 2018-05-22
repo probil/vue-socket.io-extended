@@ -175,3 +175,79 @@ it('should invoke action on store when server event is fired (with arguments)', 
     undefined,
   );
 });
+
+it('should apply custom event to action transformer', () => {
+  const fn = jest.fn();
+  const store = new Store({
+    actions: {
+      socket_MESSAGE: fn,
+    },
+  });
+  const observer = new Observer(io('wss://localhost'), {
+    store,
+    eventToActionTransformer: event => event.toUpperCase(),
+  });
+  const message = { id: 15, body: 'Hi there' };
+  observer.Socket.fireServerEvent('message', message);
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(fn).toHaveBeenLastCalledWith(
+    vuexActionCbInterface,
+    message,
+    undefined,
+  );
+});
+
+it('should apply custom event to mutation transformer', () => {
+  const fn = jest.fn();
+  const store = new Store({
+    mutations: {
+      'SOCKET_new message': fn,
+    },
+  });
+  const observer = new Observer(io('wss://localhost'), {
+    store,
+    eventToMutationTransformer: event => event,
+  });
+  const message = { id: 15, body: 'Hi there' };
+  observer.Socket.fireServerEvent('new message', message);
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(fn).toHaveBeenLastCalledWith(store.state, expect.objectContaining(message));
+});
+
+it('should apply custom action prefix', () => {
+  const fn = jest.fn();
+  const store = new Store({
+    actions: {
+      'socket|newMessage': fn,
+    },
+  });
+  const observer = new Observer(io('wss://localhost'), {
+    store,
+    actionPrefix: 'socket|',
+  });
+  const message = { id: 15, body: 'Hi there' };
+  observer.Socket.fireServerEvent('new message', message);
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(fn).toHaveBeenLastCalledWith(
+    vuexActionCbInterface,
+    message,
+    undefined,
+  );
+});
+
+it('should apply custom mutation prefix', () => {
+  const fn = jest.fn();
+  const store = new Store({
+    mutations: {
+      __TEST__MESSAGE: fn,
+    },
+  });
+  const observer = new Observer(io('wss://localhost'), {
+    store,
+    mutationPrefix: '__TEST__',
+  });
+  const message = { id: 15, body: 'Hi there' };
+  observer.Socket.fireServerEvent('message', message);
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(fn).toHaveBeenLastCalledWith(store.state, expect.objectContaining(message));
+});
