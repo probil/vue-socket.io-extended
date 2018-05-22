@@ -215,6 +215,18 @@ That's what will happen, on `chat_message` from the server:
 * `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
 * `socket_chatMessage` action dispated on `messages` module
 
+## :gear: Configuration
+
+In addition to store instance, `vue-socket.io-extended` accepts other options. 
+Here they are:
+
+| Option | Type | Default | Description |
+| ---- | ---- | ------- | ------- |
+| `store` | `Object` | `undefined` | Vuex store instance, enables vuex integration |
+| `actionPrefix` | `String` | `'socket_'` | Append to event name while converting event to action. Empty string disables prefixing |
+| `mutationPrefix` | `String` | `'SOCKET_'` | Append to event name while converting event to mutation. Empty string disables prefixing |  
+| `eventToMutationTransformer` | `Function` `string => string` | uppercase function | Determines how event name converted to mutation |
+| `eventToActionTransformer` | `Function` `string => string` | camelcase function | Determines how event name converted to action |
 
 ## :anchor: Semantic Versioning Policy
 
