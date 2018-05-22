@@ -110,7 +110,7 @@ To enable Vuex integration just pass the store as the third argument, e.g.:
 ``` js
 import store from './store'
 
-Vue.use(VueSocketio, io('http://socketserver.com:1923'), store);
+Vue.use(VueSocketio, io('http://socketserver.com:1923'), { store });
 ```
 
 The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called:
