@@ -113,7 +113,7 @@ import store from './store'
 Vue.use(VueSocketio, io('http://socketserver.com:1923'), { store });
 ```
 
-The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called:
+The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called. 
 
 * a **mutation** should start with `SOCKET_` prefix and continue with an uppercase version of the event
 * an **action** should start with `socket_` prefix and continue with camelcase version of the event
@@ -124,6 +124,8 @@ The main idea behind the integration is that mutations and actions are dispatche
 | `chat_message` | `SOCKET_CHAT_MESSAGE` | `socket_chatMessage` |
 | `chatMessage`  | `SOCKET_CHATMESSAGE`  | `socket_chatMessage` |
 | `CHAT_MESSAGE` | `SOCKET_CHAT_MESSAGE` | `socket_chatMessage` |
+
+Check [Configuration](#gear-configuration) section if you'd like to use custom transformation.
 
 **Note**: different server events can commit/dispatch the same mutation or/and the same action. So try to use only one naming convention to avoid possible bugs. In any case, this behavior is going to be changed soon and considered as problematic.
 
