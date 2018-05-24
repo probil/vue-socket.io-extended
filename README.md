@@ -23,6 +23,7 @@
 - Listen for one server event from the few stores at the same time
 - Support for multiple arguments from the server (when more then one argument passed - payload is wrapped to array automatically)
 - Ability to define `socket.io` listeners in components dynamically
+- Options support - tweak the library to better fit your project needs
 
 ## :seedling: Motivation
 
