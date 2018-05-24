@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import nodeResolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
-import uglify from 'rollup-plugin-uglify';
+import { terser } from 'rollup-plugin-terser';
 import commonjs from 'rollup-plugin-commonjs';
 import filesize from 'rollup-plugin-filesize';
 
@@ -13,7 +13,7 @@ export default {
     babel({
       plugins: ['external-helpers'],
     }),
-    uglify(),
+    terser(), // uglifyjs alternative
     filesize(),
   ],
   output: [
