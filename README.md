@@ -23,6 +23,7 @@
 - Listen for one server event from the few stores at the same time
 - Support for multiple arguments from the server (when more then one argument passed - payload is wrapped to array automatically)
 - Ability to define `socket.io` listeners in components dynamically
+- Options support - tweak the library to better fit your project needs
 
 ## :seedling: Motivation
 
@@ -110,10 +111,10 @@ To enable Vuex integration just pass the store as the third argument, e.g.:
 ``` js
 import store from './store'
 
-Vue.use(VueSocketio, io('http://socketserver.com:1923'), store);
+Vue.use(VueSocketio, io('http://socketserver.com:1923'), { store });
 ```
 
-The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called:
+The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called. 
 
 * a **mutation** should start with `SOCKET_` prefix and continue with an uppercase version of the event
 * an **action** should start with `socket_` prefix and continue with camelcase version of the event
@@ -124,6 +125,8 @@ The main idea behind the integration is that mutations and actions are dispatche
 | `chat_message` | `SOCKET_CHAT_MESSAGE` | `socket_chatMessage` |
 | `chatMessage`  | `SOCKET_CHATMESSAGE`  | `socket_chatMessage` |
 | `CHAT_MESSAGE` | `SOCKET_CHAT_MESSAGE` | `socket_chatMessage` |
+
+Check [Configuration](#gear-configuration) section if you'd like to use custom transformation.
 
 **Note**: different server events can commit/dispatch the same mutation or/and the same action. So try to use only one naming convention to avoid possible bugs. In any case, this behavior is going to be changed soon and considered as problematic.
 
@@ -215,6 +218,18 @@ That's what will happen, on `chat_message` from the server:
 * `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
 * `socket_chatMessage` action dispated on `messages` module
 
+## :gear: Configuration
+
+In addition to store instance, `vue-socket.io-extended` accepts other options. 
+Here they are:
+
+| Option | Type | Default | Description |
+| ---- | ---- | ------- | ------- |
+| `store` | `Object` | `undefined` | Vuex store instance, enables vuex integration |
+| `actionPrefix` | `String` | `'socket_'` | Append to event name while converting event to action. Empty string disables prefixing |
+| `mutationPrefix` | `String` | `'SOCKET_'` | Append to event name while converting event to mutation. Empty string disables prefixing |  
+| `eventToMutationTransformer` | `Function` `string => string` | uppercase function | Determines how event name converted to mutation |
+| `eventToActionTransformer` | `Function` `string => string` | camelcase function | Determines how event name converted to action |
 
 ## :anchor: Semantic Versioning Policy
 

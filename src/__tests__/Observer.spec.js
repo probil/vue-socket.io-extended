@@ -20,7 +20,7 @@ it('should allow to create new instance with `new`', () => {
 
 it('should save store on the instance if passed', () => {
   const store = jest.fn();
-  const observer = new Observer(io('wss://localhost'), store);
+  const observer = new Observer(io('wss://localhost'), { store });
   expect(observer.store).toBe(store);
 });
 
@@ -61,7 +61,7 @@ it('should invoke mutation on store when system event is fired', () => {
       SOCKET_CONNECT: fn,
     },
   });
-  const observer = new Observer(io('wss://localhost'), store);
+  const observer = new Observer(io('wss://localhost'), { store });
   observer.Socket.fireSystemEvent('connect');
   expect(fn).toHaveBeenCalled();
   expect(fn).toHaveBeenCalledTimes(1);
@@ -74,7 +74,7 @@ it('should invoke mutation on store when system event is fired (with arguments)'
       SOCKET_CONNECT: fn,
     },
   });
-  const observer = new Observer(io('wss://localhost'), store);
+  const observer = new Observer(io('wss://localhost'), { store });
   observer.Socket.fireSystemEvent('connect', { isConnected: true });
   expect(fn).toHaveBeenCalledTimes(1);
   expect(fn).toHaveBeenCalledWith(store.state, { isConnected: true });
@@ -87,7 +87,7 @@ it('should invoke mutation on store when server event is fired', () => {
       SOCKET_MESSAGE: fn,
     },
   });
-  const observer = new Observer(io('wss://localhost'), store);
+  const observer = new Observer(io('wss://localhost'), { store });
   observer.Socket.fireServerEvent('message');
   expect(fn).toHaveBeenCalled();
   expect(fn).toHaveBeenCalledTimes(1);
@@ -100,7 +100,7 @@ it('should invoke mutation on store when server event is fired (with arguments)'
       SOCKET_MESSAGE: fn,
     },
   });
-  const observer = new Observer(io('wss://localhost'), store);
+  const observer = new Observer(io('wss://localhost'), { store });
   const message = { id: 15, body: 'Hi there' };
   observer.Socket.fireServerEvent('message', message);
   expect(fn).toHaveBeenCalledTimes(1);
@@ -114,7 +114,7 @@ it('should invoke action on store when system event is fired', () => {
       socket_connect: fn,
     },
   });
-  const observer = new Observer(io('wss://localhost'), store);
+  const observer = new Observer(io('wss://localhost'), { store });
   observer.Socket.fireSystemEvent('connect', { isConnected: true });
   expect(fn).toHaveBeenCalledTimes(1);
   expect(fn).toHaveBeenLastCalledWith(
@@ -131,7 +131,7 @@ it('should invoke action on store when system event is fired (with arguments)', 
       socket_connect: fn,
     },
   });
-  const observer = new Observer(io('wss://localhost'), store);
+  const observer = new Observer(io('wss://localhost'), { store });
   observer.Socket.fireSystemEvent('connect', { isConnected: true });
   expect(fn).toHaveBeenCalledTimes(1);
   expect(fn).toHaveBeenCalledWith(
@@ -148,7 +148,7 @@ it('should invoke action on store when server event is fired', () => {
       socket_message: fn,
     },
   });
-  const observer = new Observer(io('wss://localhost'), store);
+  const observer = new Observer(io('wss://localhost'), { store });
   observer.Socket.fireServerEvent('message');
   expect(fn).toHaveBeenCalledTimes(1);
   expect(fn).toHaveBeenCalledWith(
@@ -165,7 +165,7 @@ it('should invoke action on store when server event is fired (with arguments)', 
       socket_message: fn,
     },
   });
-  const observer = new Observer(io('wss://localhost'), store);
+  const observer = new Observer(io('wss://localhost'), { store });
   const message = { id: 15, body: 'Hi there' };
   observer.Socket.fireServerEvent('message', message);
   expect(fn).toHaveBeenCalledTimes(1);
@@ -174,4 +174,80 @@ it('should invoke action on store when server event is fired (with arguments)', 
     message,
     undefined,
   );
+});
+
+it('should apply custom event to action transformer', () => {
+  const fn = jest.fn();
+  const store = new Store({
+    actions: {
+      socket_MESSAGE: fn,
+    },
+  });
+  const observer = new Observer(io('wss://localhost'), {
+    store,
+    eventToActionTransformer: event => event.toUpperCase(),
+  });
+  const message = { id: 15, body: 'Hi there' };
+  observer.Socket.fireServerEvent('message', message);
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(fn).toHaveBeenLastCalledWith(
+    vuexActionCbInterface,
+    message,
+    undefined,
+  );
+});
+
+it('should apply custom event to mutation transformer', () => {
+  const fn = jest.fn();
+  const store = new Store({
+    mutations: {
+      'SOCKET_new message': fn,
+    },
+  });
+  const observer = new Observer(io('wss://localhost'), {
+    store,
+    eventToMutationTransformer: event => event,
+  });
+  const message = { id: 15, body: 'Hi there' };
+  observer.Socket.fireServerEvent('new message', message);
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(fn).toHaveBeenLastCalledWith(store.state, expect.objectContaining(message));
+});
+
+it('should apply custom action prefix', () => {
+  const fn = jest.fn();
+  const store = new Store({
+    actions: {
+      'socket|newMessage': fn,
+    },
+  });
+  const observer = new Observer(io('wss://localhost'), {
+    store,
+    actionPrefix: 'socket|',
+  });
+  const message = { id: 15, body: 'Hi there' };
+  observer.Socket.fireServerEvent('new message', message);
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(fn).toHaveBeenLastCalledWith(
+    vuexActionCbInterface,
+    message,
+    undefined,
+  );
+});
+
+it('should apply custom mutation prefix', () => {
+  const fn = jest.fn();
+  const store = new Store({
+    mutations: {
+      __TEST__MESSAGE: fn,
+    },
+  });
+  const observer = new Observer(io('wss://localhost'), {
+    store,
+    mutationPrefix: '__TEST__',
+  });
+  const message = { id: 15, body: 'Hi there' };
+  observer.Socket.fireServerEvent('message', message);
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(fn).toHaveBeenLastCalledWith(store.state, expect.objectContaining(message));
 });

@@ -5,12 +5,17 @@ import { eventToMutationTransformer, eventToActionTransformer } from './utils/ob
 
 const SYSTEM_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
 
-const actionPrefix = 'socket_';
-const mutationPrefix = 'SOCKET_';
+const defaultOptions = {
+  actionPrefix: 'socket_',
+  mutationPrefix: 'SOCKET_',
+  eventToMutationTransformer,
+  eventToActionTransformer,
+};
 
 export default class Observer {
-  constructor(connection, store) {
+  constructor(connection, { store, ...customOptions } = {}) {
     this.Socket = connection;
+    this.options = { ...defaultOptions, ...customOptions };
 
     if (store) this.store = store;
 
@@ -36,13 +41,18 @@ export default class Observer {
     });
   }
 
-
   passToStore(event, payload) {
     if (!this.store) return;
 
     const unwrappedPayload = unwrapIfSingle(payload);
-    const eventToAction = pipe(eventToActionTransformer, prefixWith(actionPrefix));
-    const eventToMutation = pipe(eventToMutationTransformer, prefixWith(mutationPrefix));
+    const eventToAction = pipe(
+      this.options.eventToActionTransformer,
+      prefixWith(this.options.actionPrefix),
+    );
+    const eventToMutation = pipe(
+      this.options.eventToMutationTransformer,
+      prefixWith(this.options.mutationPrefix),
+    );
 
     const desiredMutation = eventToMutation(event);
     const desiredAction = eventToAction(event);
