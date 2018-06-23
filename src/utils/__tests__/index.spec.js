@@ -1,4 +1,4 @@
-import { isFunction, isSocketIo, unwrapIfSingle } from '../';
+import { isFunction, isSocketIo, unwrapIfSingle } from '..';
 
 describe('.isFunction()', () => {
   it('should return false for value other than function', () => {
