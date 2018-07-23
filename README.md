@@ -73,7 +73,7 @@ Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 Define your listeners under `sockets` section and they will listen coresponding `socket.io` events automatically.
 
 ``` js
-var vm = new Vue({
+new Vue({
   sockets: {
     connect() {
       console.log('socket connected')
@@ -145,18 +145,18 @@ export default new Vuex.Store({
     message: null,
   },
   mutations: {
-    SOCKET_CONNECT: (state, status) => {
+    SOCKET_CONNECT(state, status) {
       state.isConnected = true;
     },
-    SOCKET_USER_MESSAGE: (state, message) => {
+    SOCKET_USER_MESSAGE(state, message) {
       state.message = message;
     },
   },
   actions: {
-    otherAction: (context, type) => {
+    otherAction(context, type) {
       return true;
     },
-    socket_userMessage: ({ commit, dispatch }, message) => {
+    socket_userMessage({ commit, dispatch }, message) {
       dispatch('newMessage', message);
       commit('NEW_MESSAGE_RECEIVED', message);
       if (message.is_important) {
