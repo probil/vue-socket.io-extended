@@ -9,6 +9,7 @@
   <a href="https://raw.githubusercontent.com/probil/vue-socket.io-extended/master/dist/vue-socket.io-ext.min.js"><img src="https://img.shields.io/github/size/probil/vue-socket.io-extended/dist/vue-socket.io-ext.min.js.svg" alt="Library file size"></a>
   <a href="https://codecov.io/gh/probil/vue-socket.io-extended"><img src="https://img.shields.io/codecov/c/github/probil/vue-socket.io-extended/master.svg" alt="Code coverage (codecov)"></a>
   <a href="https://gitter.im/vue-socket-io-extended/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="Join us Gitter"></a>
+  <a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fprobil%2Fvue-socket.io-extended?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fprobil%2Fvue-socket.io-extended.svg?type=shield"/></a>
 </p>
 
 <p align="center">
@@ -246,3 +247,5 @@ We're more than happy to see potential contributions, so don't hesitate. If you 
 ## :lock: License
 
 See the [LICENSE](LICENSE) file for license rights and limitations (MIT).
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fprobil%2Fvue-socket.io-extended.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fprobil%2Fvue-socket.io-extended?ref=badge_large)
