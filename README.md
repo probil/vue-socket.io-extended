@@ -26,6 +26,15 @@
 - Ability to define `socket.io` listeners in components dynamically
 - Options support - tweak the library to better fit your project needs
 
+## :heavy_check_mark: Browser Support
+
+-- |![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png) |
+--- | --- | --- | --- | --- | --- | --- |
+Basic support <sup>[*](#dynamic-socket-event-listeners)</sup> | 38+ :heavy_check_mark: | 13+ :heavy_check_mark:  | 8+ :heavy_check_mark: | 25+ :heavy_check_mark: | 12+ :heavy_check_mark: | 11+ :heavy_check_mark: |
+Full support | 49+ :heavy_check_mark: | 18+ :heavy_check_mark: | 10+ :heavy_check_mark: | 36+ :heavy_check_mark: | 12+ :heavy_check_mark: | :x: |
+ 
+
+
 ## :seedling: Motivation
 
 I used `Vue-Socket.io` for a long time and I like it. But bugs, lack of support, no tests, no CI and a huge amount of issues makes me cry. So I decided to create my own fork with all the desirable staff (features/fixes/tests/support etc). 
