@@ -53,3 +53,28 @@ describe('.install()', () => {
     expect(spy).toHaveBeenCalledWith(expect.any(Object));
   });
 });
+
+describe('.defaults', () => {
+  it('is an object', () => {
+    expect(Main.defaults).toEqual(expect.any(Object));
+  });
+
+  it('contains default plugin options', () => {
+    expect(Main.defaults).toMatchObject({
+      actionPrefix: expect.any(String),
+      mutationPrefix: expect.any(String),
+      eventToMutationTransformer: expect.any(Function),
+      eventToActionTransformer: expect.any(Function),
+    });
+  });
+
+  it('all values are read-only', () => {
+    Object.keys(Main.defaults)
+      .forEach((prop) => {
+        const fn = () => {
+          Main.defaults[prop] = 'newValue';
+        };
+        expect(fn).toThrow('Cannot assign to read only property');
+      });
+  });
+});
