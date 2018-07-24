@@ -1,21 +1,14 @@
 import GlobalEmitter from './GlobalEmitter';
 import { unwrapIfSingle, prefixWith, pipe } from './utils';
 import { getRegisteredMutations, getRegisteredActions, trimNamespace } from './utils/vuex';
-import { eventToMutationTransformer, eventToActionTransformer } from './utils/observer';
+import defaults from './defaults';
 
 const SYSTEM_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
 
-const defaultOptions = {
-  actionPrefix: 'socket_',
-  mutationPrefix: 'SOCKET_',
-  eventToMutationTransformer,
-  eventToActionTransformer,
-};
-
 export default class Observer {
-  constructor(connection, { store, ...customOptions } = {}) {
+  constructor(connection, { store, ...otherOptions } = {}) {
     this.Socket = connection;
-    this.options = { ...defaultOptions, ...customOptions };
+    this.options = { ...defaults, ...otherOptions };
 
     if (store) this.store = store;
 
