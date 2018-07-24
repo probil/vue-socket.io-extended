@@ -53,3 +53,18 @@ describe('.install()', () => {
     expect(spy).toHaveBeenCalledWith(expect.any(Object));
   });
 });
+
+describe('.defaults', () => {
+  it('should be and object', () => {
+    expect(Main.defaults).toEqual(expect.any(Object));
+  });
+
+  it('should contain default plugin options', () => {
+    expect(Main.defaults).toMatchObject({
+      actionPrefix: expect.any(String),
+      mutationPrefix: expect.any(String),
+      eventToMutationTransformer: expect.any(Function),
+      eventToActionTransformer: expect.any(Function),
+    });
+  });
+});
