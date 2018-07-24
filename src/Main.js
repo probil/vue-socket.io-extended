@@ -2,6 +2,7 @@ import Observer from './Observer';
 import GlobalEmitter from './GlobalEmitter';
 import mixin from './mixin';
 import { isSocketIo } from './utils';
+import defaults from './defaults';
 
 export default {
   install(Vue, socket, options) {
@@ -14,4 +15,5 @@ export default {
     Vue.prototype.$socket = observer.Socket;
     Vue.mixin(mixin(GlobalEmitter));
   },
+  defaults,
 };
