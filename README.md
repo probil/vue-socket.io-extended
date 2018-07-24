@@ -241,6 +241,14 @@ Here they are:
 | `eventToMutationTransformer` | `Function` `string => string` | uppercase function | Determines how event name converted to mutation |
 | `eventToActionTransformer` | `Function` `string => string` | camelcase function | Determines how event name converted to action |
 
+*FYI:* You can always access default plugin options if you need it (e.g. re-use default `eventToActionTransformer` function):
+
+```js
+import VueSocketIOExt from 'vue-socket.io-extended';
+VueSocketIOExt.defaults // -> { actionPrefix: '...', mutationPrefix: '...', ... }
+```
+
+
 ## :anchor: Semantic Versioning Policy
 
 This plugin follows [semantic versioning](http://semver.org/).
