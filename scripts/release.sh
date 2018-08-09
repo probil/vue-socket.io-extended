@@ -13,7 +13,7 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo "Releasing $VERSION ..."
 
-  if [[ -z $SKIP_TESTS ]]; then
+  if [[ -z ${SKIP_TESTS} ]]; then
     echo 'Nothing'
     npm run lint
     # npm run flow
@@ -24,19 +24,19 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   fi
 
   # build
-  VERSION=$VERSION npm run build
+  VERSION=${VERSION} npm run build
 
   # commit
   git add -f \
     dist/*.js
   git commit -m "build: build $VERSION"
   # generate release note
-  npm run release:note $VERSION
+  npm run release:note ${VERSION}
   # tag version
-  npm version $VERSION --message "build: release $VERSION"
+  npm version ${VERSION} --message "build: release $VERSION"
 
   # publish
-  git push origin refs/tags/v$VERSION
+  git push origin refs/tags/v${VERSION}
   git push
   npm publish
 fi
