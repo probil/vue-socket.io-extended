@@ -11,7 +11,6 @@ export default (Socket, { store, ...otherOptions } = {}) => {
   function passToStore(event, payload) {
     if (!store) return;
 
-    const unwrappedPayload = unwrapIfSingle(payload);
     const eventToAction = pipe(
       options.eventToActionTransformer,
       prefixWith(options.actionPrefix),
@@ -23,9 +22,9 @@ export default (Socket, { store, ...otherOptions } = {}) => {
 
     const desiredMutation = eventToMutation(event);
     const desiredAction = eventToAction(event);
-
     const mutations = getRegisteredMutations(store);
     const actions = getRegisteredActions(store);
+    const unwrappedPayload = unwrapIfSingle(payload);
 
     mutations
       .filter(namespacedMutation => trimNamespace(namespacedMutation) === desiredMutation)
