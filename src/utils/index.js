@@ -19,3 +19,12 @@ export const pipe = (...fns) => x => (
 export const prefixWith = prefix => string => (
   prefix + string
 );
+
+export const augmentMethod = (obj, methodKey, cb) => {
+  const originalFn = obj[methodKey];
+  // eslint-disable-next-line no-param-reassign
+  obj[methodKey] = (...args) => {
+    originalFn.call(obj, ...args);
+    cb(...args);
+  };
+};

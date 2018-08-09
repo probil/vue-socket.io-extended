@@ -1,8 +1,13 @@
 import GlobalEmitter from './GlobalEmitter';
-import { unwrapIfSingle, prefixWith, pipe } from './utils';
 import { getRegisteredMutations, getRegisteredActions, trimNamespace } from './utils/vuex';
 import defaults from './defaults';
 import { SYSTEM_EVENTS } from './constants';
+import {
+  unwrapIfSingle,
+  prefixWith,
+  pipe,
+  augmentMethod,
+} from './utils';
 
 export default (Socket, { store, ...otherOptions } = {}) => {
   const options = { ...defaults, ...otherOptions };
@@ -35,21 +40,16 @@ export default (Socket, { store, ...otherOptions } = {}) => {
   }
 
   function registerEventHandler() {
-    const superOnEvent = Socket.onevent;
-    // eslint-disable-next-line no-param-reassign
-    Socket.onevent = (packet) => {
-      superOnEvent.call(Socket, packet);
-
+    augmentMethod(Socket, 'onevent', (packet) => {
       GlobalEmitter.emit(...packet.data);
-
       const [eventName, ...args] = packet.data;
-      passToStore(eventName, [...args]);
-    };
+      passToStore(eventName, args);
+    });
 
     SYSTEM_EVENTS.forEach((eventName) => {
       Socket.on(eventName, (...args) => {
         GlobalEmitter.emit(eventName, ...args);
-        passToStore(eventName, [...args]);
+        passToStore(eventName, args);
       });
     });
   }
