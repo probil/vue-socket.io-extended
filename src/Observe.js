@@ -2,8 +2,7 @@ import GlobalEmitter from './GlobalEmitter';
 import { unwrapIfSingle, prefixWith, pipe } from './utils';
 import { getRegisteredMutations, getRegisteredActions, trimNamespace } from './utils/vuex';
 import defaults from './defaults';
-
-const SYSTEM_EVENTS = ['connect', 'error', 'disconnect', 'reconnect', 'reconnect_attempt', 'reconnecting', 'reconnect_error', 'reconnect_failed', 'connect_error', 'connect_timeout', 'connecting', 'ping', 'pong'];
+import { SYSTEM_EVENTS } from './constants';
 
 export default (Socket, { store, ...otherOptions } = {}) => {
   const options = { ...defaults, ...otherOptions };
