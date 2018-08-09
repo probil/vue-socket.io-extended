@@ -1,6 +1,6 @@
 import Observer from './Observer';
 import GlobalEmitter from './GlobalEmitter';
-import mixin from './mixin';
+import createMixin from './createMixin';
 import { isSocketIo } from './utils';
 import defaults from './defaults';
 
@@ -13,7 +13,7 @@ export default {
     const observer = new Observer(socket, options);
     // eslint-disable-next-line no-param-reassign
     Vue.prototype.$socket = observer.Socket;
-    Vue.mixin(mixin(GlobalEmitter));
+    Vue.mixin(createMixin(GlobalEmitter));
   },
   defaults,
 };

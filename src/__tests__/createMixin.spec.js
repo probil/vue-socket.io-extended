@@ -1,12 +1,12 @@
 import { createLocalVue, mount } from '@vue/test-utils';
-import mixin from '../mixin';
+import createMixin from '../createMixin';
 
 it('should be function', () => {
-  expect(mixin).toEqual(expect.any(Function));
+  expect(createMixin).toEqual(expect.any(Function));
 });
 
 it('should return object with vue component hooks', () => {
-  expect(mixin()).toMatchObject({
+  expect(createMixin()).toMatchObject({
     created: expect.any(Function),
     beforeDestroy: expect.any(Function),
   });
@@ -22,7 +22,7 @@ describe('mixin use on component', () => {
       emit: jest.fn(),
     };
     const Vue = createLocalVue();
-    Vue.mixin(mixin(GlobalEmitter));
+    Vue.mixin(createMixin(GlobalEmitter));
     preparedMount = (comp = {}, options = {}) => (
       mount({ render: () => null, ...comp }, { localVue: Vue, ...options })
     );
@@ -146,7 +146,7 @@ describe('no Proxy API available', () => {
       emit: jest.fn(),
     };
     const Vue = createLocalVue();
-    Vue.mixin(mixin(GlobalEmitter));
+    Vue.mixin(createMixin(GlobalEmitter));
     preparedMount = (comp = {}, options = {}) => (
       mount({ render: () => null, ...comp }, { localVue: Vue, ...options })
     );
