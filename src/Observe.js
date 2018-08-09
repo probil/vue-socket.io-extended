@@ -41,8 +41,8 @@ export default (Socket, { store, ...otherOptions } = {}) => {
 
   function registerEventHandler() {
     augmentMethod(Socket, 'onevent', (packet) => {
-      GlobalEmitter.emit(...packet.data);
       const [eventName, ...args] = packet.data;
+      GlobalEmitter.emit(eventName, ...args);
       passToStore(eventName, args);
     });
 
