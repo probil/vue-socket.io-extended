@@ -1,4 +1,4 @@
-import Observer from './Observer';
+import Observe from './Observe';
 import GlobalEmitter from './GlobalEmitter';
 import createMixin from './createMixin';
 import { isSocketIo } from './utils';
@@ -10,9 +10,9 @@ export default {
       throw new Error('[vue-socket.io-ext] you have to pass `socket.io-client` instance to the plugin');
     }
 
-    const observer = new Observer(socket, options);
+    Observe(socket, options);
     // eslint-disable-next-line no-param-reassign
-    Vue.prototype.$socket = observer.Socket;
+    Vue.prototype.$socket = socket;
     Vue.mixin(createMixin(GlobalEmitter));
   },
   defaults,
