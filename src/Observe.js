@@ -12,17 +12,18 @@ import {
 export default (Socket, { store, ...otherOptions } = {}) => {
   const options = { ...defaults, ...otherOptions };
 
+  const eventToAction = pipe(
+    options.eventToActionTransformer,
+    prefixWith(options.actionPrefix),
+  );
+
+  const eventToMutation = pipe(
+    options.eventToMutationTransformer,
+    prefixWith(options.mutationPrefix),
+  );
+
   function passToStore(event, payload) {
     if (!store) return;
-
-    const eventToAction = pipe(
-      options.eventToActionTransformer,
-      prefixWith(options.actionPrefix),
-    );
-    const eventToMutation = pipe(
-      options.eventToMutationTransformer,
-      prefixWith(options.mutationPrefix),
-    );
 
     const desiredMutation = eventToMutation(event);
     const desiredAction = eventToAction(event);
