@@ -46,7 +46,7 @@
     "babel-plugin-external-helpers": "6.22.0",
     "babel-preset-env": "1.7.0",
     "babel-preset-stage-2": "6.24.1",
-    "conventional-changelog": "2.0.1",
+    "conventional-changelog": "2.0.3",
     "eslint": "5.4.0",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-plugin-import": "2.14.0",
