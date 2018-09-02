@@ -1,7 +1,7 @@
 <h1 align="center" style="text-align:center">Vue-Socket.io-Extended</h1>
 
 <p align="center">
-  <a href="https://circleci.com/gh/probil/vue-socket.io-extended/tree/master"><img src="https://img.shields.io/circleci/project/probil/vue-socket.io-extended/master.svg" alt="Build Status"></a>
+  <a href="https://circleci.com/gh/probil/vue-socket.io-extended/tree/master"><img src="https://img.shields.io/circleci/project/github/probil/vue-socket.io-extended/master.svg" alt="Build Status"></a>
   <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://img.shields.io/npm/v/vue-socket.io-extended.svg" alt="Version"></a>
   <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://img.shields.io/npm/dt/vue-socket.io-extended.svg" alt="Downloads"></a>
   <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://img.shields.io/npm/l/vue-socket.io-extended.svg" alt="License"></a>
