@@ -10,9 +10,7 @@ export default {
   plugins: [
     nodeResolve(),
     commonjs(),
-    babel({
-      plugins: ['external-helpers'],
-    }),
+    babel(),
     terser(), // uglifyjs alternative
     filesize(),
   ],
