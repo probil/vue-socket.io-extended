@@ -18,6 +18,7 @@
   "files": [
     "dist/"
   ],
+  "types": "types/index.d.ts",
   "keywords": [
     "vuejs",
     "socket",
