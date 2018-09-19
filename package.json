@@ -18,6 +18,7 @@
   "files": [
     "dist/"
   ],
+  "types": "types/index.d.ts",
   "keywords": [
     "vuejs",
     "socket",
@@ -45,6 +46,7 @@
     "@babel/plugin-external-helpers": "7.0.0",
     "@babel/plugin-proposal-export-namespace-from": "7.0.0",
     "@babel/preset-env": "7.1.6",
+    "@types/socket.io-client": "1.4.32",
     "@vue/test-utils": "1.0.0-beta.26",
     "babel-core": "7.0.0-bridge.0",
     "conventional-changelog": "3.0.5",
