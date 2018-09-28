@@ -41,7 +41,7 @@
     "camelcase": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.1.0",
+    "@babel/core": "7.1.1",
     "@babel/plugin-external-helpers": "7.0.0",
     "@babel/plugin-proposal-export-namespace-from": "7.0.0",
     "@babel/preset-env": "7.1.0",
