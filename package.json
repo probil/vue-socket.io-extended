@@ -16,7 +16,9 @@
     "url": "git+https://github.com/probil/vue-socket.io-extended.git"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "types/index.d.ts",
+    "types/vue.d.ts"
   ],
   "types": "types/index.d.ts",
   "keywords": [
