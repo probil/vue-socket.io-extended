@@ -11,7 +11,6 @@ export default [
     plugins: [
       nodeResolve(),
       commonjs(),
-      babel(),
       terser(), // uglifyjs alternative
       filesize(),
     ],
