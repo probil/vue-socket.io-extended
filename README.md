@@ -247,7 +247,15 @@ Here they are:
 import VueSocketIOExt from 'vue-socket.io-extended';
 VueSocketIOExt.defaults // -> { actionPrefix: '...', mutationPrefix: '...', ... }
 ```
+## :question: FAQ
 
+- [How to prevent connection until authed?](https://github.com/probil/vue-socket.io-extended/issues/114#issuecomment-405411500)
+
+- [How to receive/emit event from server to the particular user?](https://github.com/probil/vue-socket.io-extended/issues/71#issuecomment-390820203) (check also [this](https://gitter.im/vue-socket-io-extended/Lobby?at=5bbc9973ef4afc4f2842d0bc))
+
+- [How access this.$socket from Vuex actions?](https://github.com/probil/vue-socket.io-extended/issues/91#issuecomment-397232621)
+
+- [My mutation is triggered two times?](https://github.com/probil/vue-socket.io-extended/issues/185)
 
 ## :anchor: Semantic Versioning Policy
 
