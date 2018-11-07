@@ -41,10 +41,10 @@
     "camelcase": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.1.2",
+    "@babel/core": "7.1.5",
     "@babel/plugin-external-helpers": "7.0.0",
     "@babel/plugin-proposal-export-namespace-from": "7.0.0",
-    "@babel/preset-env": "7.1.0",
+    "@babel/preset-env": "7.1.5",
     "@vue/test-utils": "1.0.0-beta.25",
     "babel-core": "7.0.0-bridge.0",
     "conventional-changelog": "3.0.5",
