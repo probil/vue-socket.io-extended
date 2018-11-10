@@ -229,6 +229,37 @@ That's what will happen, on `chat_message` from the server:
 * `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
 * `socket_chatMessage` action dispated on `messages` module
 
+## :mountain_bicyclist: Usage with Nuxt.js
+> The key point here is to disable SSR for the plugin as it will crash otherwise. It's a well-know issue and we are going to fix it. Thanks [@ll931217](https://github.com/ll931217) for investigation.
+
+**1. Create plugin**:
+```js
+// ~/plugins/socket.io.js
+import Vue from 'vue';
+import io from 'socket.io-client';
+import VueSocketIO from 'vue-socket.io-extended';
+
+export default ({ store }) => {
+  Vue.use(VueSocketIO, io('http://localhost:3000'), { store });
+}
+```
+
+**2. Then register it**:
+
+```js
+// nuxt.config.js
+module.exports = {
+  ...,
+  plugins: [
+    ...,
+    { 
+      src: '~/plugins/socket.io.js',
+      ssr: false,                    // <-- this like is required
+    },
+  ]
+}
+```
+
 ## :gear: Configuration
 
 In addition to store instance, `vue-socket.io-extended` accepts other options. 
