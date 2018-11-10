@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  Socket.io bindings for Vue.js and Vuex (based on `Vue-Socket.io`)
+  Socket.io bindings for Vue.js and Vuex (inspired by Vue-Socket.io)
 </p>
 
 ## :cherries: Features
@@ -21,10 +21,11 @@
 - Listen and emit `socket.io` events inside components
 - Dispatch actions and mutations in Vuex store on `socket.io` events
 - Support namespaced Vuex modules out-of-the-box
-- Listen for one server event from the few stores at the same time
+- Listen for one server event from the multiple stores at the same time
 - Support for multiple arguments from the server (when more then one argument passed - payload is wrapped to array automatically)
-- Ability to define `socket.io` listeners in components dynamically
+- Possibility to define `socket.io` listeners in components dynamically
 - Options support - tweak the library to better fit your project needs
+- And many other...
 
 ## :heavy_check_mark: Browser Support
 
@@ -37,9 +38,9 @@ Full support | 49+ :heavy_check_mark: | 18+ :heavy_check_mark: | 10+ :heavy_chec
 
 ## :seedling: Motivation
 
-I used `Vue-Socket.io` for a long time and I like it. But bugs, lack of support, no tests, no CI and a huge amount of issues makes me cry. So I decided to create my own fork with all the desirable staff (features/fixes/tests/support etc). 
+I was using [`Vue-Socket.io`](https://github.com/MetinSeylan/Vue-Socket.io) for few months. I've liked the idea, but the more I used it the more I faced with bugs, outdated documentation, lack of support, absence of tests and a huge amount of issues :disappointed:. That slowed down development of the product I was working on. So I ended up with a decision to create my own fork with all the desirable stuff (features/fixes/tests/support/CI checks etc). That's how `vue-socket.io-extended` was born.
 
-If you'd like to help - create an issue or PR. I will be glad to see any contribution.  Let's make the world a better place :)
+If you'd like to help - create an issue or PR. I will be glad to see any contribution.  Let's make the world a better place :heart:
 
 ## :grey_exclamation: Requirements
 
