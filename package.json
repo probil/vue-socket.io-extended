@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/probil/vue-socket.io-extended#readme",
   "dependencies": {
+    "@types/socket.io-client": "^1.4.32",
     "camelcase": "^5.0.0"
   },
   "devDependencies": {
@@ -46,7 +47,6 @@
     "@babel/plugin-external-helpers": "7.0.0",
     "@babel/plugin-proposal-export-namespace-from": "7.0.0",
     "@babel/preset-env": "7.1.0",
-    "@types/socket.io-client": "1.4.32",
     "@vue/test-utils": "1.0.0-beta.25",
     "babel-core": "7.0.0-bridge.0",
     "conventional-changelog": "2.0.3",
