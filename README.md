@@ -1,19 +1,19 @@
 <h1 align="center" style="text-align:center">Vue-Socket.io-Extended</h1>
 
 <p align="center">
-  <a href="https://circleci.com/gh/probil/vue-socket.io-extended/tree/master"><img src="https://img.shields.io/circleci/project/github/probil/vue-socket.io-extended/master.svg" alt="Build Status"></a>
-  <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://img.shields.io/npm/v/vue-socket.io-extended.svg" alt="Version"></a>
-  <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://img.shields.io/npm/dt/vue-socket.io-extended.svg" alt="Downloads"></a>
-  <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://img.shields.io/npm/l/vue-socket.io-extended.svg" alt="License"></a>
-  <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Vue-2.x-brightgreen.svg" alt="Vue.js 2.x compatible"></a>
-  <a href="https://raw.githubusercontent.com/probil/vue-socket.io-extended/master/dist/vue-socket.io-ext.min.js"><img src="https://img.shields.io/github/size/probil/vue-socket.io-extended/dist/vue-socket.io-ext.min.js.svg" alt="Library file size"></a>
-  <a href="https://codecov.io/gh/probil/vue-socket.io-extended"><img src="https://img.shields.io/codecov/c/github/probil/vue-socket.io-extended/master.svg" alt="Code coverage (codecov)"></a>
-  <a href="https://gitter.im/vue-socket-io-extended/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="Join us Gitter"></a>
+  <a href="https://circleci.com/gh/probil/vue-socket.io-extended/tree/master"><img src="https://badgen.net/circleci/github/probil/vue-socket.io-extended/master" alt="Build Status"></a>
+  <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://badgen.net/npm/v/vue-socket.io-extended" alt="Version"></a>
+  <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://badgen.net/npm/dt/vue-socket.io-extended" alt="Downloads"></a>
+  <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://badgen.net/npm/license/vue-socket.io-extended" alt="License"></a>
+  <a href="https://vuejs.org/"><img src="https://badgen.net/badge/Vue/2.x/orange" alt="Vue.js 2.x compatible"></a>
+  <a href="https://raw.githubusercontent.com/probil/vue-socket.io-extended/master/dist/vue-socket.io-ext.min.js"><img src="https://badgen.net/bundlephobia/min/vue-socket.io-extended" alt="Minified library size"></a>
+  <a href="https://codecov.io/gh/probil/vue-socket.io-extended"><img src="https://badgen.net/codecov/c/github/probil/vue-socket.io-extended/master" alt="Code coverage (codecov)"></a>
+  <a href="https://gitter.im/vue-socket-io-extended/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><img src="https://badgen.net/badge/chat/on%20gitter/cyan" alt="Join us Gitter"></a>
   <a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fprobil%2Fvue-socket.io-extended?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fprobil%2Fvue-socket.io-extended.svg?type=shield"/></a>
 </p>
 
 <p align="center">
-  Socket.io bindings for Vue.js and Vuex (based on `Vue-Socket.io`)
+  Socket.io bindings for Vue.js and Vuex (inspired by Vue-Socket.io)
 </p>
 
 ## :cherries: Features
@@ -21,10 +21,11 @@
 - Listen and emit `socket.io` events inside components
 - Dispatch actions and mutations in Vuex store on `socket.io` events
 - Support namespaced Vuex modules out-of-the-box
-- Listen for one server event from the few stores at the same time
+- Listen for one server event from the multiple stores at the same time
 - Support for multiple arguments from the server (when more then one argument passed - payload is wrapped to array automatically)
-- Ability to define `socket.io` listeners in components dynamically
+- Possibility to define `socket.io` listeners in components dynamically
 - Options support - tweak the library to better fit your project needs
+- And many other...
 
 ## :heavy_check_mark: Browser Support
 
@@ -37,9 +38,9 @@ Full support | 49+ :heavy_check_mark: | 18+ :heavy_check_mark: | 10+ :heavy_chec
 
 ## :seedling: Motivation
 
-I used `Vue-Socket.io` for a long time and I like it. But bugs, lack of support, no tests, no CI and a huge amount of issues makes me cry. So I decided to create my own fork with all the desirable staff (features/fixes/tests/support etc). 
+I was using [`Vue-Socket.io`](https://github.com/MetinSeylan/Vue-Socket.io) for few months. I've liked the idea, but the more I used it the more I faced with bugs, outdated documentation, lack of support, absence of tests and a huge amount of issues :disappointed:. That slowed down development of the product I was working on. So I ended up with a decision to create my own fork with all the desirable stuff (features/fixes/tests/support/CI checks etc). That's how `vue-socket.io-extended` was born.
 
-If you'd like to help - create an issue or PR. I will be glad to see any contribution.  Let's make the world a better place :)
+If you'd like to help - create an issue or PR. I will be glad to see any contribution.  Let's make the world a better place :heart:
 
 ## :grey_exclamation: Requirements
 
@@ -228,6 +229,37 @@ That's what will happen, on `chat_message` from the server:
 * `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
 * `socket_chatMessage` action dispated on `messages` module
 
+## :mountain_bicyclist: Usage with Nuxt.js
+> The key point here is to disable SSR for the plugin as it will crash otherwise. It's a well-know issue and we are going to fix it. Thanks [@ll931217](https://github.com/ll931217) for investigation.
+
+**1. Create plugin**:
+```js
+// ~/plugins/socket.io.js
+import Vue from 'vue';
+import io from 'socket.io-client';
+import VueSocketIO from 'vue-socket.io-extended';
+
+export default ({ store }) => {
+  Vue.use(VueSocketIO, io('http://localhost:3000'), { store });
+}
+```
+
+**2. Then register it**:
+
+```js
+// nuxt.config.js
+module.exports = {
+  ...,
+  plugins: [
+    ...,
+    { 
+      src: '~/plugins/socket.io.js',
+      ssr: false,                    // <-- this like is required
+    },
+  ]
+}
+```
+
 ## :gear: Configuration
 
 In addition to store instance, `vue-socket.io-extended` accepts other options. 
@@ -247,7 +279,15 @@ Here they are:
 import VueSocketIOExt from 'vue-socket.io-extended';
 VueSocketIOExt.defaults // -> { actionPrefix: '...', mutationPrefix: '...', ... }
 ```
+## :question: FAQ
 
+- [How to prevent connection until authed?](https://github.com/probil/vue-socket.io-extended/issues/114#issuecomment-405411500)
+
+- [How to receive/emit event from server to the particular user?](https://github.com/probil/vue-socket.io-extended/issues/71#issuecomment-390820203) (check also [this](https://gitter.im/vue-socket-io-extended/Lobby?at=5bbc9973ef4afc4f2842d0bc))
+
+- [How access this.$socket from Vuex actions?](https://github.com/probil/vue-socket.io-extended/issues/91#issuecomment-397232621)
+
+- [My mutation is triggered two times?](https://github.com/probil/vue-socket.io-extended/issues/185)
 
 ## :anchor: Semantic Versioning Policy
 
