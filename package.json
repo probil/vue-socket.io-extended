@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/probil/vue-socket.io-extended#readme",
   "dependencies": {
+    "@types/socket.io-client": "^1.4.32",
     "camelcase": "^5.0.0"
   },
   "devDependencies": {
