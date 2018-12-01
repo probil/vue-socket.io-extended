@@ -14,6 +14,8 @@ export default {
     // eslint-disable-next-line no-param-reassign
     Vue.prototype.$socket = socket;
     Vue.mixin(createMixin(GlobalEmitter));
+    const strategies = Vue.config.optionMergeStrategies;
+    strategies.sockets = strategies.methods;
   },
   defaults,
 };
