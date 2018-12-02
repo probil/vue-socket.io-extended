@@ -52,6 +52,25 @@ describe('.install()', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(expect.any(Object));
   });
+
+  it('correctly merges `sockets` property of the mixin and the component', () => {
+    Vue.use(Main, io('ws://localhost'));
+    const mixinListener = jest.fn();
+    const componentListener = jest.fn();
+    const someMixin = {
+      sockets: { mixinListener },
+    };
+    const wrapper = mount({
+      mixins: [someMixin],
+      render: () => null,
+      sockets: { componentListener },
+    }, { localVue: Vue });
+
+    expect(wrapper.vm.$options.sockets).toMatchObject({
+      mixinListener,
+      componentListener,
+    });
+  });
 });
 
 describe('.defaults', () => {
