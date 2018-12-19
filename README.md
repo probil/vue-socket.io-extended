@@ -254,7 +254,7 @@ module.exports = {
     ...,
     { 
       src: '~/plugins/socket.io.js',
-      ssr: false,                    // <-- this like is required
+      ssr: false,                    // <-- this line is required
     },
   ]
 }
