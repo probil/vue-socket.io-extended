@@ -62,7 +62,7 @@
     "rollup-plugin-commonjs": "9.2.0",
     "rollup-plugin-filesize": "5.0.1",
     "rollup-plugin-node-resolve": "4.0.0",
-    "rollup-plugin-terser": "3.0.0",
+    "rollup-plugin-terser": "4.0.0",
     "vue": "2.5.21",
     "vue-template-compiler": "2.5.21",
     "vuex": "3.0.1"
