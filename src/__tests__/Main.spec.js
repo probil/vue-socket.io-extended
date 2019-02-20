@@ -34,7 +34,7 @@ describe('.install()', () => {
     const socket = io('ws://localhost');
     expect(() => Vue.use(Main, socket))
       .not
-      .toThrowError();
+      .toThrow();
   });
 
   it('defines socket.io instance as `$socket` on Vue prototype', () => {
