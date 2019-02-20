@@ -15,7 +15,7 @@ describe('#emit()', () => {
 
     emitter.addListener('foo', spy);
     emitter.emit('foo');
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should pass arguments to the callback', () => {
@@ -24,7 +24,7 @@ describe('#emit()', () => {
 
     emitter.addListener('foo', spy);
     emitter.emit('foo', 'bar', 'baz');
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
     expect(spy).toHaveBeenLastCalledWith('bar', 'baz');
   });
 
@@ -36,8 +36,8 @@ describe('#emit()', () => {
     emitter.addListener('foo', spy1);
     emitter.addListener('foo', spy2);
     emitter.emit('foo');
-    expect(spy1).toBeCalled();
-    expect(spy2).toBeCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should not invoke the callback', () => {
@@ -46,7 +46,7 @@ describe('#emit()', () => {
 
     emitter.addListener('foo', spy);
     emitter.emit('baz');
-    expect(spy).not.toBeCalled();
+    expect(spy).not.toHaveBeenCalled();
   });
 });
 

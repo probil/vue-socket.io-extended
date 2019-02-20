@@ -29,7 +29,7 @@ describe('mixin use on component', () => {
   });
 
   it('should register mixin on the vue instance with no errors', () => {
-    expect(preparedMount).not.toThrowError();
+    expect(preparedMount).not.toThrow();
   });
 
   it('should add socket listener based on instance methods defined by `socket` section', () => {
@@ -189,6 +189,6 @@ describe('no Proxy API available', () => {
     const connect = jest.fn();
     const wrapper = preparedMount();
     wrapper.vm.$options.sockets.connect = connect;
-    expect(GlobalEmitter.addListener).not.toBeCalled();
+    expect(GlobalEmitter.addListener).not.toHaveBeenCalled();
   });
 });
