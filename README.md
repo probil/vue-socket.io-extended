@@ -51,7 +51,7 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 ## :cd: Installation
 
 ``` bash
-npm install vue-socket.io-extended
+npm install vue-socket.io-extended socket.io-client
 ```
 
 ## :checkered_flag: Initialization
