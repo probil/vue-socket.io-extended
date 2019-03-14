@@ -268,8 +268,8 @@ Here they are:
 | Option | Type | Default | Description |
 | ---- | ---- | ------- | ------- |
 | `store` | `Object` | `undefined` | Vuex store instance, enables vuex integration |
-| `actionPrefix` | `String` | `'socket_'` | Append to event name while converting event to action. Empty string disables prefixing |
-| `mutationPrefix` | `String` | `'SOCKET_'` | Append to event name while converting event to mutation. Empty string disables prefixing |  
+| `actionPrefix` | `String` | `'socket_'` | Prepend to event name while converting event to action. Empty string disables prefixing |
+| `mutationPrefix` | `String` | `'SOCKET_'` | Prepend to event name while converting event to mutation. Empty string disables prefixing |  
 | `eventToMutationTransformer` | `Function` `string => string` | uppercase function | Determines how event name converted to mutation |
 | `eventToActionTransformer` | `Function` `string => string` | camelcase function | Determines how event name converted to action |
 
