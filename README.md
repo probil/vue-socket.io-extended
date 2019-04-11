@@ -227,7 +227,7 @@ export default new Vuex.Store({
 That's what will happen, on `chat_message` from the server:
 * `SOCKET_CHAT_MESSAGE` mutation commited on `messages` module
 * `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
-* `socket_chatMessage` action dispated on `messages` module
+* `socket_chatMessage` action dispatched on `messages` module
 
 ## :mountain_bicyclist: Usage with Nuxt.js
 > The key point here is to disable SSR for the plugin as it will crash otherwise. It's a well-know issue and we are going to fix it. Thanks [@ll931217](https://github.com/ll931217) for investigation.
