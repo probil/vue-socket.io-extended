@@ -19,7 +19,7 @@ export default GlobalEmitter => ({
       deleteProperty: (target, key) => {
         GlobalEmitter.removeListener(key, this.$options.sockets[key], this);
         // eslint-disable-next-line no-param-reassign
-        delete target.key;
+        delete target[key];
         return true;
       },
     });
