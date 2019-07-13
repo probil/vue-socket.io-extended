@@ -16,6 +16,10 @@
   Socket.io bindings for Vue.js and Vuex (inspired by Vue-Socket.io)
 </p>
 
+<p align="center">
+  <a href="https://codesandbox.io/s/oxqpm54pnq?fontsize=14&module=%2Fsrc%2FApp.vue"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Edit Vue Socket IO Extended Twitter feed demo"/></a>
+</p>
+
 ## :cherries: Features
 
 - Listen and emit `socket.io` events inside components
