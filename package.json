@@ -45,10 +45,10 @@
     "camelcase": "5.3.1"
   },
   "devDependencies": {
-    "@babel/core": "7.5.4",
+    "@babel/core": "7.5.5",
     "@babel/plugin-external-helpers": "7.2.0",
     "@babel/plugin-proposal-export-namespace-from": "7.5.2",
-    "@babel/preset-env": "7.5.4",
+    "@babel/preset-env": "7.5.5",
     "@vue/test-utils": "1.0.0-beta.29",
     "conventional-changelog": "3.1.8",
     "eslint": "6.0.1",
