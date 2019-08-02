@@ -293,6 +293,8 @@ VueSocketIOExt.defaults // -> { actionPrefix: '...', mutationPrefix: '...', ... 
 
 - [My mutation is triggered two times?](https://github.com/probil/vue-socket.io-extended/issues/185)
 
+- [Mutations and actions are not fired while using Quasar](https://github.com/probil/vue-socket.io-extended/issues/384#issuecomment-517736400)
+
 ## :anchor: Semantic Versioning Policy
 
 This plugin follows [semantic versioning](http://semver.org/).
