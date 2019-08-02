@@ -17,9 +17,7 @@ export default GlobalEmitter => ({
         return true;
       },
       deleteProperty: (target, key) => {
-        GlobalEmitter.removeListener(key, this.$options.sockets[key], this);
-        // eslint-disable-next-line no-param-reassign
-        delete target[key];
+        GlobalEmitter.removeListener(key, target[key], this);
         return true;
       },
     });
@@ -30,8 +28,9 @@ export default GlobalEmitter => ({
     Object.keys(sockets).forEach((key) => {
       if (!hasProxy) {
         GlobalEmitter.removeListener(key, sockets[key], this);
+      } else {
+        delete this.$options.sockets[key];
       }
-      delete this.$options.sockets[key];
     });
   },
 });
