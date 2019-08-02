@@ -144,6 +144,20 @@ describe('mixin use on component', () => {
       connect,
     });
   });
+
+  it('should not keep socket props after removing dynamic listeners', () => {
+    const connect = jest.fn();
+    const wrapper = preparedMount({
+      created() {
+        this.$options.sockets.connect = connect;
+      },
+      beforeDestroy() {
+        delete this.$options.sockets.connect;
+      },
+    });
+    wrapper.destroy();
+    expect(wrapper.vm.$options.sockets).not.toHaveProperty('connect');
+  });
 });
 
 describe('no Proxy API available', () => {
