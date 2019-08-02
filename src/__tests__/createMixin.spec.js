@@ -131,6 +131,19 @@ describe('mixin use on component', () => {
     wrapper.destroy();
     expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(0);
   });
+
+  it('should keep socket props after removing listeners', () => {
+    const connect = jest.fn();
+    const wrapper = preparedMount({
+      sockets: {
+        connect,
+      },
+    });
+    wrapper.destroy();
+    expect(wrapper.vm.$options.sockets).toMatchObject({
+      connect,
+    });
+  });
 });
 
 describe('no Proxy API available', () => {
