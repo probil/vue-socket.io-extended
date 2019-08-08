@@ -1,0 +1,66 @@
+import { isFunction } from './utils';
+
+/**
+ * @typedef {Object} EventEmitter
+ * @property {Function} addListener
+ * @property {Function} removeListener
+ * @property {Function} emit
+ */
+
+/**
+ * Creates new event emitter
+ * @param [entries]
+ * @return {EventEmitter}
+ */
+export default (entries) => {
+  const listeners = new Map(entries);
+
+  /**
+   * @param {String} label
+   * @param {Function} callback
+   * @param {Object} vm
+   */
+  function addListener(label, callback, vm) {
+    if (!isFunction(callback)) return;
+
+    if (!listeners.has(label)) listeners.set(label, []);
+    listeners.get(label).push({ callback, vm });
+  }
+
+  /**
+   * @param {String} label
+   * @param {Object} vm
+   */
+  function removeListener(label, vm) {
+    const labelListeners = listeners.get(label) || [];
+
+    const filteredListeners = labelListeners.filter(listener => (
+      listener.vm !== vm
+    ));
+
+    if (filteredListeners.length > 0) {
+      listeners.set(label, filteredListeners);
+    } else {
+      listeners.delete(label);
+    }
+  }
+
+  /**
+   * @param {String} label
+   * @param {*[]} args
+   */
+  function emit(label, ...args) {
+    const labelListeners = listeners.get(label) || [];
+
+    labelListeners.forEach((listener) => {
+      listener.callback.call(listener.vm, ...args);
+    });
+  }
+
+  return {
+    emit,
+    addListener,
+    removeListener,
+    _listeners: listeners,
+  };
+};

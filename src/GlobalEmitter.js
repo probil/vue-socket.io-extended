@@ -1,3 +1,3 @@
-import EventEmitter from './EventEmitter';
+import createEventEmitter from './createEventEmitter';
 
-export default new EventEmitter();
+export default createEventEmitter();

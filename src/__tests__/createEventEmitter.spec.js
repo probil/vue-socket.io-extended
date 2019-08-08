@@ -1,17 +1,14 @@
-import EventEmitter from '../EventEmitter';
+/* eslint no-underscore-dangle: ["error", { "allow": ["_listeners"] }] */
+import createEventListener from '../createEventEmitter';
 
-it('should be a class', () => {
-  expect(EventEmitter).toEqual(expect.any(Function));
-});
-
-it('should allow to create new instance with `new`', () => {
-  expect(new EventEmitter()).toBeInstanceOf(EventEmitter);
+it('should be a factory function', () => {
+  expect(createEventListener).toEqual(expect.any(Function));
 });
 
 describe('#emit()', () => {
   it('should invoke the callback', () => {
     const spy = jest.fn();
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
 
     emitter.addListener('foo', spy);
     emitter.emit('foo');
@@ -20,7 +17,7 @@ describe('#emit()', () => {
 
   it('should pass arguments to the callback', () => {
     const spy = jest.fn();
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
 
     emitter.addListener('foo', spy);
     emitter.emit('foo', 'bar', 'baz');
@@ -31,7 +28,7 @@ describe('#emit()', () => {
   it('should invoke multiple callbacks', () => {
     const spy1 = jest.fn();
     const spy2 = jest.fn();
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
 
     emitter.addListener('foo', spy1);
     emitter.addListener('foo', spy2);
@@ -42,7 +39,7 @@ describe('#emit()', () => {
 
   it('should not invoke the callback', () => {
     const spy = jest.fn();
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
 
     emitter.addListener('foo', spy);
     emitter.emit('baz');
@@ -53,68 +50,66 @@ describe('#emit()', () => {
 describe('#addListener()', () => {
   it('should register listener', () => {
     const spy = jest.fn();
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
 
     emitter.addListener('foo', spy);
-    expect(emitter.listeners).toEqual(new Map([['foo', [{ callback: spy, vm: undefined }]]]));
+    expect(emitter._listeners).toEqual(new Map([['foo', [{ callback: spy, vm: undefined }]]]));
   });
 
   it('should register multiple listeners for one label', () => {
     const spy1 = jest.fn();
     const spy2 = jest.fn();
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
 
     emitter.addListener('foo', spy1);
     emitter.addListener('foo', spy2);
-    expect(emitter.listeners).toEqual(new Map([['foo', [{ callback: spy1, vm: undefined }, { callback: spy2, vm: undefined }]]]));
+    expect(emitter._listeners).toEqual(new Map([['foo', [{ callback: spy1, vm: undefined }, { callback: spy2, vm: undefined }]]]));
   });
 
   it('should register multiple listeners for different labels', () => {
     const spy1 = jest.fn();
     const spy2 = jest.fn();
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
 
     emitter.addListener('foo', spy1);
     emitter.addListener('baz', spy2);
-    expect(emitter.listeners).toEqual(new Map([['foo', [{ callback: spy1, vm: undefined }]], ['baz', [{ callback: spy2, vm: undefined }]]]));
+    expect(emitter._listeners).toEqual(new Map([['foo', [{ callback: spy1, vm: undefined }]], ['baz', [{ callback: spy2, vm: undefined }]]]));
   });
 
   it('should not register listener if no callback passed', () => {
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
 
     emitter.addListener('foo');
-    expect(emitter.listeners).toEqual(new Map([]));
+    expect(emitter._listeners).toEqual(new Map([]));
   });
 });
 
 describe('#removeListener()', () => {
   it('should remove given listener', () => {
     const spy = jest.fn();
-    const emitter = new EventEmitter();
-    emitter.listeners = new Map([['foo', [{ callback: spy, vm: undefined }]]]);
+    const emitter = createEventListener([['foo', [{ callback: spy, vm: undefined }]]]);
     emitter.removeListener('foo', undefined);
-    expect(emitter.listeners).toEqual(new Map());
+    expect(emitter._listeners).toEqual(new Map());
   });
 
   it('should do nothing if it was not registered', () => {
     const spy = jest.fn();
     const spy2 = jest.fn();
-    const emitter = new EventEmitter();
-    emitter.listeners = new Map([['foo', [{ callback: spy, vm: undefined }]]]);
+    const emitter = createEventListener([['foo', [{ callback: spy, vm: undefined }]]]);
     emitter.removeListener('foo', spy2, undefined);
-    expect(emitter.listeners).toEqual(new Map([['foo', [{ callback: spy, vm: undefined }]]]));
+    expect(emitter._listeners).toEqual(new Map([['foo', [{ callback: spy, vm: undefined }]]]));
   });
 
   it('should do nothing for empty listener', () => {
     const spy = jest.fn();
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
     emitter.removeListener('foo', spy, undefined);
-    expect(emitter.listeners).toEqual(new Map());
+    expect(emitter._listeners).toEqual(new Map());
   });
 
   it('should do nothing if given listener is not a function', () => {
-    const emitter = new EventEmitter();
+    const emitter = createEventListener();
     emitter.removeListener('foo', {}, undefined);
-    expect(emitter.listeners).toEqual(new Map());
+    expect(emitter._listeners).toEqual(new Map());
   });
 });
