@@ -92,7 +92,7 @@ describe('#removeListener()', () => {
     const spy = jest.fn();
     const emitter = new EventEmitter();
     emitter.listeners = new Map([['foo', [{ callback: spy, vm: undefined }]]]);
-    emitter.removeListener('foo', spy, undefined);
+    emitter.removeListener('foo', undefined);
     expect(emitter.listeners).toEqual(new Map());
   });
 

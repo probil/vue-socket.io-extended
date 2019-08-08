@@ -1,24 +1,28 @@
-import { hasProxy } from './utils/env';
-
+/**
+ * @param {EventEmitter} GlobalEmitter
+ * @return {Object}
+ */
 export default GlobalEmitter => ({
   created() {
-    const { sockets = {} } = this.$options;
+    this.$options.sockets = this.$options.sockets || {};
+    const { sockets } = this.$options;
 
     Object.keys(sockets).forEach((key) => {
       GlobalEmitter.addListener(key, sockets[key], this);
     });
 
-    if (!hasProxy) return;
-    this.$options.sockets = new Proxy(sockets, {
-      set: (target, key, value) => {
-        GlobalEmitter.addListener(key, value, this);
-        // eslint-disable-next-line no-param-reassign
-        target[key] = value;
-        return true;
+    Object.defineProperties(this.$options.sockets, {
+      $subscribe: {
+        value: (key, fn) => GlobalEmitter.addListener(key, fn, this),
+        writable: false,
+        enumerable: false,
+        configurable: true,
       },
-      deleteProperty: (target, key) => {
-        GlobalEmitter.removeListener(key, target[key], this);
-        return true;
+      $unsubscribe: {
+        value: key => GlobalEmitter.removeListener(key, this),
+        writable: false,
+        enumerable: false,
+        configurable: true,
       },
     });
   },
@@ -26,11 +30,11 @@ export default GlobalEmitter => ({
     const { sockets = {} } = this.$options;
 
     Object.keys(sockets).forEach((key) => {
-      if (!hasProxy) {
-        GlobalEmitter.removeListener(key, sockets[key], this);
-      } else {
-        delete this.$options.sockets[key];
-      }
+      GlobalEmitter.removeListener(key, this);
     });
+  },
+  destroyed() {
+    delete this.$options.sockets.$subscribe;
+    delete this.$options.sockets.$unsubscribe;
   },
 });

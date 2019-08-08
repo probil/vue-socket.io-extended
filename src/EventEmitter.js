@@ -12,12 +12,11 @@ export default class EventEmitter {
     this.listeners.get(label).push({ callback, vm });
   }
 
-  removeListener(label, callback, vm) {
-    if (!isFunction(callback)) return;
+  removeListener(label, vm) {
     const listeners = this.listeners.get(label) || [];
 
     const filteredListeners = listeners.filter(listener => (
-      listener.callback !== callback || listener.vm !== vm
+      listener.vm !== vm
     ));
 
     if (filteredListeners.length > 0) {
