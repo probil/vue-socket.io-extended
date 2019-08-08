@@ -6,20 +6,22 @@ export default GlobalEmitter => ({
   created() {
     this.$options.sockets = this.$options.sockets || {};
     const { sockets } = this.$options;
+    const addListener = GlobalEmitter.addListener.bind(null, this);
+    const removeListenersByLabel = GlobalEmitter.removeListenersByLabel.bind(null, this);
 
     Object.keys(sockets).forEach((key) => {
-      GlobalEmitter.addListener(this, key, sockets[key]);
+      addListener(key, sockets[key]);
     });
 
     Object.defineProperties(this.$options.sockets, {
       $subscribe: {
-        value: (key, fn) => GlobalEmitter.addListener(this, key, fn),
+        value: addListener,
         writable: false,
         enumerable: false,
         configurable: true,
       },
       $unsubscribe: {
-        value: key => GlobalEmitter.removeListenersByLabel(this, key),
+        value: removeListenersByLabel,
         writable: false,
         enumerable: false,
         configurable: true,
