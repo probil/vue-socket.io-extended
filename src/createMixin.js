@@ -13,7 +13,7 @@ export default GlobalEmitter => ({
       addListener(key, sockets[key]);
     });
 
-    Object.defineProperties(this.$options.sockets, {
+    Object.defineProperties(this.$socket, {
       $subscribe: {
         value: addListener,
         writable: false,
