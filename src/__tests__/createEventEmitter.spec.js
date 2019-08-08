@@ -93,12 +93,24 @@ describe('#addListener()', () => {
 });
 
 describe('#removeListenersByLabel()', () => {
-  it('should remove given listener', () => {
+  it('should remove listener on given context', () => {
     const spy = jest.fn();
     const vm = {};
     const emitter = createEventListener([['foo', [{ callback: spy, vm }]]]);
     emitter.removeListenersByLabel(vm, 'foo');
     expect(emitter._listeners).toEqual(new Map());
+  });
+
+  it('should remove listener but keep the same listener on other context', () => {
+    const spy = jest.fn();
+    const vm = {};
+    const vm2 = {};
+    const emitter = createEventListener([
+      ['foo', [{ callback: spy, vm }]],
+      ['foo', [{ callback: spy, vm: vm2 }]],
+    ]);
+    emitter.removeListenersByLabel(vm, 'foo');
+    expect(emitter._listeners).toEqual(new Map([['foo', [{ callback: spy, vm: vm2 }]]]));
   });
 
   it('should do nothing for empty listener', () => {
