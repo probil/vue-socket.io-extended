@@ -7,7 +7,7 @@ it('should be an object', () => {
 it('should have EventEmitter properties', () => {
   expect(GlobalEmitter).toMatchObject({
     addListener: expect.any(Function),
-    removeListener: expect.any(Function),
+    removeListenersByLabel: expect.any(Function),
     emit: expect.any(Function),
   });
 });

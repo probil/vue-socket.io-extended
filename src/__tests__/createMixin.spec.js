@@ -4,7 +4,7 @@ import createMixin from '../createMixin';
 const setup = () => {
   const GlobalEmitter = {
     addListener: jest.fn(),
-    removeListener: jest.fn(),
+    removeListenersByLabel: jest.fn(),
     emit: jest.fn(),
   };
   const Vue = createLocalVue();
@@ -79,7 +79,7 @@ describe('mixin use on component', () => {
       },
     });
     wrapper.destroy();
-    expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(1);
+    expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(1);
   });
 
   it('should not remove socket listener if component was not destroyed', () => {
@@ -90,13 +90,13 @@ describe('mixin use on component', () => {
         connect,
       },
     });
-    expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(0);
+    expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(0);
   });
 
   it('should not remove socket listeners if component has no sockets defined', () => {
     const { GlobalEmitter, preparedMount } = setup();
     preparedMount();
-    expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(0);
+    expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(0);
   });
 
   it('should keep socket props after component destroy', () => {
@@ -133,7 +133,7 @@ describe('dynamic listeners', () => {
       },
     });
     wrapper.vm.$options.sockets.$unsubscribe('connect', connect);
-    expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(1);
+    expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(1);
   });
 
   it('removes dynamic socket listeners on component destroy', () => {
@@ -142,8 +142,8 @@ describe('dynamic listeners', () => {
     const wrapper = preparedMount();
     wrapper.vm.$options.sockets.connect = connect;
     wrapper.destroy();
-    expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(1);
-    expect(GlobalEmitter.removeListener).toHaveBeenCalledWith(wrapper.vm, 'connect');
+    expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(1);
+    expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledWith(wrapper.vm, 'connect');
   });
 
   it('should not keep socket props after removing dynamic listeners', () => {

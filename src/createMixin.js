@@ -19,7 +19,7 @@ export default GlobalEmitter => ({
         configurable: true,
       },
       $unsubscribe: {
-        value: key => GlobalEmitter.removeListener(this, key),
+        value: key => GlobalEmitter.removeListenersByLabel(this, key),
         writable: false,
         enumerable: false,
         configurable: true,
@@ -30,7 +30,7 @@ export default GlobalEmitter => ({
     const { sockets = {} } = this.$options;
 
     Object.keys(sockets).forEach((key) => {
-      GlobalEmitter.removeListener(this, key);
+      GlobalEmitter.removeListenersByLabel(this, key);
     });
   },
   destroyed() {

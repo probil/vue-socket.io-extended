@@ -92,27 +92,19 @@ describe('#addListener()', () => {
   });
 });
 
-describe('#removeListener()', () => {
+describe('#removeListenersByLabel()', () => {
   it('should remove given listener', () => {
     const spy = jest.fn();
     const vm = {};
     const emitter = createEventListener([['foo', [{ callback: spy, vm }]]]);
-    emitter.removeListener(vm, 'foo');
+    emitter.removeListenersByLabel(vm, 'foo');
     expect(emitter._listeners).toEqual(new Map());
   });
 
   it('should do nothing for empty listener', () => {
-    const spy = jest.fn();
     const vm = {};
     const emitter = createEventListener();
-    emitter.removeListener(vm, 'foo', spy);
-    expect(emitter._listeners).toEqual(new Map());
-  });
-
-  it('should do nothing if given listener is not a function', () => {
-    const emitter = createEventListener();
-    const vm = {};
-    emitter.removeListener(vm, 'foo', {});
+    emitter.removeListenersByLabel(vm, 'foo');
     expect(emitter._listeners).toEqual(new Map());
   });
 });

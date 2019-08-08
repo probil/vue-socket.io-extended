@@ -3,7 +3,7 @@ import { isFunction } from './utils';
 /**
  * @typedef {Object} EventEmitter
  * @property {Function} addListener
- * @property {Function} removeListener
+ * @property {Function} removeListenersByLabel
  * @property {Function} emit
  */
 
@@ -18,7 +18,7 @@ export default (entries) => {
   /**
    * @param {String} label
    * @param {Function} callback
-   * @param {Object} vm
+   * @param {Object} vm - context
    */
   function addListener(vm, label, callback) {
     if (!isFunction(callback)) return;
@@ -29,9 +29,9 @@ export default (entries) => {
 
   /**
    * @param {String} label
-   * @param {Object} vm
+   * @param {Object} vm - context
    */
-  function removeListener(vm, label) {
+  function removeListenersByLabel(vm, label) {
     const labelListeners = listeners.get(label) || [];
 
     const filteredListeners = labelListeners.filter(listener => (
@@ -60,7 +60,7 @@ export default (entries) => {
   return {
     emit,
     addListener,
-    removeListener,
+    removeListenersByLabel,
     _listeners: listeners,
   };
 };
