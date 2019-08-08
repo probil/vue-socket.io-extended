@@ -67,7 +67,7 @@ describe('mixin use on component', () => {
         connect,
       },
     });
-    expect(GlobalEmitter.addListener).toHaveBeenCalledWith('connect', connect, wrapper.vm);
+    expect(GlobalEmitter.addListener).toHaveBeenCalledWith(wrapper.vm, 'connect', connect);
   });
 
   it('removes socket listeners on component destroy', () => {
@@ -121,7 +121,7 @@ describe('dynamic listeners', () => {
     const wrapper = preparedMount();
     wrapper.vm.$options.sockets.$subscribe('connect', connect);
     expect(GlobalEmitter.addListener).toHaveBeenCalledTimes(1);
-    expect(GlobalEmitter.addListener).toHaveBeenCalledWith('connect', connect, wrapper.vm);
+    expect(GlobalEmitter.addListener).toHaveBeenCalledWith(wrapper.vm, 'connect', connect);
   });
 
   it('allows to unsubscribe dynamically', () => {
@@ -143,7 +143,7 @@ describe('dynamic listeners', () => {
     wrapper.vm.$options.sockets.connect = connect;
     wrapper.destroy();
     expect(GlobalEmitter.removeListener).toHaveBeenCalledTimes(1);
-    expect(GlobalEmitter.removeListener).toHaveBeenCalledWith('connect', wrapper.vm);
+    expect(GlobalEmitter.removeListener).toHaveBeenCalledWith(wrapper.vm, 'connect');
   });
 
   it('should not keep socket props after removing dynamic listeners', () => {

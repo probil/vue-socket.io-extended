@@ -8,18 +8,18 @@ export default GlobalEmitter => ({
     const { sockets } = this.$options;
 
     Object.keys(sockets).forEach((key) => {
-      GlobalEmitter.addListener(key, sockets[key], this);
+      GlobalEmitter.addListener(this, key, sockets[key]);
     });
 
     Object.defineProperties(this.$options.sockets, {
       $subscribe: {
-        value: (key, fn) => GlobalEmitter.addListener(key, fn, this),
+        value: (key, fn) => GlobalEmitter.addListener(this, key, fn),
         writable: false,
         enumerable: false,
         configurable: true,
       },
       $unsubscribe: {
-        value: key => GlobalEmitter.removeListener(key, this),
+        value: key => GlobalEmitter.removeListener(this, key),
         writable: false,
         enumerable: false,
         configurable: true,
@@ -30,7 +30,7 @@ export default GlobalEmitter => ({
     const { sockets = {} } = this.$options;
 
     Object.keys(sockets).forEach((key) => {
-      GlobalEmitter.removeListener(key, this);
+      GlobalEmitter.removeListener(this, key);
     });
   },
   destroyed() {

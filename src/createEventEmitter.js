@@ -20,7 +20,7 @@ export default (entries) => {
    * @param {Function} callback
    * @param {Object} vm
    */
-  function addListener(label, callback, vm) {
+  function addListener(vm, label, callback) {
     if (!isFunction(callback)) return;
 
     if (!listeners.has(label)) listeners.set(label, []);
@@ -31,7 +31,7 @@ export default (entries) => {
    * @param {String} label
    * @param {Object} vm
    */
-  function removeListener(label, vm) {
+  function removeListener(vm, label) {
     const labelListeners = listeners.get(label) || [];
 
     const filteredListeners = labelListeners.filter(listener => (
