@@ -37,13 +37,13 @@ describe('.install()', () => {
       .toThrow();
   });
 
-  it('defines socket.io instance as `$socket` on Vue prototype', () => {
+  it('defines socket.io instance as `$socket.client` on Vue prototype', () => {
     Vue.use(Main, io('ws://localhost'));
     const wrapper = mount({ render: () => null }, { localVue: Vue });
-    expect(wrapper.vm.$socket).toBeDefined();
-    expect(wrapper.vm.$socket).toEqual(expect.any(Object));
-    expect(wrapper.vm.$socket.on).toEqual(expect.any(Function));
-    expect(wrapper.vm.$socket.emit).toEqual(expect.any(Function));
+    expect(wrapper.vm.$socket.client).toBeDefined();
+    expect(wrapper.vm.$socket.client).toEqual(expect.any(Object));
+    expect(wrapper.vm.$socket.client.on).toEqual(expect.any(Function));
+    expect(wrapper.vm.$socket.client.emit).toEqual(expect.any(Function));
   });
 
   it('registers mixin on Vue', () => {

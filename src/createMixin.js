@@ -13,6 +13,7 @@ export default GlobalEmitter => ({
       addListener(key, sockets[key]);
     });
 
+    this.$socket = this.$socket || {};
     Object.defineProperties(this.$socket, {
       $subscribe: {
         value: addListener,
@@ -36,7 +37,7 @@ export default GlobalEmitter => ({
     });
   },
   destroyed() {
-    delete this.$options.sockets.$subscribe;
-    delete this.$options.sockets.$unsubscribe;
+    delete this.$socket.$subscribe;
+    delete this.$socket.$unsubscribe;
   },
 });

@@ -119,7 +119,7 @@ describe('dynamic listeners', () => {
     const { GlobalEmitter, preparedMount } = setup();
     const connect = jest.fn();
     const wrapper = preparedMount();
-    wrapper.vm.$options.sockets.$subscribe('connect', connect);
+    wrapper.vm.$socket.$subscribe('connect', connect);
     expect(GlobalEmitter.addListener).toHaveBeenCalledTimes(1);
     expect(GlobalEmitter.addListener).toHaveBeenCalledWith(wrapper.vm, 'connect', connect);
   });
@@ -132,7 +132,7 @@ describe('dynamic listeners', () => {
         connect,
       },
     });
-    wrapper.vm.$options.sockets.$unsubscribe('connect', connect);
+    wrapper.vm.$socket.$unsubscribe('connect', connect);
     expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(1);
   });
 
@@ -140,7 +140,7 @@ describe('dynamic listeners', () => {
     const { GlobalEmitter, preparedMount } = setup();
     const connect = jest.fn();
     const wrapper = preparedMount();
-    wrapper.vm.$options.sockets.connect = connect;
+    wrapper.vm.$socket.$subscribe('connect', connect);
     wrapper.destroy();
     expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(1);
     expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledWith(wrapper.vm, 'connect');
@@ -151,28 +151,28 @@ describe('dynamic listeners', () => {
     const connect = jest.fn();
     const wrapper = preparedMount({
       created() {
-        this.$options.sockets.$subscribe('connect', connect);
+        this.$socket.$subscribe('connect', connect);
       },
       beforeDestroy() {
-        this.$options.sockets.$unsubscribe('connect');
+        this.$socket.$unsubscribe('connect');
       },
     });
     wrapper.destroy();
     expect(wrapper.vm.$options.sockets).not.toHaveProperty('connect');
   });
 
-  it('adds $subscribe and $unsubscribe helpers to the instance after after creation', () => {
+  it('adds $subscribe and $unsubscribe helpers to the instance after creation', () => {
     const { preparedMount } = setup();
     const wrapper = preparedMount();
-    expect(wrapper.vm.$options.sockets.$subscribe).toEqual(expect.any(Function));
-    expect(wrapper.vm.$options.sockets.$unsubscribe).toEqual(expect.any(Function));
+    expect(wrapper.vm.$socket.$subscribe).toEqual(expect.any(Function));
+    expect(wrapper.vm.$socket.$unsubscribe).toEqual(expect.any(Function));
   });
 
   it('removes $subscribe and $unsubscribe helpers from the instance after destroy', () => {
     const { preparedMount } = setup();
     const wrapper = preparedMount();
     wrapper.destroy();
-    expect(wrapper.vm.$options.sockets.$unsubscribe).toBeUndefined();
-    expect(wrapper.vm.$options.sockets.$subscribe).toBeUndefined();
+    expect(wrapper.vm.$socket.$unsubscribe).toBeUndefined();
+    expect(wrapper.vm.$socket.$subscribe).toBeUndefined();
   });
 });
