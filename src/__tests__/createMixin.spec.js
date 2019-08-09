@@ -136,16 +136,6 @@ describe('dynamic listeners', () => {
     expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(1);
   });
 
-  it('removes dynamic socket listeners on component destroy', () => {
-    const { GlobalEmitter, preparedMount } = setup();
-    const connect = jest.fn();
-    const wrapper = preparedMount();
-    wrapper.vm.$socket.$subscribe('connect', connect);
-    wrapper.destroy();
-    expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(1);
-    expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledWith(wrapper.vm, 'connect');
-  });
-
   it('should not keep socket props after removing dynamic listeners', () => {
     const { preparedMount } = setup();
     const connect = jest.fn();
