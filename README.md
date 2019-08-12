@@ -98,8 +98,8 @@ new Vue({
   },
   methods: {
     clickButton(val) {
-      // this.$socket is `socket.io-client` instance
-      this.$socket.emit('emit_method', val);
+      // this.$socket.client is `socket.io-client` instance
+      this.$socket.client.emit('emit_method', val);
     }
   }
 })
@@ -107,18 +107,18 @@ new Vue({
 
 **Note**: Don't use arrow functions for methods or listeners if you are going to emit `socket.io` events inside. You will end up with using incorrect `this`. More info about this [here](https://github.com/probil/vue-socket.io-extended/issues/61)
 
-#### Dynamic socket event listeners
+#### Dynamic socket event listeners (changed in v4)
+
 Create a new listener
 ``` js
-this.$options.sockets.event_name = (data) => {
-  console.log(data)
-}
+this.$subscribe('event_name', payload => {
+  console.log(payload)
+});
 ```
 Remove existing listener
 ``` js
-delete this.$options.sockets.event_name;
+this.$unsubscribe('even_name');
 ```
-**Note**: This feature supported only in [browsers with native Proxy API support](https://caniuse.com/#feat=proxy) (e.g. IE11 is not supported)
 
 ## :evergreen_tree: Vuex Store integration
 
