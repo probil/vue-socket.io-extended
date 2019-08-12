@@ -119,6 +119,28 @@ Remove existing listener
 this.$unsubscribe('even_name');
 ```
 
+#### Reactive properties (new in v4)
+`$socket.connected` and `$socket.diconnected` are reactive. That means you can use them in expressions
+```vue
+<template>
+  <div>
+    <span>{{ $socket.connected ? 'Connected' : 'Disconnected' }}</span>
+  </div>
+</template>
+```
+Or conditions
+```vue
+<template>
+  <span 
+    class="notification" 
+    v-if="$socket.disconnected"
+  >
+    You are disconnected
+  </span>
+</template>
+```
+Or computed properties, methods and hooks. Treat them as computed properties that are available in all components
+
 ## :evergreen_tree: Vuex Store integration
 
 To enable Vuex integration just pass the store as the third argument, e.g.:
