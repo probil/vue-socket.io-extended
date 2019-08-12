@@ -53,14 +53,14 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 
 ## :cd: Installation
 
-``` bash
+```bash
 npm install vue-socket.io-extended socket.io-client
 ```
 
 ## :checkered_flag: Initialization
 
 #### ES2015 (Webpack/Rollup/Browserify/Parcel/etc)
-``` js
+```js
 import VueSocketio from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 
@@ -70,7 +70,7 @@ Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 
 #### UMD (Browser)
 
-``` html
+```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.slim.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-socket.io-extended"></script>
@@ -85,7 +85,7 @@ Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 
 Define your listeners under `sockets` section and they will listen coresponding `socket.io` events automatically.
 
-``` js
+```js
 new Vue({
   sockets: {
     connect() {
@@ -122,7 +122,7 @@ this.$unsubscribe('even_name');
 ## :evergreen_tree: Vuex Store integration
 
 To enable Vuex integration just pass the store as the third argument, e.g.:
-``` js
+```js
 import store from './store'
 
 Vue.use(VueSocketio, io('http://socketserver.com:1923'), { store });
@@ -146,10 +146,9 @@ Check [Configuration](#gear-configuration) section if you'd like to use custom t
 
 You can use either mutation or action or even both in your store. Don't forget that mutations are synchronous transactions. If you have any async operations inside, it's better to use actions instead. Learn more about Vuex [here](https://vuex.vuejs.org/en/).
 
-``` js
+```js
 // In this example we have a socket.io server that sends message ID when it arrives
 // so to get entire body of the message we need to make AJAX call the server
-
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -252,9 +251,9 @@ export default ({ store }) => {
 ```js
 // nuxt.config.js
 module.exports = {
-  ...,
+  //...,
   plugins: [
-    ...,
+    //...,
     { 
       src: '~/plugins/socket.io.js',
       ssr: false,                    // <-- this line is required
