@@ -27,7 +27,7 @@
 - Support namespaced Vuex modules out-of-the-box
 - Listen for one server event from the multiple stores at the same time
 - Support for multiple arguments from the server (when more then one argument passed - payload is wrapped to array automatically)
-- Possibility to define `socket.io` listeners in components dynamically
+- Reactive properties `$socket.connected` and `$socket.disconnected`
 - Options support - tweak the library to better fit your project needs
 - And many other...
 
