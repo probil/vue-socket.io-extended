@@ -10,13 +10,13 @@ export interface SocketToVuexOptions {
   eventToActionTransformer?: (eventName: string) => string;
 }
 
-export interface VueSocketIoExtOptions extends SocketToVuexOptions{
+export interface VueSocketIOExtOptions extends SocketToVuexOptions{
   socket: SocketIOClient.Socket;
 }
 
-declare class VueSocketIoExt {
-  static install: PluginFunction<VueSocketIoExtOptions>;
+declare class VueSocketIOExt {
+  static install: PluginFunction<VueSocketIOExtOptions>;
   static defaults: SocketToVuexOptions
 }
 
-export default VueSocketIoExt
+export default VueSocketIOExt
