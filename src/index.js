@@ -4,6 +4,8 @@ import createMixin from './createMixin';
 import { isSocketIo } from './utils';
 import defaults from './defaults';
 
+export { default as Socket } from './decorator';
+
 /**
  * @param {Vue} Vue
  * @param {SocketIOClient} socket
