@@ -61,10 +61,12 @@ npm install vue-socket.io-extended socket.io-client
 
 #### ES2015 (Webpack/Rollup/Browserify/Parcel/etc)
 ```js
-import VueSocketio from 'vue-socket.io-extended';
+import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 
-Vue.use(VueSocketio, io('http://socketserver.com:1923'));
+const socket = io('http://socketserver.com:1923');
+
+Vue.use(VueSocketIOExt, socket);
 ```
 *Note:* you have to pass instance of `socket.io-client` as second argument to prevent library duplication. Read more [here](https://github.com/probil/vue-socket.io-extended/issues/19).
 
@@ -75,7 +77,8 @@ Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.slim.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-socket.io-extended"></script>
 <script>
-  Vue.use(VueSocketIOExt, io('http://socketserver.com:1923'));
+  var socket = io('http://socketserver.com:1923');
+  Vue.use(VueSocketIOExt, socket);
 </script>
 ```
 
@@ -145,9 +148,13 @@ Or computed properties, methods and hooks. Treat them as computed properties tha
 
 To enable Vuex integration just pass the store as the third argument, e.g.:
 ```js
+import VueSocketIOExt from 'vue-socket.io-extended';
+import io from 'socket.io-client';
 import store from './store'
 
-Vue.use(VueSocketio, io('http://socketserver.com:1923'), { store });
+const socket = io('http://socketserver.com:1923');
+
+Vue.use(VueSocketIOExt, socket, { store });
 ```
 
 The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called. 
@@ -185,7 +192,7 @@ export default new Vuex.Store({
     // @see https://hackernoon.com/shape-your-redux-store-like-your-database-98faa4754fd5
     messages: {},
     messagesOrder: []
-  }
+  },
   mutations: {
     NEW_MESSAGE(state, message) {
       state.messages[message.id] = message;
@@ -239,7 +246,7 @@ const notifications = {
       state.notifications.push({ type: 'message', payload: message });
     }
   },
-}
+};
 
 export default new Vuex.Store({
   modules: {
@@ -261,10 +268,12 @@ That's what will happen, on `chat_message` from the server:
 // ~/plugins/socket.io.js
 import Vue from 'vue';
 import io from 'socket.io-client';
-import VueSocketIO from 'vue-socket.io-extended';
+import VueSocketIOExt from 'vue-socket.io-extended';
+
+const socket = io('http://localhost:3000');
 
 export default ({ store }) => {
-  Vue.use(VueSocketIO, io('http://localhost:3000'), { store });
+  Vue.use(VueSocketIOExt, socket, { store });
 }
 ```
 
