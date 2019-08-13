@@ -65,8 +65,8 @@ export default {
       throw new Error('[vue-socket.io-ext] you have to pass `socket.io-client` instance to the plugin');
     }
     const $socket = {};
-    defineReactiveProperties(Vue, socket, $socket)
-    defineSocketIoClient(socket, $socket)
+    defineReactiveProperties(Vue, socket, $socket);
+    defineSocketIoClient(socket, $socket);
 
     // eslint-disable-next-line no-param-reassign
     Vue.prototype.$socket = $socket;
