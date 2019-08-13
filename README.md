@@ -22,14 +22,14 @@
 
 ## :cherries: Features
 
-- Listen and emit `socket.io` events inside components
-- Dispatch actions and mutations in Vuex store on `socket.io` events
-- Support namespaced Vuex modules out-of-the-box
-- Listen for one server event from the multiple stores at the same time
-- Support for multiple arguments from the server (when more then one argument passed - payload is wrapped to array automatically)
+- Lightweight and dependency free - only 2kb min gzip
 - Reactive properties `$socket.connected` and `$socket.disconnected`
+- Allows listening and emitting `socket.io` events inside components
+- Auto-dispatches actions and mutations in multiple namespaced Vuex modules on `socket.io` events
 - Options support - tweak the library to better fit your project needs
-- And many other...
+- TypeScript typing supported
+- Can be used with any version of `socket.io-client`
+- etc...
 
 ## :heavy_check_mark: Browser Support
 
