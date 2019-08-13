@@ -148,37 +148,37 @@ Check [Configuration](#gear-configuration) section if you'd like to use custom t
 You can use either mutation or action or even both in your store. Don't forget that mutations are synchronous transactions. If you have any async operations inside, it's better to use actions instead. Learn more about Vuex [here](https://vuex.vuejs.org/en/).
 
 ``` js
+// In this example we have a socket.io server that sends message ID when it arrives
+// so to get entire body of the message we need to make AJAX call the server
+
 import Vue from 'vue'
 import Vuex from 'vuex'
+
+// `MessagesAPI.downloadMessageById` is async function (goes to backend through REST Api and fetches all the info about message)
+import MessagesAPI from './api/message'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isConnected: false,
-    message: null,
-  },
+    // we store messages as a dictionary for easier access and interaction
+    // @see https://hackernoon.com/shape-your-redux-store-like-your-database-98faa4754fd5
+    messages: {},
+    messagesOrder: []
+  }
   mutations: {
-    SOCKET_CONNECT(state, status) {
-      state.isConnected = true;
-    },
-    SOCKET_USER_MESSAGE(state, message) {
-      state.message = message;
-    },
+    NEW_MESSAGE(state, message) {
+      state.messages[message.id] = message;
+      state.messagesOrder.push(message.id);
+    }
   },
   actions: {
-    otherAction(context, type) {
-      return true;
-    },
-    socket_userMessage({ commit, dispatch }, message) {
-      dispatch('newMessage', message);
-      commit('NEW_MESSAGE_RECEIVED', message);
-      if (message.is_important) {
-        dispatch('alertImportantMessage', message);
-      }
-      // ...
-    },
-  },
+    socket_userMessage ({ dispatch, commit }, messageId) { // <-- this action is triggered when `user_message` is emmited on the server
+      return MessagesAPI.downloadMessageById(messageId).then((message) => {
+       commit('NEW_MESSAGE', message);
+      })
+    }
+  }
 })
 ```
 
