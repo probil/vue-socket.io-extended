@@ -37,7 +37,7 @@
 | --- | --- | --- | --- | --- | --- |
 | 38+ :heavy_check_mark: | 13+ :heavy_check_mark:  | 8+ :heavy_check_mark: | 25+ :heavy_check_mark: | 12+ :heavy_check_mark: | 11+ :heavy_check_mark: |
  
-
+We support only browsers with global usage statistics greater then 1% and last 2 version of each browser (but not dead browsers). Library may work in older browser as well but we don't not guarantee that. You may need addition polyfills to make it work.
 
 ## :seedling: Motivation
 
@@ -86,7 +86,7 @@ Vue.use(VueSocketIOExt, socket);
 
 #### On Vue.js component
 
-Define your listeners under `sockets` section and they will listen coresponding `socket.io` events automatically.
+Define your listeners under `sockets` section and they will listen corresponding `socket.io` events automatically.
 
 ```js
 new Vue({
