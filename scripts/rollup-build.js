@@ -16,7 +16,7 @@ export default [
       filesize(),
     ],
     output: {
-      format: 'es',
+      format: 'esm',
       file: 'dist/vue-socket.io-ext.esm.js',
     },
   },
