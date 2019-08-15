@@ -33,7 +33,7 @@ export default [
       {
         format: 'umd',
         name: 'VueSocketIOExt',
-        exports: 'default',
+        exports: 'named',
         file: 'dist/vue-socket.io-ext.min.js',
       },
   },
