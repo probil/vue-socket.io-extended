@@ -46,6 +46,34 @@ describe('.install()', () => {
     expect(wrapper.vm.$socket.client.emit).toEqual(expect.any(Function));
   });
 
+  it('defines reactive property `$socket.connected` on Vue prototype', () => {
+    const socket = io('ws://localhost');
+    Vue.use(Main, socket);
+    const wrapper = mount({ render: () => null }, { localVue: Vue });
+    expect(wrapper.vm.$socket.connected).toBeDefined();
+    expect(wrapper.vm.$socket.connected).toBe(false);
+    socket.fireSystemEvent('connect');
+    expect(wrapper.vm.$socket.connected).toBeDefined();
+    expect(wrapper.vm.$socket.connected).toBe(true);
+    socket.fireSystemEvent('disconnect');
+    expect(wrapper.vm.$socket.connected).toBeDefined();
+    expect(wrapper.vm.$socket.connected).toBe(false);
+  });
+
+  it('defines reactive property `$socket.disconnected` on Vue prototype', () => {
+    const socket = io('ws://localhost');
+    Vue.use(Main, socket);
+    const wrapper = mount({ render: () => null }, { localVue: Vue });
+    expect(wrapper.vm.$socket.disconnected).toBeDefined();
+    expect(wrapper.vm.$socket.disconnected).toBe(true);
+    socket.fireSystemEvent('connect');
+    expect(wrapper.vm.$socket.disconnected).toBeDefined();
+    expect(wrapper.vm.$socket.disconnected).toBe(false);
+    socket.fireSystemEvent('disconnect');
+    expect(wrapper.vm.$socket.disconnected).toBeDefined();
+    expect(wrapper.vm.$socket.disconnected).toBe(true);
+  });
+
   it('registers mixin on Vue', () => {
     const spy = jest.spyOn(Vue, 'mixin');
     Vue.use(Main, io('ws://localhost'));
