@@ -23,8 +23,12 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: install dependences
+          name: Install dependencies
           command: npm i
+
+      - run:
+          name: Install `jest-junit` coverage reporter
+          command: npm i --no-save jest-junit
 
       # Save cache for next run
       - save_cache:
@@ -33,17 +37,22 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: check build for errors
+          name: Check build for errors
           command: npm run build
 
       - run:
-          name: check code style
-          command: npm run lint
+          name: Check code style
+          command: npm run lint -- --format junit -o /tmp/test-results/code-style-test-results.xml
 
       - run:
-          name: test
-          command: npm run test -- --coverage
+          name: Run unit-tests
+          command: npm run test -- --coverage --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT: "/tmp/test-results/unit-test-results.xml"
 
       - run:
-          name: upload coverage
+          name: Upload coverage to CodeCov
           command: bash <(curl -s https://codecov.io/bash)
+
+      - store_test_results:
+          path: /tmp/test-results
