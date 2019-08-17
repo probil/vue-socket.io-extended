@@ -24,11 +24,11 @@
 
 - Lightweight and dependency free - only 2kb min gzip
 - Reactive properties `$socket.connected` and `$socket.disconnected`
-- Allows listening and emitting `socket.io` events inside components
+- Listening and emitting `socket.io` events inside components
 - Auto-dispatches actions and mutations in multiple namespaced Vuex modules on `socket.io` events
-- Options support - tweak the library to better fit your project needs
-- TypeScript typing supported
+- Good TypeScript support (decorator and typing)
 - Can be used with any version of `socket.io-client`
+- Custom options - tweak the library to better fit your project needs
 - etc...
 
 ## :heavy_check_mark: Browser Support
