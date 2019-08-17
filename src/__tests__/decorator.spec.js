@@ -1,6 +1,7 @@
+/* eslint-disable no-empty-function,class-methods-use-this,getter-return */
+import { createLocalVue } from '@vue/test-utils';
+import Component from 'vue-class-component';
 import Socket from '../decorator';
-import {createLocalVue} from '@vue/test-utils';
-import Component from 'vue-class-component'
 
 describe('@Socket() decorator', () => {
   it('is a function', () => {
@@ -18,8 +19,8 @@ describe('@Socket() decorator', () => {
     }
 
     expect(App.options.sockets).toMatchObject({
-      tweet: expect.any(Function)
-    })
+      tweet: expect.any(Function),
+    });
   });
 
   it('uses given name as a listener name', () => {
@@ -33,49 +34,49 @@ describe('@Socket() decorator', () => {
     }
 
     expect(App.options.sockets).toEqual({
-      tweet: expect.any(Function)
-    })
+      tweet: expect.any(Function),
+    });
   });
 
-  it(`doesn't throw an error when decorator used on the computed property and no methods defined on component`, () => {
+  it('doesn\'t throw an error when decorator used on the computed property and no methods defined on component', () => {
     const Vue = createLocalVue();
 
     expect(() => {
       @Component()
-      class App extends Vue {
+      class App extends Vue { // eslint-disable-line no-unused-vars
         @Socket('tweet')
         get tweets() {
         }
       }
-    }).not.toThrow()
+    }).not.toThrow();
   });
 
-  it(`doesn't throw an error when decorator used on the computed property and some methods defined on component`, () => {
+  it('doesn\'t throw an error when decorator used on the computed property and some methods defined on component', () => {
     const Vue = createLocalVue();
 
     expect(() => {
       @Component()
-      class App extends Vue {
+      class App extends Vue { // eslint-disable-line no-unused-vars
         @Socket('tweet')
         get tweets() {
         }
 
-        test(){
+        test() {
         }
       }
-    }).not.toThrow()
+    }).not.toThrow();
   });
 
-  it(`doesn't define sockets on component when decorator used on the computed property`, () => {
+  it('doesn\'t define sockets on component when decorator used on the computed property', () => {
     const Vue = createLocalVue();
 
     @Component()
     class App extends Vue {
       @Socket('tweet')
       get tweets() {
-      };
+      }
     }
 
     expect(App.options.sockets).toBeUndefined();
-  })
+  });
 });
