@@ -260,6 +260,40 @@ That's what will happen, on `chat_message` from the server:
 * `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
 * `socket_chatMessage` action dispatched on `messages` module
 
+## :bamboo: ECMAScript / TypeScript decorator (added in v4)
+
+**Required**: [ECMAScript stage 1 decorators](https://github.com/wycats/javascript-decorators/blob/master/README.md).
+If you use Babel, [babel-plugin-transform-decorators-legacy](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy) is needed.
+If you use TypeScript, enable `--experimentalDecorators` flag.
+
+> It does not support the stage 2 decorators yet since mainstream transpilers still transpile to the old decorators.
+
+We provide `@Socket()` decorator for users of [class-style Vue components](https://github.com/vuejs/vue-class-component). By default, `@Socket()` decorator listens the same event as decorated method name but you can use custom name by passing a string inside decorator e.g. `@Socket('custom_event')`.
+
+Check the example below:
+
+```vue
+<!-- App.vue -->
+<script>
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Socket } from 'vue-socket.io-extended'
+
+@Component({})
+export default class App extends Vue {
+  @Socket() // --> listens to the event by method name, e.g. `connect` 
+  connect () {
+    console.log('connection established');
+  }
+  
+  @Socket('tweet')  // --> listens to the event with given name, e.g. `tweet`
+  onTweet (tweetInfo) {
+    // do something with `tweetInfo`
+  }
+}
+</script>
+```
+
 ## :mountain_bicyclist: Usage with Nuxt.js
 > The key point here is to disable SSR for the plugin as it will crash otherwise. It's a well-know issue and we are going to fix it. Thanks [@ll931217](https://github.com/ll931217) for investigation.
 
