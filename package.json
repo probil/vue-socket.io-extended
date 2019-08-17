@@ -47,6 +47,7 @@
   "devDependencies": {
     "@babel/core": "7.5.5",
     "@babel/plugin-external-helpers": "7.2.0",
+    "@babel/plugin-proposal-decorators": "7.4.4",
     "@babel/plugin-proposal-export-namespace-from": "7.5.2",
     "@babel/preset-env": "7.5.5",
     "@vue/test-utils": "1.0.0-beta.29",
@@ -63,8 +64,8 @@
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-terser": "5.1.1",
     "vue": "2.6.10",
-    "vue-template-compiler": "2.6.10",
     "vue-class-component": "7.1.0",
+    "vue-template-compiler": "2.6.10",
     "vuex": "3.1.1"
   },
   "jest": {
