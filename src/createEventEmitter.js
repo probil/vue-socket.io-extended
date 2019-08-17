@@ -34,7 +34,7 @@ export default (entries) => {
   function removeListenersByLabel(vm, label) {
     const labelListeners = listeners.get(label) || [];
 
-    const filteredListeners = labelListeners.filter(listener => (
+    const filteredListeners = labelListeners.filter((listener) => (
       listener.vm !== vm
     ));
 

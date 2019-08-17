@@ -2,7 +2,7 @@
  * @param {EventEmitter} GlobalEmitter
  * @return {Object}
  */
-export default GlobalEmitter => ({
+export default (GlobalEmitter) => ({
   created() {
     this.$options.sockets = this.$options.sockets || {};
     const { sockets } = this.$options;

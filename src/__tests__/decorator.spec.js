@@ -1,4 +1,4 @@
-/* eslint-disable no-empty-function,class-methods-use-this,getter-return */
+/* eslint-disable no-empty-function,class-methods-use-this,getter-return,max-classes-per-file */
 import { createLocalVue } from '@vue/test-utils';
 import Component from 'vue-class-component';
 import Socket from '../decorator';
