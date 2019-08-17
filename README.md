@@ -113,13 +113,13 @@ new Vue({
 
 Create a new listener
 ``` js
-this.$subscribe('event_name', payload => {
+this.$socket.$subscribe('event_name', payload => {
   console.log(payload)
 });
 ```
 Remove existing listener
 ``` js
-this.$unsubscribe('even_name');
+this.$socket.$unsubscribe('even_name');
 ```
 
 #### Reactive properties (new in v4)
