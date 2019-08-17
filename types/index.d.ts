@@ -1,5 +1,6 @@
 import { PluginFunction } from 'vue';
 import * as SocketIOClient from 'socket.io-client';
+import { VueDecorator } from 'vue-class-component';
 // augment typings of Vue.js
 import "./vue"
 
@@ -10,13 +11,14 @@ export interface SocketToVuexOptions {
   eventToActionTransformer?: (eventName: string) => string;
 }
 
-export interface VueSocketIoExtOptions extends SocketToVuexOptions{
+export interface VueSocketIOExtOptions extends SocketToVuexOptions{
   socket: SocketIOClient.Socket;
 }
 
-declare class VueSocketIoExt {
-  static install: PluginFunction<VueSocketIoExtOptions>;
-  static defaults: SocketToVuexOptions
+declare class VueSocketIOExt {
+  static install: PluginFunction<VueSocketIOExtOptions>;
+  static defaults: SocketToVuexOptions;
 }
 
-export default VueSocketIoExt
+export default VueSocketIOExt
+export const Socket: (eventName?: string) => VueDecorator;

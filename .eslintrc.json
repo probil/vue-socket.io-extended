@@ -6,5 +6,11 @@
   ],
   "env": {
     "browser": true
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src/__tests__/decorator.spec.js"],
+      "parser": "babel-eslint"
+    }
+  ]
 }

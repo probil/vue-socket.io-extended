@@ -2,6 +2,10 @@ export const isFunction = obj => (
   typeof obj === 'function'
 );
 
+export const isString = value => (
+  typeof value === 'string'
+);
+
 export const isSocketIo = obj => (
   !!obj && isFunction(obj.on) && isFunction(obj.emit)
 );

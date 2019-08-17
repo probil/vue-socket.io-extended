@@ -22,23 +22,22 @@
 
 ## :cherries: Features
 
-- Listen and emit `socket.io` events inside components
-- Dispatch actions and mutations in Vuex store on `socket.io` events
-- Support namespaced Vuex modules out-of-the-box
-- Listen for one server event from the multiple stores at the same time
-- Support for multiple arguments from the server (when more then one argument passed - payload is wrapped to array automatically)
-- Possibility to define `socket.io` listeners in components dynamically
-- Options support - tweak the library to better fit your project needs
-- And many other...
+- Lightweight and dependency free - only 2kb min gzip
+- Reactive properties `$socket.connected` and `$socket.disconnected`
+- Listening and emitting `socket.io` events inside components
+- Auto-dispatches actions and mutations in multiple namespaced Vuex modules on `socket.io` events
+- Good TypeScript support (decorator and typing)
+- Can be used with any version of `socket.io-client`
+- Custom options - tweak the library to better fit your project needs
+- etc...
 
 ## :heavy_check_mark: Browser Support
 
--- |![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png) |
---- | --- | --- | --- | --- | --- | --- |
-Basic support <sup>[*](#dynamic-socket-event-listeners)</sup> | 38+ :heavy_check_mark: | 13+ :heavy_check_mark:  | 8+ :heavy_check_mark: | 25+ :heavy_check_mark: | 12+ :heavy_check_mark: | 11+ :heavy_check_mark: |
-Full support | 49+ :heavy_check_mark: | 18+ :heavy_check_mark: | 10+ :heavy_check_mark: | 36+ :heavy_check_mark: | 12+ :heavy_check_mark: | :x: |
+|![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png) |
+| --- | --- | --- | --- | --- | --- |
+| 38+ :heavy_check_mark: | 13+ :heavy_check_mark:  | 8+ :heavy_check_mark: | 25+ :heavy_check_mark: | 12+ :heavy_check_mark: | 11+ :heavy_check_mark: |
  
-
+We support only browsers with global usage statistics greater then 1% and last 2 version of each browser (but not dead browsers). Library may work in older browser as well but we don't not guarantee that. You may need addition polyfills to make it work.
 
 ## :seedling: Motivation
 
@@ -54,29 +53,32 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 
 ## :cd: Installation
 
-``` bash
+```bash
 npm install vue-socket.io-extended socket.io-client
 ```
 
 ## :checkered_flag: Initialization
 
 #### ES2015 (Webpack/Rollup/Browserify/Parcel/etc)
-``` js
-import VueSocketio from 'vue-socket.io-extended';
+```js
+import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 
-Vue.use(VueSocketio, io('http://socketserver.com:1923'));
+const socket = io('http://socketserver.com:1923');
+
+Vue.use(VueSocketIOExt, socket);
 ```
 *Note:* you have to pass instance of `socket.io-client` as second argument to prevent library duplication. Read more [here](https://github.com/probil/vue-socket.io-extended/issues/19).
 
 #### UMD (Browser)
 
-``` html
+```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.slim.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-socket.io-extended"></script>
 <script>
-  Vue.use(VueSocketIOExt, io('http://socketserver.com:1923'));
+  var socket = io('http://socketserver.com:1923');
+  Vue.use(VueSocketIOExt, socket);
 </script>
 ```
 
@@ -84,9 +86,9 @@ Vue.use(VueSocketio, io('http://socketserver.com:1923'));
 
 #### On Vue.js component
 
-Define your listeners under `sockets` section and they will listen coresponding `socket.io` events automatically.
+Define your listeners under `sockets` section and they will listen corresponding `socket.io` events automatically.
 
-``` js
+```js
 new Vue({
   sockets: {
     connect() {
@@ -98,8 +100,8 @@ new Vue({
   },
   methods: {
     clickButton(val) {
-      // this.$socket is `socket.io-client` instance
-      this.$socket.emit('emit_method', val);
+      // this.$socket.client is `socket.io-client` instance
+      this.$socket.client.emit('emit_method', val);
     }
   }
 })
@@ -107,26 +109,52 @@ new Vue({
 
 **Note**: Don't use arrow functions for methods or listeners if you are going to emit `socket.io` events inside. You will end up with using incorrect `this`. More info about this [here](https://github.com/probil/vue-socket.io-extended/issues/61)
 
-#### Dynamic socket event listeners
+#### Dynamic socket event listeners (changed in v4)
+
 Create a new listener
 ``` js
-this.$options.sockets.event_name = (data) => {
-  console.log(data)
-}
+this.$subscribe('event_name', payload => {
+  console.log(payload)
+});
 ```
 Remove existing listener
 ``` js
-delete this.$options.sockets.event_name;
+this.$unsubscribe('even_name');
 ```
-**Note**: This feature supported only in [browsers with native Proxy API support](https://caniuse.com/#feat=proxy) (e.g. IE11 is not supported)
+
+#### Reactive properties (new in v4)
+`$socket.connected` and `$socket.diconnected` are reactive. That means you can use them in expressions
+```vue
+<template>
+  <div>
+    <span>{{ $socket.connected ? 'Connected' : 'Disconnected' }}</span>
+  </div>
+</template>
+```
+Or conditions
+```vue
+<template>
+  <span 
+    class="notification" 
+    v-if="$socket.disconnected"
+  >
+    You are disconnected
+  </span>
+</template>
+```
+Or computed properties, methods and hooks. Treat them as computed properties that are available in all components
 
 ## :evergreen_tree: Vuex Store integration
 
 To enable Vuex integration just pass the store as the third argument, e.g.:
-``` js
+```js
+import VueSocketIOExt from 'vue-socket.io-extended';
+import io from 'socket.io-client';
 import store from './store'
 
-Vue.use(VueSocketio, io('http://socketserver.com:1923'), { store });
+const socket = io('http://socketserver.com:1923');
+
+Vue.use(VueSocketIOExt, socket, { store });
 ```
 
 The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called. 
@@ -147,10 +175,9 @@ Check [Configuration](#gear-configuration) section if you'd like to use custom t
 
 You can use either mutation or action or even both in your store. Don't forget that mutations are synchronous transactions. If you have any async operations inside, it's better to use actions instead. Learn more about Vuex [here](https://vuex.vuejs.org/en/).
 
-``` js
+```js
 // In this example we have a socket.io server that sends message ID when it arrives
 // so to get entire body of the message we need to make AJAX call the server
-
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -165,7 +192,7 @@ export default new Vuex.Store({
     // @see https://hackernoon.com/shape-your-redux-store-like-your-database-98faa4754fd5
     messages: {},
     messagesOrder: []
-  }
+  },
   mutations: {
     NEW_MESSAGE(state, message) {
       state.messages[message.id] = message;
@@ -219,7 +246,7 @@ const notifications = {
       state.notifications.push({ type: 'message', payload: message });
     }
   },
-}
+};
 
 export default new Vuex.Store({
   modules: {
@@ -233,6 +260,40 @@ That's what will happen, on `chat_message` from the server:
 * `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
 * `socket_chatMessage` action dispatched on `messages` module
 
+## :bamboo: ECMAScript / TypeScript decorator (added in v4)
+
+**Required**: [ECMAScript stage 1 decorators](https://github.com/wycats/javascript-decorators/blob/master/README.md).
+If you use Babel, [babel-plugin-transform-decorators-legacy](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy) is needed.
+If you use TypeScript, enable `--experimentalDecorators` flag.
+
+> It does not support the stage 2 decorators yet since mainstream transpilers still transpile to the old decorators.
+
+We provide `@Socket()` decorator for users of [class-style Vue components](https://github.com/vuejs/vue-class-component). By default, `@Socket()` decorator listens the same event as decorated method name but you can use custom name by passing a string inside decorator e.g. `@Socket('custom_event')`.
+
+Check the example below:
+
+```vue
+<!-- App.vue -->
+<script>
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Socket } from 'vue-socket.io-extended'
+
+@Component({})
+export default class App extends Vue {
+  @Socket() // --> listens to the event by method name, e.g. `connect` 
+  connect () {
+    console.log('connection established');
+  }
+  
+  @Socket('tweet')  // --> listens to the event with given name, e.g. `tweet`
+  onTweet (tweetInfo) {
+    // do something with `tweetInfo`
+  }
+}
+</script>
+```
+
 ## :mountain_bicyclist: Usage with Nuxt.js
 > The key point here is to disable SSR for the plugin as it will crash otherwise. It's a well-know issue and we are going to fix it. Thanks [@ll931217](https://github.com/ll931217) for investigation.
 
@@ -241,10 +302,12 @@ That's what will happen, on `chat_message` from the server:
 // ~/plugins/socket.io.js
 import Vue from 'vue';
 import io from 'socket.io-client';
-import VueSocketIO from 'vue-socket.io-extended';
+import VueSocketIOExt from 'vue-socket.io-extended';
+
+const socket = io('http://localhost:3000');
 
 export default ({ store }) => {
-  Vue.use(VueSocketIO, io('http://localhost:3000'), { store });
+  Vue.use(VueSocketIOExt, socket, { store });
 }
 ```
 
@@ -253,9 +316,9 @@ export default ({ store }) => {
 ```js
 // nuxt.config.js
 module.exports = {
-  ...,
+  //...,
   plugins: [
-    ...,
+    //...,
     { 
       src: '~/plugins/socket.io.js',
       ssr: false,                    // <-- this line is required
