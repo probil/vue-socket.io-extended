@@ -174,7 +174,7 @@ it('should apply custom event to action transformer', () => {
   const socket = io('wss://localhost');
   Observe(socket, {
     store,
-    eventToActionTransformer: event => event.toUpperCase(),
+    eventToActionTransformer: (event) => event.toUpperCase(),
   });
   const message = { id: 15, body: 'Hi there' };
   socket.fireServerEvent('message', message);
@@ -196,7 +196,7 @@ it('should apply custom event to mutation transformer', () => {
   const socket = io('wss://localhost');
   Observe(socket, {
     store,
-    eventToMutationTransformer: event => event,
+    eventToMutationTransformer: (event) => event,
   });
   const message = { id: 15, body: 'Hi there' };
   socket.fireServerEvent('new message', message);

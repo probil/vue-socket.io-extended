@@ -78,9 +78,9 @@ describe('pipe()', () => {
 
   it('performs left-to-right function composition', () => {
     const f = pipe(
-      val => `prefix${val}`,
-      val => `${val.toUpperCase()}!`,
-      val => `${val}suffix`,
+      (val) => `prefix${val}`,
+      (val) => `${val.toUpperCase()}!`,
+      (val) => `${val}suffix`,
     );
 
     expect(f('Hi')).toBe('PREFIXHI!suffix');

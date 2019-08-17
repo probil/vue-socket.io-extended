@@ -32,12 +32,12 @@ export default (Socket, { store, ...otherOptions } = {}) => {
     const unwrappedPayload = unwrapIfSingle(payload);
 
     mutations
-      .filter(namespacedMutation => trimNamespace(namespacedMutation) === desiredMutation)
-      .forEach(namespacedMutation => store.commit(namespacedMutation, unwrappedPayload));
+      .filter((namespacedMutation) => trimNamespace(namespacedMutation) === desiredMutation)
+      .forEach((namespacedMutation) => store.commit(namespacedMutation, unwrappedPayload));
 
     actions
-      .filter(namespacedAction => trimNamespace(namespacedAction) === desiredAction)
-      .forEach(namespacedAction => store.dispatch(namespacedAction, unwrappedPayload));
+      .filter((namespacedAction) => trimNamespace(namespacedAction) === desiredAction)
+      .forEach((namespacedAction) => store.dispatch(namespacedAction, unwrappedPayload));
   }
 
   function registerEventHandler() {

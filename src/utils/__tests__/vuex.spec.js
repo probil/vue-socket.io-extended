@@ -127,7 +127,7 @@ describe('.trimNamespace()', () => {
   });
   it('returns common string "as-is"', () => {
     ['', 'test', 'super action', 'SOCKET_CONNECT', 'test\\action', 'change|user']
-      .forEach(str => (
+      .forEach((str) => (
         expect(trimNamespace(str)).toBe(str)
       ));
   });
