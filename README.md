@@ -224,7 +224,7 @@ Events can be sent to the Socket.IO server by calling `this._vm.$socket.emit` fr
 
 #### Namespaced Vuex Modules
 
-Namespaced modules are supported out-of-the-box. Any appropriately-named mutation or action shoud work regardless of whether it's in a module or in the main Vuex store.
+Namespaced modules are supported out-of-the-box. Any appropriately-named mutation or action should work regardless of whether it's in a module or in the main Vuex store.
 
 ```js
 import Vue from 'vue'
