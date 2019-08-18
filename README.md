@@ -212,7 +212,8 @@ export default new Vuex.Store({
 
 #### Emitting Events  
 
-Events can be sent to the Socket.IO server by calling ```js this._vm.$socket.client.emit``` from a Vuex mutation or action. Mutation or action names are not subject to the same naming requirements as above. Event data must be sent in string format.
+Events can be sent to the Socket.IO server by calling ```js
+his._vm.$socket.client.emit``` from a Vuex mutation or action. Mutation or action names are not subject to the same naming requirements as above. Event data must be sent in string format.
 
 ```js
   actions: {
