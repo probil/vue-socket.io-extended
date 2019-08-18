@@ -41,8 +41,7 @@
   },
   "homepage": "https://github.com/probil/vue-socket.io-extended#readme",
   "dependencies": {
-    "@types/socket.io-client": "1.4.32",
-    "camelcase": "5.3.1"
+    "@types/socket.io-client": "1.4.32"
   },
   "devDependencies": {
     "@babel/core": "7.5.5",
@@ -52,6 +51,7 @@
     "@babel/preset-env": "7.5.5",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "10.0.2",
+    "camelcase": "5.3.1",
     "conventional-changelog": "3.1.10",
     "eslint": "6.1.0",
     "eslint-config-airbnb-base": "14.0.0",
