@@ -144,11 +144,12 @@ Or conditions
 ```
 Or computed properties, methods and hooks. Treat them as computed properties that are available in all components
 
-## :evergreen_tree: Vuex Store integration
+## :evergreen_tree: Vuex Store Integration
 
-### Setup
+#### Setup
 
 To set up Vuex integration just pass the store as the third argument. In a Vue CLI project, you might do this in the src/main.js file. Example:
+
 ```js
 import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
@@ -158,12 +159,13 @@ const socket = io('http://socketserver.com:1923');
 
 Vue.use(VueSocketIOExt, socket, { store });
 ```
-### Listening for Events in Store  
+
+#### Receiving Events  
 
 Mutations and actions will be dispatched or committed automatically in the Vuex store when a socket event arrives.  A mutation or action must follow the naming convention below to recognize and handle a socket event. 
 
-* a **mutation** should start with `SOCKET_` prefix and continue with an uppercase version of the event
-* an **action** should start with `socket_` prefix and continue with camelcase version of the event
+* A **mutation** should start with `SOCKET_` prefix and continue with an uppercase version of the event
+* An **action** should start with `socket_` prefix and continue with camelcase version of the event
 
 | Server Event | Mutation | Action
 | --- | --- | --- |
@@ -173,10 +175,6 @@ Mutations and actions will be dispatched or committed automatically in the Vuex 
 | `CHAT_MESSAGE` | `SOCKET_CHAT_MESSAGE` | `socket_chatMessage` |
 
 Check the [Configuration](#gear-configuration) section if you'd like to use a custom transformation.
-
-> **Note**: Different server events can commit/dispatch the same mutation or/and the same action. Try to use a single naming convention to avoid collisions.
-
-> You can use mutations and/or actions in your store. Don't forget that mutations are synchronous transactions. It is preferred to use actions to handle async operations. Learn more about Vuex [here](https://vuex.vuejs.org/en/).
 
 ```js
 // In this example we have a socket.io server that sends message ID when it arrives
@@ -212,9 +210,10 @@ export default new Vuex.Store({
 })
 ```
 
-### Sending Events From Store  
+#### Sending Events  
 
-Events can be sent to the Socket.IO server from a Vuex mutation or action, by calling `this._vm.$socket.emit`. Mutation or action names are not subject to the same naming requirements as above. Event data must be sent in string format.
+Events can be sent to the Socket.IO server by calling `this._vm.$socket.emit` from a Vuex mutation or action. Mutation or action names are not subject to the same naming requirements as above. Event data must be sent in string format.
+
 ```
   actions: {
     emitSocketEvent (data) {
@@ -225,9 +224,7 @@ Events can be sent to the Socket.IO server from a Vuex mutation or action, by ca
 
 #### Namespaced Vuex Modules
 
-Namespaced modules are supported out-of-the-box when the plugin is initialized with a Vuex store. You can easily divide your store into modules without worrying that mutation or action will not be called. The plugin checks all your modules for mutation and action that are formatted by convention described above and call them all. That means you can listen for the same event from multiple stores with no issue.
-
-Check the following example:
+Namespaced modules are supported out-of-the-box. Any appropriately-named mutation or action shoud work regardless of whether it's in a module or in the main Vuex store.
 
 ```js
 import Vue from 'vue'
@@ -269,10 +266,10 @@ export default new Vuex.Store({
   }
 })
 ```
-That's what will happen, on `chat_message` from the server:
-* `SOCKET_CHAT_MESSAGE` mutation commited on `messages` module
-* `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
-* `socket_chatMessage` action dispatched on `messages` module
+The above code will:
+* Commit the `SOCKET_CHAT_MESSAGE` mutation in the `messages` module
+* Commit the `SOCKET_CHAT_MESSAGE` mutation in the `notification` module
+* Dispatch the `socket_chatMessage` action in the `messages` module
 
 ## :bamboo: ECMAScript / TypeScript decorator (added in v4)
 
