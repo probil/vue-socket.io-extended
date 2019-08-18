@@ -184,7 +184,7 @@ Check the [Configuration](#gear-configuration) section if you'd like to use a cu
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// `MessagesAPI.downloadMessageById` is async function (goes to backend through REST Api and fetches all the info about message)
+// `MessagesAPI.downloadMessageById` is an async function (goes to backend through REST Api and fetches all message data)
 import MessagesAPI from './api/message'
 
 Vue.use(Vuex);
@@ -212,9 +212,20 @@ export default new Vuex.Store({
 })
 ```
 
-#### Namespaced vuex modules
+### Sending Events From Store  
 
-Namespaced modules are supported out-of-the-box when plugin initialized with Vuex store. You can easily divide your store into modules without worrying that mutation or action will not be called. The plugin checks all your modules for mutation and action that are formatted by convention described above and call them all. That means you can listen for the same event from multiple stores with no issue.
+Events can be sent to the Socket.IO server from a Vuex mutation or action, by calling `this._vm.$socket.emit`. Mutation or action names are not subject to the same naming requirements as above. Event data must be sent in string format.
+```
+  actions: {
+    emitSocketEvent (data) {
+      this._vm.$socket.emit('eventName', JSON.stringify(data))     
+    }
+  }
+```
+
+#### Namespaced Vuex Modules
+
+Namespaced modules are supported out-of-the-box when the plugin is initialized with a Vuex store. You can easily divide your store into modules without worrying that mutation or action will not be called. The plugin checks all your modules for mutation and action that are formatted by convention described above and call them all. That means you can listen for the same event from multiple stores with no issue.
 
 Check the following example:
 
