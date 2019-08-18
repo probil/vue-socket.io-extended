@@ -146,7 +146,9 @@ Or computed properties, methods and hooks. Treat them as computed properties tha
 
 ## :evergreen_tree: Vuex Store integration
 
-To enable Vuex integration just pass the store as the third argument, e.g.:
+### Setup
+
+To set up Vuex integration just pass the store as the third argument. In a Vue CLI project, you might do this in the src/main.js file. Example:
 ```js
 import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
@@ -156,8 +158,9 @@ const socket = io('http://socketserver.com:1923');
 
 Vue.use(VueSocketIOExt, socket, { store });
 ```
+### Listening for Events in Store  
 
-The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called. 
+Mutations and actions will be dispatched or committed automatically in the Vuex store when a socket event arrives.  A mutation or action must follow the naming convention below to recognize and handle a socket event. 
 
 * a **mutation** should start with `SOCKET_` prefix and continue with an uppercase version of the event
 * an **action** should start with `socket_` prefix and continue with camelcase version of the event
@@ -169,11 +172,11 @@ The main idea behind the integration is that mutations and actions are dispatche
 | `chatMessage`  | `SOCKET_CHATMESSAGE`  | `socket_chatMessage` |
 | `CHAT_MESSAGE` | `SOCKET_CHAT_MESSAGE` | `socket_chatMessage` |
 
-Check [Configuration](#gear-configuration) section if you'd like to use custom transformation.
+Check the [Configuration](#gear-configuration) section if you'd like to use a custom transformation.
 
-**Note**: different server events can commit/dispatch the same mutation or/and the same action. So try to use only one naming convention to avoid possible bugs. In any case, this behavior is going to be changed soon and considered as problematic.
+> **Note**: Different server events can commit/dispatch the same mutation or/and the same action. Try to use a single naming convention to avoid collisions.
 
-You can use either mutation or action or even both in your store. Don't forget that mutations are synchronous transactions. If you have any async operations inside, it's better to use actions instead. Learn more about Vuex [here](https://vuex.vuejs.org/en/).
+> You can use mutations and/or actions in your store. Don't forget that mutations are synchronous transactions. It is preferred to use actions to handle async operations. Learn more about Vuex [here](https://vuex.vuejs.org/en/).
 
 ```js
 // In this example we have a socket.io server that sends message ID when it arrives
