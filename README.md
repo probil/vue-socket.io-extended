@@ -148,7 +148,7 @@ Or computed properties, methods and hooks. Treat them as computed properties tha
 
 #### Setup
 
-To set up Vuex integration just pass the store as the third argument. In a Vue CLI project, you might do this in the src/main.js file. Example:
+To set up Vuex integration just pass the store as the third argument. In a Vue CLI project, you might do this in the `src/main.js` file. Example:
 
 ```js
 import VueSocketIOExt from 'vue-socket.io-extended';
@@ -212,16 +212,13 @@ export default new Vuex.Store({
 
 #### Emitting Events  
 
-Events can be sent to the Socket.IO server by calling 
-```js
-this._vm.$socket.client.emit
-```
-from a Vuex mutation or action. Mutation or action names are not subject to the same naming requirements as above. Event data must be sent in string format.
+Events can be sent to the Socket.IO server by calling `this._vm.$socket.client.emit` from a Vuex mutation or action. Mutation or action names are not subject to the same naming requirements as above. More then one argument can be included. [All serializable data structures are supported](https://socket.io/docs/client-api/#socket-emit-eventName-%E2%80%A6args-ack), including Buffer.
 
 ```js
   actions: {
-    emitSocketEvent (data) {
-      this._vm.$socket.emit('eventName', JSON.stringify(data))     
+    emitSocketEvent(data) {
+      this._vm.$socket.client.emit('eventName', data);
+      this._vm.$socket.client.emit('with-binary', 1, '2', { 3: '4', 5: new Buffer(6) });
     }
   }
 ```
