@@ -144,9 +144,12 @@ Or conditions
 ```
 Or computed properties, methods and hooks. Treat them as computed properties that are available in all components
 
-## :evergreen_tree: Vuex Store integration
+## :evergreen_tree: Vuex Store Integration
 
-To enable Vuex integration just pass the store as the third argument, e.g.:
+#### Setup
+
+To set up Vuex integration just pass the store as the third argument. In a Vue CLI project, you might do this in the `src/main.js` file. Example:
+
 ```js
 import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
@@ -157,10 +160,12 @@ const socket = io('http://socketserver.com:1923');
 Vue.use(VueSocketIOExt, socket, { store });
 ```
 
-The main idea behind the integration is that mutations and actions are dispatched/committed automatically on Vuex store when server socket event arrives. Not every mutation and action is invoked. It should follow special formatting convention, so the plugin can easily determine which one should be called. 
+#### Receiving Events  
 
-* a **mutation** should start with `SOCKET_` prefix and continue with an uppercase version of the event
-* an **action** should start with `socket_` prefix and continue with camelcase version of the event
+Mutations and actions will be dispatched or committed automatically in the Vuex store when a socket event arrives.  A mutation or action must follow the naming convention below to recognize and handle a socket event. 
+
+* A **mutation** should start with `SOCKET_` prefix and continue with an uppercase version of the event
+* An **action** should start with `socket_` prefix and continue with camelcase version of the event
 
 | Server Event | Mutation | Action
 | --- | --- | --- |
@@ -169,11 +174,7 @@ The main idea behind the integration is that mutations and actions are dispatche
 | `chatMessage`  | `SOCKET_CHATMESSAGE`  | `socket_chatMessage` |
 | `CHAT_MESSAGE` | `SOCKET_CHAT_MESSAGE` | `socket_chatMessage` |
 
-Check [Configuration](#gear-configuration) section if you'd like to use custom transformation.
-
-**Note**: different server events can commit/dispatch the same mutation or/and the same action. So try to use only one naming convention to avoid possible bugs. In any case, this behavior is going to be changed soon and considered as problematic.
-
-You can use either mutation or action or even both in your store. Don't forget that mutations are synchronous transactions. If you have any async operations inside, it's better to use actions instead. Learn more about Vuex [here](https://vuex.vuejs.org/en/).
+Check the [Configuration](#gear-configuration) section if you'd like to use a custom transformation.
 
 ```js
 // In this example we have a socket.io server that sends message ID when it arrives
@@ -181,7 +182,7 @@ You can use either mutation or action or even both in your store. Don't forget t
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// `MessagesAPI.downloadMessageById` is async function (goes to backend through REST Api and fetches all the info about message)
+// `MessagesAPI.downloadMessageById` is an async function (goes to backend through REST Api and fetches all message data)
 import MessagesAPI from './api/message'
 
 Vue.use(Vuex);
@@ -209,11 +210,22 @@ export default new Vuex.Store({
 })
 ```
 
-#### Namespaced vuex modules
+#### Emitting Events  
 
-Namespaced modules are supported out-of-the-box when plugin initialized with Vuex store. You can easily divide your store into modules without worrying that mutation or action will not be called. The plugin checks all your modules for mutation and action that are formatted by convention described above and call them all. That means you can listen for the same event from multiple stores with no issue.
+Events can be sent to the Socket.IO server by calling `this._vm.$socket.client.emit` from a Vuex mutation or action. Mutation or action names are not subject to the same naming requirements as above. More then one argument can be included. [All serializable data structures are supported](https://socket.io/docs/client-api/#socket-emit-eventName-%E2%80%A6args-ack), including Buffer.
 
-Check the following example:
+```js
+  actions: {
+    emitSocketEvent(data) {
+      this._vm.$socket.client.emit('eventName', data);
+      this._vm.$socket.client.emit('with-binary', 1, '2', { 3: '4', 5: new Buffer(6) });
+    }
+  }
+```
+
+#### Namespaced Vuex Modules
+
+Namespaced modules are supported out-of-the-box. Any appropriately-named mutation or action should work regardless of whether it's in a module or in the main Vuex store.
 
 ```js
 import Vue from 'vue'
@@ -255,10 +267,10 @@ export default new Vuex.Store({
   }
 })
 ```
-That's what will happen, on `chat_message` from the server:
-* `SOCKET_CHAT_MESSAGE` mutation commited on `messages` module
-* `SOCKET_CHAT_MESSAGE` mutation commited on `notification` module
-* `socket_chatMessage` action dispatched on `messages` module
+The above code will:
+* Commit the `SOCKET_CHAT_MESSAGE` mutation in the `messages` module
+* Commit the `SOCKET_CHAT_MESSAGE` mutation in the `notification` module
+* Dispatch the `socket_chatMessage` action in the `messages` module
 
 ## :bamboo: ECMAScript / TypeScript decorator (added in v4)
 
