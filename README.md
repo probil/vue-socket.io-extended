@@ -45,7 +45,11 @@ I was using [`Vue-Socket.io`](https://github.com/MetinSeylan/Vue-Socket.io) for 
 
 If you'd like to help - create an issue or PR. I will be glad to see any contribution.  Let's make the world a better place :heart:
 
-## :grey_exclamation: Requirements
+## :grey_exclamation: Prerequisites
+
+Before starting any Vue project using Socket.IO or Websockets, please ensure you have a Socket.IO server up and running! Typically, this will consist of a node API running separately from your Vue project. See documentation at [https://socket.io/](https://socket.io).
+
+## :grey_exclamation: Software Requirements
 
 - [Vue.js](https://vuejs.org/) `>=2.X`
 - [Socket.io-client](https://socket.io) `>=2.X`
