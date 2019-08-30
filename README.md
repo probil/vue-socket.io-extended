@@ -47,13 +47,13 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 
 ## :grey_exclamation: Prerequisites
 
-Before starting any Vue project using Socket.IO or Websockets, please ensure you have a Socket.IO server up and running! Typically, this will consist of a node API running separately from your Vue project. See documentation at [https://socket.io/](https://socket.io).
+You must have a running Socket.IO server before starting any Vue/Socket.IO project! You can build a simple Node/Socket.IO server by following the documentation [here](https://socket.io).
 
 ## :grey_exclamation: Software Requirements
 
 - [Vue.js](https://vuejs.org/) `>=2.X`
 - [Socket.io-client](https://socket.io) `>=2.X`
-- [Vuex](https://vuex.vuejs.org/) `>=2.X` (optional, for integration with Vuex only)
+- [Vuex](https://vuex.vuejs.org/) `>=2.X` (optional)
 
 ## :cd: Installation
 
