@@ -47,7 +47,7 @@ If you'd like to help - create an issue or PR. I will be glad to see any contrib
 
 ## :grey_exclamation: Prerequisites
 
-You must have a running Socket.IO server before starting any Vue/Socket.IO project! You can build a simple Node/Socket.IO server by following the documentation [here](https://socket.io).
+You must have a running Socket.IO server before starting any Vue/Socket.IO project! Instructions on how to build a Node/Socket.IO server can be found [here](https://socket.io).
 
 ## :grey_exclamation: Software Requirements
 
