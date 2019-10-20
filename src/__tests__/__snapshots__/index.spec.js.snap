@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`.install() should throw an error when no second argument passed 1`] = `"[vue-socket.io-ext] you have to pass \`socket.io-client\` instance to the plugin"`;
-
-exports[`.install() should throw an error when second argument is not socket.io instance 1`] = `"[vue-socket.io-ext] you have to pass \`socket.io-client\` instance to the plugin"`;
-
-exports[`.install() should throw an error when second argument is not socket.io instance 2`] = `"[vue-socket.io-ext] you have to pass \`socket.io-client\` instance to the plugin"`;
