@@ -7,7 +7,7 @@ import filesize from 'rollup-plugin-filesize';
 
 export default [
   {
-    input: 'src/index.js',
+    input: 'src/index.esm.js',
     plugins: [
       nodeResolve(),
       commonjs(),
@@ -21,7 +21,7 @@ export default [
     },
   },
   {
-    input: 'src/index.js',
+    input: 'src/index.umd.js',
     plugins: [
       nodeResolve(),
       commonjs(),
