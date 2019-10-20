@@ -40,6 +40,10 @@ jobs:
           name: Check build for errors
           command: npm run build
 
+      - store_artifacts:
+          path: ./dist/vue-socket.io-ext.min.js
+          destination: vue-socket.io-ext.min.js
+
       - run:
           name: Check code style
           command: npm run lint -- --format junit -o /tmp/test-results/code-style-test-results.xml
