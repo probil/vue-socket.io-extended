@@ -53,7 +53,7 @@
     "babel-eslint": "10.0.3",
     "camelcase": "5.3.1",
     "conventional-changelog": "3.1.15",
-    "eslint": "6.7.1",
+    "eslint": "6.7.2",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jest": "22.21.0",
