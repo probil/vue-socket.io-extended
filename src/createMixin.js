@@ -36,8 +36,4 @@ export default (GlobalEmitter) => ({
       GlobalEmitter.removeListenersByLabel(this, key);
     });
   },
-  destroyed() {
-    delete this.$socket.$subscribe;
-    delete this.$socket.$unsubscribe;
-  },
 });
