@@ -126,7 +126,7 @@ this.$socket.$subscribe('event_name', payload => {
 ```
 Remove existing listener
 ``` js
-this.$socket.$unsubscribe('even_name');
+this.$socket.$unsubscribe('event_name');
 ```
 
 #### Reactive properties (new in v4)
