@@ -51,7 +51,7 @@
     "@babel/preset-env": "7.9.5",
     "@vue/test-utils": "1.0.0-beta.33",
     "babel-eslint": "10.1.0",
-    "camelcase": "5.3.1",
+    "camelcase": "6.0.0",
     "conventional-changelog": "3.1.18",
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "14.1.0",
