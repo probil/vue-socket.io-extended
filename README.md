@@ -347,7 +347,7 @@ module.exports = {
 ```
 
 ## :mountain_bicyclist: Usage with Quasar Framework
-> The key point here is to disable SSR for the plugin as it will crash otherwise. It's a well-know issue and we are going to fix it. Thanks [@ll931217](https://github.com/ll931217) for investigation.
+> Register vue-socket.io-extended with a boot file and disable server side rendering
 
 **1. Create bootfile**:
 ```js
