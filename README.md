@@ -346,6 +346,39 @@ module.exports = {
 }
 ```
 
+## :mountain_bicyclist: Usage with Quasar Framework
+> Register vue-socket.io-extended with a boot file and disable server side rendering
+
+**1. Create bootfile**:
+```js
+// ~/boot/socket.io.js
+import io from 'socket.io-client';
+import VueSocketIOExt from 'vue-socket.io-extended';
+
+const socket = io('http://localhost:3000');
+
+export default async ({ store, Vue }) => {
+  Vue.use(VueSocketIOExt, socket, { store })
+}
+```
+
+**2. Then register it**:
+
+```js
+// quasar.conf.js
+module.exports = function (ctx) {
+  return {
+  //...,
+  boot: [
+    //...,
+    { 
+      path: 'socket.io',
+      server: false,
+    },
+  ]
+}
+```
+
 ## :gear: Configuration
 
 In addition to store instance, `vue-socket.io-extended` accepts other options. 
