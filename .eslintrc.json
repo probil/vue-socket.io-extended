@@ -7,6 +7,9 @@
   "env": {
     "browser": true
   },
+  "rules": {
+    "jest/no-mocks-import": "off"
+  },
   "overrides": [
     {
       "files": ["src/__tests__/decorator.spec.js"],
