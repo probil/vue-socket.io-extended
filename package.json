@@ -64,9 +64,9 @@
     "rollup-plugin-filesize": "8.0.2",
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-terser": "5.3.0",
-    "vue": "2.6.10",
+    "vue": "2.6.11",
     "vue-class-component": "7.1.0",
-    "vue-template-compiler": "2.6.10",
+    "vue-template-compiler": "2.6.11",
     "vuex": "3.1.1"
   },
   "jest": {
