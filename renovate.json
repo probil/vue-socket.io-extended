@@ -17,10 +17,6 @@
     {
       "packagePatterns": ["^rollup"],
       "groupName": "rollup"
-    },
-    {
-      "packagePatterns": ["^vue"],
-      "groupName": "vue"
     }
   ]
 }
