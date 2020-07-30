@@ -42,7 +42,12 @@ export default (Socket, { store, ...otherOptions } = {}) => {
 
   function registerEventHandler() {
     augmentMethod(Socket, 'onevent', (packet) => {
-      const [eventName, ...args] = packet.data;
+      let [eventName, ...args] = packet.data;
+
+      if (otherOptions.eventMapping) {
+        eventName = otherOptions.eventMapping(eventName, args);
+      }
+
       GlobalEmitter.emit(eventName, ...args);
       passToStore(eventName, args);
     });
