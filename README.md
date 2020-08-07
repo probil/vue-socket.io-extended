@@ -183,6 +183,8 @@ Mutations and actions will be dispatched or committed automatically in the Vuex 
 
 Check the [Configuration](#gear-configuration) section if you'd like to use a custom transformation.
 
+Check the [Migration from VueSocketIO](#information_source-migration-from-vuesocketio) section if you want to keep actions names in UPPER_CASE.
+
 ```js
 // In this example we have a socket.io server that sends message ID when it arrives
 // so to get entire body of the message we need to make AJAX call the server
@@ -399,6 +401,31 @@ Here they are:
 import VueSocketIOExt from 'vue-socket.io-extended';
 VueSocketIOExt.defaults // -> { actionPrefix: '...', mutationPrefix: '...', ... }
 ```
+
+## :information_source: Migration from VueSocketIO
+
+For everyone who has migrated from old package VueSocketIO to this new one on existing project.
+You need to redefine 2 parameters so you will be able to use old store actions names like "SOCKET_EVENT_NAME".
+
+```js
+import VueSocketIO from 'vue-socket.io-extended';
+import io from 'socket.io-client';
+
+
+const ioInstance = io('https://hostname/path', {
+        reconnection: true,
+        reconnectionDelay: 500,
+        maxReconnectionAttempts: Infinity
+});
+Vue.use(VueSocketIO, ioInstance, {
+        store, // vuex store instance
+        actionPrefix: 'SOCKET_', // keep prefix in uppercase
+        eventToActionTransformer: (actionName) => actionName // cancel camel case
+    }
+});
+```
+
+
 ## :question: FAQ
 
 - [How to prevent connection until authed?](https://github.com/probil/vue-socket.io-extended/issues/114#issuecomment-405411500)
