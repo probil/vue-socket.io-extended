@@ -183,7 +183,7 @@ Mutations and actions will be dispatched or committed automatically in the Vuex 
 
 Check the [Configuration](#gear-configuration) section if you'd like to use a custom transformation.
 
-Check the [Migration from VueSocketIO](#gear-migration-from-vuesocketio) section if you want to keep actions names in UPPER_CASE.
+Check the [Migration from VueSocketIO](#information_source-migration-from-vuesocketio) section if you want to keep actions names in UPPER_CASE.
 
 ```js
 // In this example we have a socket.io server that sends message ID when it arrives
