@@ -44,11 +44,11 @@
     "@types/socket.io-client": "1.4.33"
   },
   "devDependencies": {
-    "@babel/core": "7.11.4",
+    "@babel/core": "7.11.5",
     "@babel/plugin-external-helpers": "7.10.4",
     "@babel/plugin-proposal-decorators": "7.10.5",
     "@babel/plugin-proposal-export-namespace-from": "7.10.4",
-    "@babel/preset-env": "7.11.0",
+    "@babel/preset-env": "7.11.5",
     "@vue/test-utils": "1.0.3",
     "babel-eslint": "10.1.0",
     "camelcase": "5.3.1",
