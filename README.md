@@ -291,6 +291,8 @@ If you use TypeScript, enable `--experimentalDecorators` flag.
 
 We provide `@Socket()` decorator for users of [class-style Vue components](https://github.com/vuejs/vue-class-component). By default, `@Socket()` decorator listens the same event as decorated method name but you can use custom name by passing a string inside decorator e.g. `@Socket('custom_event')`.
 
+To emit an event using TypeScript, use `Vue.prototype.$socket` instead of `this.$socket`.
+
 Check the example below:
 
 ```vue
@@ -310,6 +312,7 @@ export default class App extends Vue {
   @Socket('tweet')  // --> listens to the event with given name, e.g. `tweet`
   onTweet (tweetInfo) {
     // do something with `tweetInfo`
+    Vue.prototype.$socket.client.emit('answer', 'Your answer to the tweet event'); // --> emits to the `answer` event
   }
 }
 </script>
