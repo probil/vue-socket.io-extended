@@ -69,7 +69,7 @@ npm install vue-socket.io-extended socket.io-client
 #### ES2015 (Webpack/Rollup/Browserify/Parcel/etc)
 ```js
 import VueSocketIOExt from 'vue-socket.io-extended';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 const socket = io('http://socketserver.com:1923');
 
@@ -159,7 +159,7 @@ To set up Vuex integration just pass the store as the third argument. In a Vue C
 
 ```js
 import VueSocketIOExt from 'vue-socket.io-extended';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import store from './store'
 
 const socket = io('http://socketserver.com:1923');
@@ -322,7 +322,7 @@ export default class App extends Vue {
 ```js
 // ~/plugins/socket.io.js
 import Vue from 'vue';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import VueSocketIOExt from 'vue-socket.io-extended';
 
 const socket = io('http://localhost:3000');
@@ -354,7 +354,7 @@ module.exports = {
 **1. Create bootfile**:
 ```js
 // ~/boot/socket.io.js
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import VueSocketIOExt from 'vue-socket.io-extended';
 
 const socket = io('http://localhost:3000');
@@ -408,7 +408,7 @@ You need to redefine 2 parameters so you will be able to use old store actions n
 
 ```js
 import VueSocketIO from 'vue-socket.io-extended';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 
 const ioInstance = io('https://hostname/path', {
