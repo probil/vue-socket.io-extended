@@ -50,7 +50,7 @@ const VueSocketIOExtended = {
    * @param {Object} obj
    * @return {Object}
    */
-  defineSocketIoClient (socket, obj) {
+  defineSocketIoClient(socket, obj) {
     return Object.defineProperties(obj, {
       client: {
         value: socket,
@@ -59,7 +59,7 @@ const VueSocketIOExtended = {
       },
     });
   },
-}
+};
 
 // eslint-disable-next-line import/prefer-default-export
 function install(app, socket, options) {
