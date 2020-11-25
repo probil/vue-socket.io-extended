@@ -1,7 +1,8 @@
 import Socket from './decorator';
-import * as plugin from './plugin';
+import { VueSocketIOExtended, install } from './plugin';
 
 export {
   Socket,
-  plugin as default,
+  install as default,
+  VueSocketIOExtended
 };

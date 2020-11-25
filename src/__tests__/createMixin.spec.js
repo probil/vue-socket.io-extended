@@ -22,8 +22,8 @@ it('should be function', () => {
 it('should return object with vue component hooks', () => {
   expect(createMixin()).toMatchObject({
     created: expect.any(Function),
-    beforeDestroy: expect.any(Function),
-    destroyed: expect.any(Function),
+    beforeUnmount: expect.any(Function),
+    unmounted: expect.any(Function),
   });
 });
 
@@ -143,7 +143,7 @@ describe('dynamic listeners', () => {
       created() {
         this.$socket.$subscribe('connect', connect);
       },
-      beforeDestroy() {
+      beforeUnmount() {
         this.$socket.$unsubscribe('connect');
       },
     });
