@@ -5,13 +5,13 @@ import { isSocketIo } from './utils';
 import defaults from './defaults';
 
 /**
- * @param {Vue} Vue
+ * @param {Vue} app
  * @param {SocketIOClient} socket
  * @param {Object} obj
  * @return {Object}
  */
-function defineReactiveProperties(Vue, socket, obj) {
-  const configStore = new Vue({
+function defineReactiveProperties(app, socket, obj) {
+  const configStore = app.mixin({
     data: () => ({
       connected: false,
     }),
@@ -59,20 +59,19 @@ function defineSocketIoClient(socket, obj) {
   });
 }
 
-// eslint-disable-next-line import/prefer-default-export
-function install(Vue, socket, options) {
+function install(app, socket, options) {
   if (!isSocketIo(socket)) {
     throw new Error('[vue-socket.io-ext] you have to pass `socket.io-client` instance to the plugin');
   }
   const $socket = {};
-  defineReactiveProperties(Vue, socket, $socket);
+  defineReactiveProperties(app, socket, $socket);
   defineSocketIoClient(socket, $socket);
 
   // eslint-disable-next-line no-param-reassign
-  Vue.prototype.$socket = $socket;
+  app.config.globalProperties.$socket = $socket;
   Observe(socket, options);
-  Vue.mixin(createMixin(GlobalEmitter));
-  const strategies = Vue.config.optionMergeStrategies;
+  app.mixin(createMixin(GlobalEmitter));
+  const strategies = app.config.optionMergeStrategies;
   strategies.sockets = strategies.methods;
 }
 
