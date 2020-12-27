@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import createMixin from '../createMixin';
 
 const setup = () => {
@@ -7,11 +7,9 @@ const setup = () => {
     removeListenersByLabel: jest.fn(),
     emit: jest.fn(),
   };
-  const Vue = createLocalVue();
-  Vue.mixin(createMixin(GlobalEmitter));
-  const preparedMount = (comp = {}, options = {}) => (
-    mount({ render: () => null, ...comp }, { localVue: Vue, ...options })
-  );
+  const preparedMount = (options = {}) => mount({ render: () => null, ...options }, {
+    global: { mixins: [createMixin(GlobalEmitter)] },
+  });
   return { preparedMount, GlobalEmitter };
 };
 
@@ -22,8 +20,8 @@ it('should be function', () => {
 it('should return object with vue component hooks', () => {
   expect(createMixin()).toMatchObject({
     created: expect.any(Function),
-    beforeDestroy: expect.any(Function),
-    destroyed: expect.any(Function),
+    beforeUnmount: expect.any(Function),
+    unmounted: expect.any(Function),
   });
 });
 
@@ -78,7 +76,7 @@ describe('mixin use on component', () => {
         connect,
       },
     });
-    wrapper.destroy();
+    wrapper.unmount();
     expect(GlobalEmitter.removeListenersByLabel).toHaveBeenCalledTimes(1);
   });
 
@@ -107,7 +105,7 @@ describe('mixin use on component', () => {
         connect,
       },
     });
-    wrapper.destroy();
+    wrapper.unmount();
     expect(wrapper.vm.$options.sockets).toMatchObject({
       connect,
     });
@@ -119,6 +117,7 @@ describe('dynamic listeners', () => {
     const { GlobalEmitter, preparedMount } = setup();
     const connect = jest.fn();
     const wrapper = preparedMount();
+
     wrapper.vm.$socket.$subscribe('connect', connect);
     expect(GlobalEmitter.addListener).toHaveBeenCalledTimes(1);
     expect(GlobalEmitter.addListener).toHaveBeenCalledWith(wrapper.vm, 'connect', connect);
@@ -147,7 +146,7 @@ describe('dynamic listeners', () => {
         this.$socket.$unsubscribe('connect');
       },
     });
-    wrapper.destroy();
+    wrapper.unmount();
     expect(wrapper.vm.$options.sockets).not.toHaveProperty('connect');
   });
 
@@ -161,7 +160,7 @@ describe('dynamic listeners', () => {
   it('removes $subscribe and $unsubscribe helpers from the instance after destroy', () => {
     const { preparedMount } = setup();
     const wrapper = preparedMount();
-    wrapper.destroy();
+    wrapper.unmount();
     expect(wrapper.vm.$socket.$unsubscribe).toBeUndefined();
     expect(wrapper.vm.$socket.$subscribe).toBeUndefined();
   });
