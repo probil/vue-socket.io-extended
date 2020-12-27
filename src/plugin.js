@@ -11,16 +11,19 @@ import defaults from './defaults';
  * @return {Object}
  */
 function defineReactiveProperties(app, socket, obj) {
-  const configStore = app.mixin({
-    data: () => ({
-      connected: false,
-    }),
-    computed: {
-      disconnected() {
-        return !this.connected;
-      },
-    },
-  });
+  // const configStore = app.mixin({
+  //   data: () => ({
+  //     connected: false,
+  //   }),
+  //   computed: {
+  //     disconnected() {
+  //       return !this.connected;
+  //     },
+  //   },
+  // });
+  const configStore = {
+    connected: false,
+  };
   socket.on('connect', () => {
     configStore.connected = true;
   });
@@ -37,7 +40,8 @@ function defineReactiveProperties(app, socket, obj) {
     },
     disconnected: {
       get() {
-        return configStore.disconnected;
+        // return configStore.disconnected;
+        return !configStore.connected;
       },
       enumerable: false,
     },
@@ -69,10 +73,10 @@ function install(app, socket, options) {
 
   // eslint-disable-next-line no-param-reassign
   app.config.globalProperties.$socket = $socket;
+  // eslint-disable-next-line no-param-reassign
+  app.config.optionMergeStrategies.sockets = (toVal, fromVal) => ({ ...toVal, ...fromVal });
   Observe(socket, options);
   app.mixin(createMixin(GlobalEmitter));
-  const strategies = app.config.optionMergeStrategies;
-  strategies.sockets = strategies.methods;
 }
 
 export { defaults, install };
