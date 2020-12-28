@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ref } from 'vue';
 import Observe from './Observe';
 import GlobalEmitter from './GlobalEmitter';
 import createMixin from './createMixin';
@@ -11,37 +13,25 @@ import defaults from './defaults';
  * @return {Object}
  */
 function defineReactiveProperties(app, socket, obj) {
-  // const configStore = app.mixin({
-  //   data: () => ({
-  //     connected: false,
-  //   }),
-  //   computed: {
-  //     disconnected() {
-  //       return !this.connected;
-  //     },
-  //   },
-  // });
-  const configStore = {
-    connected: false,
-  };
+  const connected = ref(false);
+
   socket.on('connect', () => {
-    configStore.connected = true;
+    connected.value = true;
   });
   socket.on('disconnect', () => {
-    configStore.connected = false;
+    connected.value = false;
   });
 
   return Object.defineProperties(obj, {
     connected: {
       get() {
-        return configStore.connected;
+        return connected.value;
       },
       enumerable: false,
     },
     disconnected: {
       get() {
-        // return configStore.disconnected;
-        return !configStore.connected;
+        return !connected.value;
       },
       enumerable: false,
     },
