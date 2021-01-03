@@ -20,7 +20,7 @@
     "types/index.d.ts",
     "types/vue.d.ts"
   ],
-  "types": "types/index.d.ts",
+  "typings": "types/index.d.ts",
   "keywords": [
     "vuejs",
     "socket",

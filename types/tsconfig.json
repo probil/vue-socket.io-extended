@@ -1,13 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "node",
     "lib": [
-      "es5"
+      "esnext",
+      "dom"
+    ],
+    "types": [
+      "node"
     ],
     "strict": true,
-    "noEmit": true
+    "noEmit": true,
+
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "*.d.ts"

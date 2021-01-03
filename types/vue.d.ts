@@ -2,21 +2,20 @@
  * Extends interfaces in Vue.js
  */
 
-import _Vue from 'vue';
+import { App } from "vue";
 import * as SocketIOClient from 'socket.io-client';
 
-type DefaultSocketHandlers<V> =  {
-  [key: string]: (this: V, ...args: any[]) => any
+type DefaultSocketHandlers = {
+  [key: string]: (this: App, ...args: any[]) => any
 };
 
-declare module 'vue/types/options' {
-  interface ComponentOptions<V extends _Vue> {
-    sockets?: DefaultSocketHandlers<V>
+import { ComponentCustomOptions } from 'vue';
+import { ComponentCustomProperties } from 'vue';
+declare module '@vue/runtime-core' {
+  interface ComponentCustomOptions {
+    sockets?: DefaultSocketHandlers;
   }
-}
-
-declare module 'vue/types/vue' {
-  interface Vue {
+  interface ComponentCustomProperties {
     $socket: {
       client: SocketIOClient.Socket;
       $subscribe: (event: string, fn: Function) => void;
