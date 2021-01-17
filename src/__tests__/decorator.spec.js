@@ -10,6 +10,10 @@ describe('@Socket() decorator', () => {
 
   it('uses method name as a listener name', () => {
     class App extends Vue {
+      render() {
+        return '';
+      }
+
       @Socket()
       tweet() {
       }
@@ -24,6 +28,10 @@ describe('@Socket() decorator', () => {
 
   it('uses given name as a listener name', () => {
     class App extends Vue {
+      render() {
+        return '';
+      }
+
       @Socket('tweet')
       onTweet() {
       }
@@ -39,6 +47,10 @@ describe('@Socket() decorator', () => {
   it('doesn\'t throw an error when decorator used on the computed property and no methods defined on component', () => {
     expect(() => {
       class App extends Vue { // eslint-disable-line no-unused-vars
+        render() {
+          return '';
+        }
+
         @Socket('tweet')
         get tweets() {
         }
@@ -49,6 +61,10 @@ describe('@Socket() decorator', () => {
   it('doesn\'t throw an error when decorator used on the computed property and some methods defined on component', () => {
     expect(() => {
       class App extends Vue { // eslint-disable-line no-unused-vars
+        render() {
+          return '';
+        }
+
         @Socket('tweet')
         get tweets() {
         }
@@ -61,6 +77,10 @@ describe('@Socket() decorator', () => {
 
   it('doesn\'t define sockets on component when decorator used on the computed property', () => {
     class App extends Vue {
+      render() {
+        return '';
+      }
+
       @Socket('tweet')
       get tweets() {
       }
