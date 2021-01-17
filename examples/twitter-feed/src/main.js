@@ -1,12 +1,12 @@
-import Vue from "vue";
-import App from "./App.vue";
-import VueSocketIoExt from "vue-socket.io-extended";
-import io from "socket.io-client";
+import Vue from 'vue';
+import VueSocketIoExt from 'vue-socket.io-extended';
+import io from 'socket.io-client';
+import App from './App.vue';
 
-Vue.use(VueSocketIoExt, io("wss://socket-io-tweet-stream.now.sh"));
+Vue.use(VueSocketIoExt, io('wss://socketio-tweet-stream.herokuapp.com'));
 
 Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App)
-}).$mount("#app");
+  render: (h) => h(App),
+}).$mount('#app');
