@@ -8,6 +8,7 @@ import filesize from 'rollup-plugin-filesize';
 export default [
   {
     input: 'src/index.esm.js',
+    external: ['vue'],
     plugins: [
       nodeResolve(),
       commonjs(),
@@ -22,6 +23,7 @@ export default [
   },
   {
     input: 'src/index.umd.js',
+    external: ['vue'],
     plugins: [
       nodeResolve(),
       commonjs(),
