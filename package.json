@@ -49,7 +49,7 @@
     "@babel/plugin-proposal-decorators": "7.12.12",
     "@babel/plugin-proposal-export-namespace-from": "7.12.1",
     "@babel/preset-env": "7.12.11",
-    "@vue/test-utils": "1.0.3",
+    "@vue/test-utils": "1.1.2",
     "babel-eslint": "10.1.0",
     "camelcase": "5.3.1",
     "conventional-changelog": "3.1.24",
@@ -64,9 +64,9 @@
     "rollup-plugin-filesize": "9.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-terser": "7.0.2",
-    "vue": "2.6.11",
-    "vue-class-component": "7.2.5",
-    "vue-template-compiler": "2.6.11",
+    "vue": "2.6.12",
+    "vue-class-component": "7.2.6",
+    "vue-template-compiler": "2.6.12",
     "vuex": "3.1.1"
   },
   "jest": {
