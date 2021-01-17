@@ -5,7 +5,7 @@
   <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://badgen.net/npm/v/vue-socket.io-extended" alt="Version"></a>
   <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://badgen.net/npm/dt/vue-socket.io-extended" alt="Downloads"></a>
   <a href="https://www.npmjs.com/package/vue-socket.io-extended"><img src="https://badgen.net/npm/license/vue-socket.io-extended" alt="License"></a>
-  <a href="https://vuejs.org/"><img src="https://badgen.net/badge/Vue/2.x/orange" alt="Vue.js 2.x compatible"></a>
+  <a href="https://vuejs.org/"><img src="https://badgen.net/badge/Vue/3.x/orange" alt="Vue.js 3.x compatible"></a>
   <a href="https://raw.githubusercontent.com/probil/vue-socket.io-extended/master/dist/vue-socket.io-ext.min.js"><img src="https://badgen.net/bundlephobia/min/vue-socket.io-extended" alt="Minified library size"></a>
   <a href="https://codecov.io/gh/probil/vue-socket.io-extended"><img src="https://badgen.net/codecov/c/github/probil/vue-socket.io-extended/master" alt="Code coverage (codecov)"></a>
   <a href="https://gitter.im/vue-socket-io-extended/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><img src="https://badgen.net/badge/chat/on%20gitter/cyan" alt="Join us Gitter"></a>
@@ -70,10 +70,12 @@ npm install vue-socket.io-extended socket.io-client
 ```js
 import VueSocketIOExt from 'vue-socket.io-extended';
 import { io } from 'socket.io-client';
+import { createApp } from 'vue';
 
 const socket = io('http://socketserver.com:1923');
 
-Vue.use(VueSocketIOExt, socket);
+const app = createApp({});
+app.use(VueSocketIOExt, socket);
 ```
 *Note:* you have to pass instance of `socket.io-client` as second argument to prevent library duplication. Read more [here](https://github.com/probil/vue-socket.io-extended/issues/19).
 
@@ -85,7 +87,8 @@ Vue.use(VueSocketIOExt, socket);
 <script src="https://cdn.jsdelivr.net/npm/vue-socket.io-extended"></script>
 <script>
   var socket = io('http://socketserver.com:1923');
-  Vue.use(VueSocketIOExt, socket);
+  var app = createApp({});
+  app.use(VueSocketIOExt, socket);
 </script>
 ```
 
@@ -96,7 +99,7 @@ Vue.use(VueSocketIOExt, socket);
 Define your listeners under `sockets` section and they will listen corresponding `socket.io` events automatically.
 
 ```js
-new Vue({
+createApp({
   sockets: {
     connect() {
       console.log('socket connected')
@@ -163,8 +166,9 @@ import { io } from 'socket.io-client';
 import store from './store'
 
 const socket = io('http://socketserver.com:1923');
+const app = createApp({});
 
-Vue.use(VueSocketIOExt, socket, { store });
+app.use(VueSocketIOExt, socket, { store });
 ```
 
 #### Receiving Events  
@@ -188,15 +192,12 @@ Check the [Migration from VueSocketIO](#information_source-migration-from-vuesoc
 ```js
 // In this example we have a socket.io server that sends message ID when it arrives
 // so to get entire body of the message we need to make AJAX call the server
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex';
 
 // `MessagesAPI.downloadMessageById` is an async function (goes to backend through REST Api and fetches all message data)
 import MessagesAPI from './api/message'
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default createStore({
   state: {
     // we store messages as a dictionary for easier access and interaction
     // @see https://hackernoon.com/shape-your-redux-store-like-your-database-98faa4754fd5
@@ -237,10 +238,7 @@ Events can be sent to the Socket.IO server by calling `this._vm.$socket.client.e
 Namespaced modules are supported out-of-the-box. Any appropriately-named mutation or action should work regardless of whether it's in a module or in the main Vuex store.
 
 ```js
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-Vue.use(Vuex);
+import { createStore } from 'vuex';
 
 const messages = {
   state: {
@@ -269,7 +267,7 @@ const notifications = {
   },
 };
 
-export default new Vuex.Store({
+export default createStore({
   modules: {
     messages,
     notifications,
@@ -296,11 +294,10 @@ Check the example below:
 ```vue
 <!-- App.vue -->
 <script>
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Options, Vue } from 'vue-class-component';
 import { Socket } from 'vue-socket.io-extended'
 
-@Component({})
+@Options({})
 export default class App extends Vue {
   @Socket() // --> listens to the event by method name, e.g. `connect` 
   connect () {
@@ -416,7 +413,7 @@ const ioInstance = io('https://hostname/path', {
         reconnectionDelay: 500,
         maxReconnectionAttempts: Infinity
 });
-Vue.use(VueSocketIO, ioInstance, {
+app.use(VueSocketIO, ioInstance, {
         store, // vuex store instance
         actionPrefix: 'SOCKET_', // keep prefix in uppercase
         eventToActionTransformer: (actionName) => actionName // cancel camel case

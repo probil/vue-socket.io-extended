@@ -20,7 +20,7 @@
     "types/index.d.ts",
     "types/vue.d.ts"
   ],
-  "types": "types/index.d.ts",
+  "typings": "types/index.d.ts",
   "keywords": [
     "vuejs",
     "socket",
@@ -49,7 +49,7 @@
     "@babel/plugin-proposal-decorators": "7.12.12",
     "@babel/plugin-proposal-export-namespace-from": "7.12.1",
     "@babel/preset-env": "7.12.11",
-    "@vue/test-utils": "1.0.3",
+    "@vue/test-utils": "2.0.0-beta.13",
     "babel-eslint": "10.1.0",
     "camelcase": "5.3.1",
     "conventional-changelog": "3.1.24",
@@ -64,10 +64,10 @@
     "rollup-plugin-filesize": "9.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-terser": "7.0.2",
-    "vue": "2.6.11",
-    "vue-class-component": "7.2.5",
-    "vue-template-compiler": "2.6.11",
-    "vuex": "3.1.1"
+    "vue": "^3.0.4",
+    "vue-class-component": "^8.0.0-rc.1",
+    "vue-template-compiler": "^2.6.0-beta.3",
+    "vuex": "^4.0.0-rc.2"
   },
   "jest": {
     "roots": [

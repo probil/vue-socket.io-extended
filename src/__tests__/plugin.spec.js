@@ -1,4 +1,5 @@
-import { createLocalVue, mount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
+import { createApp } from 'vue';
 import * as Main from '../plugin';
 import io from '../__mocks__/socket.io-client';
 
@@ -11,7 +12,7 @@ it('should be vue plugin (is an object with `install` method)', () => {
 describe('.install()', () => {
   let Vue;
   beforeEach(() => {
-    Vue = createLocalVue();
+    Vue = createApp({ render: () => null });
   });
 
   it('should accept 3 arguments', () => {
@@ -26,6 +27,7 @@ describe('.install()', () => {
   it('should throw an error when second argument is not socket.io instance', () => {
     expect(() => Vue.use(Main, { a: 1 }))
       .toThrowErrorMatchingSnapshot();
+    Vue = createApp();
     expect(() => Vue.use(Main, 'ws://localhost'))
       .toThrowErrorMatchingSnapshot();
   });
@@ -38,8 +40,7 @@ describe('.install()', () => {
   });
 
   it('defines socket.io instance as `$socket.client` on Vue prototype', () => {
-    Vue.use(Main, io('ws://localhost'));
-    const wrapper = mount({ render: () => null }, { localVue: Vue });
+    const wrapper = mount({ render: () => null }, { global: { plugins: [[Main, io('ws://localhost')]] } });
     expect(wrapper.vm.$socket.client).toBeDefined();
     expect(wrapper.vm.$socket.client).toEqual(expect.any(Object));
     expect(wrapper.vm.$socket.client.on).toEqual(expect.any(Function));
@@ -48,8 +49,7 @@ describe('.install()', () => {
 
   it('defines reactive property `$socket.connected` on Vue prototype', () => {
     const socket = io('ws://localhost');
-    Vue.use(Main, socket);
-    const wrapper = mount({ render: () => null }, { localVue: Vue });
+    const wrapper = mount({ render: () => null }, { global: { plugins: [[Main, socket]] } });
     expect(wrapper.vm.$socket.connected).toBeDefined();
     expect(wrapper.vm.$socket.connected).toBe(false);
     socket.fireSystemEvent('connect');
@@ -62,8 +62,7 @@ describe('.install()', () => {
 
   it('defines reactive property `$socket.disconnected` on Vue prototype', () => {
     const socket = io('ws://localhost');
-    Vue.use(Main, socket);
-    const wrapper = mount({ render: () => null }, { localVue: Vue });
+    const wrapper = mount({ render: () => null }, { global: { plugins: [[Main, socket]] } });
     expect(wrapper.vm.$socket.disconnected).toBeDefined();
     expect(wrapper.vm.$socket.disconnected).toBe(true);
     socket.fireSystemEvent('connect');
@@ -82,19 +81,17 @@ describe('.install()', () => {
   });
 
   it('correctly merges `sockets` property of the mixin and the component', () => {
-    Vue.use(Main, io('ws://localhost'));
     const mixinListener = jest.fn();
     const componentListener = jest.fn();
     const someMixin = {
       sockets: { mixinListener },
     };
-    const wrapper = mount({
-      mixins: [someMixin],
-      render: () => null,
-      sockets: { componentListener },
-    }, { localVue: Vue });
+    const app = createApp({ render: () => null, sockets: { componentListener } });
+    app.use(Main, io('ws://localhost'));
+    app.mixin(someMixin);
+    const wrapper = app.mount(document.createElement('div'));
 
-    expect(wrapper.vm.$options.sockets).toMatchObject({
+    expect(wrapper.$options.sockets).toMatchObject({
       mixinListener,
       componentListener,
     });

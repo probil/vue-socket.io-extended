@@ -1,9 +1,5 @@
-import { createLocalVue } from '@vue/test-utils';
-import Vuex, { Store } from 'vuex';
+import { Store } from 'vuex';
 import { getRegisteredActions, getRegisteredMutations, trimNamespace } from '../vuex';
-
-const Vue = createLocalVue();
-Vue.use(Vuex);
 
 const noop = () => undefined;
 

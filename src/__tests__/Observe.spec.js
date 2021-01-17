@@ -1,9 +1,6 @@
-import Vuex, { Store } from 'vuex';
-import { createLocalVue } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import io from '../__mocks__/socket.io-client';
 import Observe from '../Observe';
-
-createLocalVue().use(Vuex);
 
 const vuexActionCbInterface = expect.objectContaining({
   commit: expect.any(Function),
@@ -36,7 +33,7 @@ it('should register system event handlers', () => {
 
 it('should invoke mutation on store when system event is fired', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     mutations: {
       SOCKET_CONNECT: fn,
     },
@@ -50,7 +47,7 @@ it('should invoke mutation on store when system event is fired', () => {
 
 it('should invoke mutation on store when system event is fired (with arguments)', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     mutations: {
       SOCKET_CONNECT: fn,
     },
@@ -64,7 +61,7 @@ it('should invoke mutation on store when system event is fired (with arguments)'
 
 it('should invoke mutation on store when server event is fired', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     mutations: {
       SOCKET_MESSAGE: fn,
     },
@@ -78,7 +75,7 @@ it('should invoke mutation on store when server event is fired', () => {
 
 it('should invoke mutation on store when server event is fired (with arguments)', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     mutations: {
       SOCKET_MESSAGE: fn,
     },
@@ -93,7 +90,7 @@ it('should invoke mutation on store when server event is fired (with arguments)'
 
 it('should invoke action on store when system event is fired', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     actions: {
       socket_connect: fn,
     },
@@ -105,13 +102,12 @@ it('should invoke action on store when system event is fired', () => {
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     { isConnected: true },
-    undefined,
   );
 });
 
 it('should invoke action on store when system event is fired (with arguments)', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     actions: {
       socket_connect: fn,
     },
@@ -123,13 +119,12 @@ it('should invoke action on store when system event is fired (with arguments)', 
   expect(fn).toHaveBeenCalledWith(
     vuexActionCbInterface,
     { isConnected: true },
-    undefined,
   );
 });
 
 it('should invoke action on store when server event is fired', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     actions: {
       socket_message: fn,
     },
@@ -141,13 +136,12 @@ it('should invoke action on store when server event is fired', () => {
   expect(fn).toHaveBeenCalledWith(
     vuexActionCbInterface,
     undefined,
-    undefined,
   );
 });
 
 it('should invoke action on store when server event is fired (with arguments)', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     actions: {
       socket_message: fn,
     },
@@ -160,13 +154,12 @@ it('should invoke action on store when server event is fired (with arguments)', 
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     message,
-    undefined,
   );
 });
 
 it('should apply custom event to action transformer', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     actions: {
       socket_MESSAGE: fn,
     },
@@ -182,13 +175,12 @@ it('should apply custom event to action transformer', () => {
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     message,
-    undefined,
   );
 });
 
 it('should apply custom event to mutation transformer', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     mutations: {
       'SOCKET_new message': fn,
     },
@@ -206,7 +198,7 @@ it('should apply custom event to mutation transformer', () => {
 
 it('should apply custom action prefix', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     actions: {
       'socket|newMessage': fn,
     },
@@ -222,13 +214,12 @@ it('should apply custom action prefix', () => {
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     message,
-    undefined,
   );
 });
 
 it('should apply custom mutation prefix', () => {
   const fn = jest.fn();
-  const store = new Store({
+  const store = createStore({
     mutations: {
       __TEST__MESSAGE: fn,
     },

@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ref } from 'vue';
 import Observe from './Observe';
 import GlobalEmitter from './GlobalEmitter';
 import createMixin from './createMixin';
@@ -5,39 +7,31 @@ import { isSocketIo } from './utils';
 import defaults from './defaults';
 
 /**
- * @param {Vue} Vue
+ * @param {Vue} app
  * @param {SocketIOClient} socket
  * @param {Object} obj
  * @return {Object}
  */
-function defineReactiveProperties(Vue, socket, obj) {
-  const configStore = new Vue({
-    data: () => ({
-      connected: false,
-    }),
-    computed: {
-      disconnected() {
-        return !this.connected;
-      },
-    },
-  });
+function defineReactiveProperties(app, socket, obj) {
+  const connected = ref(false);
+
   socket.on('connect', () => {
-    configStore.connected = true;
+    connected.value = true;
   });
   socket.on('disconnect', () => {
-    configStore.connected = false;
+    connected.value = false;
   });
 
   return Object.defineProperties(obj, {
     connected: {
       get() {
-        return configStore.connected;
+        return connected.value;
       },
       enumerable: false,
     },
     disconnected: {
       get() {
-        return configStore.disconnected;
+        return !connected.value;
       },
       enumerable: false,
     },
@@ -59,21 +53,20 @@ function defineSocketIoClient(socket, obj) {
   });
 }
 
-// eslint-disable-next-line import/prefer-default-export
-function install(Vue, socket, options) {
+function install(app, socket, options) {
   if (!isSocketIo(socket)) {
     throw new Error('[vue-socket.io-ext] you have to pass `socket.io-client` instance to the plugin');
   }
   const $socket = {};
-  defineReactiveProperties(Vue, socket, $socket);
+  defineReactiveProperties(app, socket, $socket);
   defineSocketIoClient(socket, $socket);
 
   // eslint-disable-next-line no-param-reassign
-  Vue.prototype.$socket = $socket;
+  app.config.globalProperties.$socket = $socket;
+  // eslint-disable-next-line no-param-reassign
+  app.config.optionMergeStrategies.sockets = (toVal, fromVal) => ({ ...toVal, ...fromVal });
   Observe(socket, options);
-  Vue.mixin(createMixin(GlobalEmitter));
-  const strategies = Vue.config.optionMergeStrategies;
-  strategies.sockets = strategies.methods;
+  app.mixin(createMixin(GlobalEmitter));
 }
 
 export { defaults, install };
