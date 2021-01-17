@@ -1,6 +1,6 @@
 {
   "name": "vue-socket.io-extended",
-  "version": "4.0.2",
+  "version": "0.0.0-semantically-released",
   "description": "Socket.io bindings for Vue.js and Vuex (inspired by Vue-Socket.io)",
   "main": "dist/vue-socket.io-ext.min.js",
   "module": "dist/vue-socket.io-ext.esm.js",
