@@ -6,8 +6,7 @@ module.exports = {
         modules: false,
         targets: {
           browsers: [
-            '> 1%',
-            'last 2 versions',
+            'supports proxy',
             'not dead',
           ],
         },
