@@ -142,7 +142,7 @@ describe('dynamic listeners', () => {
       created() {
         this.$socket.$subscribe('connect', connect);
       },
-      beforeDestroy() {
+      beforeUnmount() {
         this.$socket.$unsubscribe('connect');
       },
     });
