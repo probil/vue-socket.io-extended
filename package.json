@@ -4,6 +4,13 @@
   "description": "Socket.io bindings for Vue.js and Vuex (inspired by Vue-Socket.io)",
   "main": "dist/vue-socket.io-ext.min.js",
   "module": "dist/vue-socket.io-ext.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-socket.io-ext.esm.js",
+      "default": "./dist/vue-socket.io-ext.min.js"
+    },
+    "./decorator/": "./dist/vue-socket.io-ext.decorator.esm.js"
+  },
   "scripts": {
     "test": "jest",
     "lint": "eslint scripts src",
@@ -17,8 +24,7 @@
   },
   "files": [
     "dist/",
-    "types/index.d.ts",
-    "types/vue.d.ts"
+    "types/"
   ],
   "typings": "types/index.d.ts",
   "keywords": [
