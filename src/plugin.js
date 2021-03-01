@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import Observe from './Observe';
 import GlobalEmitter from './GlobalEmitter';
 import createMixin from './createMixin';
@@ -53,6 +53,8 @@ function defineSocketIoClient(socket, obj) {
   });
 }
 
+const SocketExtensionKey = Symbol('$socket');
+
 function install(app, socket, options) {
   if (!isSocketIo(socket)) {
     throw new Error('[vue-socket.io-ext] you have to pass `socket.io-client` instance to the plugin');
@@ -67,6 +69,11 @@ function install(app, socket, options) {
   app.config.optionMergeStrategies.sockets = (toVal, fromVal) => ({ ...toVal, ...fromVal });
   Observe(socket, options);
   app.mixin(createMixin(GlobalEmitter));
+  app.provide(SocketExtensionKey, $socket);
 }
 
-export { defaults, install };
+const useSocket = () => inject(SocketExtensionKey);
+
+export default { defaults, install };
+
+export { useSocket, SocketExtensionKey };

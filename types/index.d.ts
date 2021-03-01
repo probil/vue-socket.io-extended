@@ -1,5 +1,5 @@
 // @ts-ignore
-import { PluginInstallFunction } from 'vue';
+import { InjectionKey, PluginInstallFunction } from 'vue';
 import { VueDecorator } from 'vue-class-component';
 import * as SocketIOClient from 'socket.io-client';
 // augment typings of Vue.js
@@ -23,3 +23,15 @@ declare class VueSocketIOExt {
 
 export default VueSocketIOExt;
 export const Socket: (eventName?: string) => VueDecorator;
+
+export interface SocketExtension {
+  client: SocketIOClient.Socket;
+  $subscribe: (event: string, fn: Function) => void;
+  $unsubscribe: (event: string) => void;
+  connected: boolean;
+  disconnected: boolean;
+}
+
+export declare const SocketExtensionKey: InjectionKey<SocketExtension>
+export declare const useSocket: () => SocketExtension
+
