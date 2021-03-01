@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { createApp } from 'vue';
-import * as Main from '../plugin';
+import Main from '../plugin';
 import io from '../__mocks__/socket.io-client';
 
 it('should be vue plugin (is an object with `install` method)', () => {
