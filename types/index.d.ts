@@ -34,4 +34,4 @@ export interface SocketExtension {
 
 export declare const SocketExtensionKey: InjectionKey<SocketExtension>
 export declare const useSocket: () => SocketExtension
-
+export declare const onSocketEvent: (event: string, fn: Function) => void

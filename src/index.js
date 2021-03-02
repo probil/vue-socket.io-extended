@@ -1,4 +1,4 @@
-import plugin, { useSocket, SocketExtensionKey } from './plugin';
+import plugin from './plugin';
 
 export default plugin;
-export { useSocket, SocketExtensionKey };
+export { SocketExtensionKey, useSocket, onSocketEvent } from './composables';
