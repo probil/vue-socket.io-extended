@@ -94,7 +94,7 @@ app.use(VueSocketIOExt, socket);
 
 ## :rocket: Usage
 
-#### On Vue.js component
+#### On Vue.js component using the options API
 
 Define your listeners under `sockets` section, and they will be executed on corresponding `socket.io` events automatically.
 
@@ -118,6 +118,39 @@ createApp({
 ```
 
 **Note**: Don't use arrow functions for methods or listeners if you are going to emit `socket.io` events inside. You will end up with using incorrect `this`. More info about this [here](https://github.com/probil/vue-socket.io-extended/issues/61)
+
+#### On Vue.js component using the Composition API
+
+When using the `setup` option of the Composition API, `this` is not available. In order to use socket.io, two composables can be used. `useSocket()` gives you the same object as `this.$socket` would be. With `onSocketEvent(event, callback)` you can subscribe to a `socket.io` event. Subscription will happen before the component is mounted and the component will automatically unsubscribe right before it is unmounted.
+
+```js
+import { useSocket, onSocketEvent } from 'vue-socket.io-extended'
+
+defineComponent({
+  setup() {
+    const socket = useSocket();
+
+    onSocketEvent('connect', () => {
+      console.log('socket connected')
+    });
+
+    onSocketEvent('customEmit', (val) => {
+      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    });
+
+    const clickButton = (val) => {
+      // socket.client is the `socket.io-client` instance
+      socket.client.emit('emit_method', val);
+    };
+
+    return {
+      clickButton
+    }
+  }
+})
+```
+
+**Note**: Don't subscribe / unsubscribe from events (via `$subscribe()` / `$unsubscribe` provided by `useSocket()`) directly in `setup()`. Always do this from within a lifecycle hook like `onBeforeMount` or `onBeforeUnmount` or in a method that is called once the component is created. The `onSocketEvent` composable will do this automatically for you. The reason is, that the moment `setup()` is executed the component is not yet instantiated and `$subscribe` /`$unsubscribe` therefore can't bind to a component instance.
 
 #### Dynamic socket event listeners (changed in v4)
 
