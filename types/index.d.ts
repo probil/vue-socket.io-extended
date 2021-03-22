@@ -9,6 +9,7 @@ export interface SocketToVuexOptions {
   mutationPrefix?: string;
   eventToMutationTransformer?: (eventName: string) => string;
   eventToActionTransformer?: (eventName: string) => string;
+  eventMapping? : (eventMapping : string, socketPauload : any) => string
 }
 
 export interface VueSocketIOExtOptions extends SocketToVuexOptions{
