@@ -105,7 +105,6 @@ it('should invoke action on store when system event is fired', () => {
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     { isConnected: true },
-    undefined,
   );
 });
 
@@ -123,7 +122,6 @@ it('should invoke action on store when system event is fired (with arguments)', 
   expect(fn).toHaveBeenCalledWith(
     vuexActionCbInterface,
     { isConnected: true },
-    undefined,
   );
 });
 
@@ -140,7 +138,6 @@ it('should invoke action on store when server event is fired', () => {
   expect(fn).toHaveBeenCalledTimes(1);
   expect(fn).toHaveBeenCalledWith(
     vuexActionCbInterface,
-    undefined,
     undefined,
   );
 });
@@ -160,7 +157,6 @@ it('should invoke action on store when server event is fired (with arguments)', 
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     message,
-    undefined,
   );
 });
 
@@ -182,7 +178,6 @@ it('should apply custom event to action transformer', () => {
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     message,
-    undefined,
   );
 });
 
@@ -222,7 +217,6 @@ it('should apply custom action prefix', () => {
   expect(fn).toHaveBeenLastCalledWith(
     vuexActionCbInterface,
     message,
-    undefined,
   );
 });
 
