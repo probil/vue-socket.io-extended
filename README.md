@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  Socket.io bindings for Vue.js and Vuex (inspired by Vue-Socket.io)
+  Socket.io bindings for Vue.js 2 and Vuex (inspired by Vue-Socket.io)
 </p>
 
 <p align="center">
@@ -22,6 +22,10 @@
 <p align="center">
   <a href='https://ko-fi.com/R5R1119O3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 </p>
+
+
+> :warning: [The alpha version of v5](https://github.com/probil/vue-socket.io-extended/tree/alpha) (with Vue 3 support) has been released. Your feedback would be appreciated [here](https://github.com/probil/vue-socket.io-extended/issues/489) 
+
 
 ## :cherries: Features
 
@@ -69,7 +73,7 @@ npm install vue-socket.io-extended socket.io-client
 #### ES2015 (Webpack/Rollup/Browserify/Parcel/etc)
 ```js
 import VueSocketIOExt from 'vue-socket.io-extended';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 const socket = io('http://socketserver.com:1923');
 
@@ -159,7 +163,7 @@ To set up Vuex integration just pass the store as the third argument. In a Vue C
 
 ```js
 import VueSocketIOExt from 'vue-socket.io-extended';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import store from './store'
 
 const socket = io('http://socketserver.com:1923');
@@ -322,7 +326,7 @@ export default class App extends Vue {
 ```js
 // ~/plugins/socket.io.js
 import Vue from 'vue';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import VueSocketIOExt from 'vue-socket.io-extended';
 
 const socket = io('http://localhost:3000');
@@ -354,7 +358,7 @@ module.exports = {
 **1. Create bootfile**:
 ```js
 // ~/boot/socket.io.js
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import VueSocketIOExt from 'vue-socket.io-extended';
 
 const socket = io('http://localhost:3000');
@@ -409,7 +413,7 @@ You need to redefine 2 parameters so you will be able to use old store actions n
 
 ```js
 import VueSocketIO from 'vue-socket.io-extended';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 
 const ioInstance = io('https://hostname/path', {
