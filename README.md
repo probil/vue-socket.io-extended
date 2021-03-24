@@ -397,6 +397,7 @@ Here they are:
 | `mutationPrefix` | `String` | `'SOCKET_'` | Prepend to event name while converting event to mutation. Empty string disables prefixing |  
 | `eventToMutationTransformer` | `Function` `string => string` | uppercase function | Determines how event name converted to mutation |
 | `eventToActionTransformer` | `Function` `string => string` | camelcase function | Determines how event name converted to action |
+| eventMapping | `Function` `socket => string` | | Map your event from socket event data 
 
 *FYI:* You can always access default plugin options if you need it (e.g. re-use default `eventToActionTransformer` function):
 

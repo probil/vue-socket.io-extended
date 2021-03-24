@@ -199,6 +199,18 @@ it('should apply custom event to mutation transformer', () => {
   expect(fn).toHaveBeenLastCalledWith(store.state, expect.objectContaining(message));
 });
 
+it('should apply custom event name mapping', () => {
+  const fn = jest.fn();
+  const socket = io('wss://localhost');
+  Observe(socket, {
+    eventMapping: fn,
+  });
+  const message = { id: 15, body: 'Hi there' };
+  socket.fireServerEvent('new message', message);
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(fn).toHaveBeenLastCalledWith('new message', [message]);
+});
+
 it('should apply custom action prefix', () => {
   const fn = jest.fn();
   const store = new Store({

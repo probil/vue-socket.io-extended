@@ -43,8 +43,14 @@ export default (Socket, { store, ...otherOptions } = {}) => {
   function registerEventHandler() {
     augmentMethod(Socket, 'onevent', (packet) => {
       const [eventName, ...args] = packet.data;
-      GlobalEmitter.emit(eventName, ...args);
-      passToStore(eventName, args);
+      let mappedEventName = eventName;
+
+      if (otherOptions.eventMapping) {
+        mappedEventName = otherOptions.eventMapping(eventName, args);
+      }
+
+      GlobalEmitter.emit(mappedEventName, ...args);
+      passToStore(mappedEventName, args);
     });
 
     SYSTEM_EVENTS.forEach((eventName) => {
