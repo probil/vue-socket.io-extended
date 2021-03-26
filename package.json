@@ -44,7 +44,7 @@
     "@types/socket.io-client": "1.4.36"
   },
   "devDependencies": {
-    "@babel/core": "7.13.10",
+    "@babel/core": "7.13.13",
     "@babel/plugin-external-helpers": "7.12.13",
     "@babel/plugin-proposal-decorators": "7.13.5",
     "@babel/plugin-proposal-export-namespace-from": "7.12.13",
