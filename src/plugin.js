@@ -5,6 +5,7 @@ import GlobalEmitter from './GlobalEmitter';
 import createMixin from './createMixin';
 import { isSocketIo } from './utils';
 import defaults from './defaults';
+import { SocketExtensionKey } from './composables';
 
 /**
  * @param {Vue} app
@@ -67,6 +68,7 @@ function install(app, socket, options) {
   app.config.optionMergeStrategies.sockets = (toVal, fromVal) => ({ ...toVal, ...fromVal });
   Observe(socket, options);
   app.mixin(createMixin(GlobalEmitter));
+  app.provide(SocketExtensionKey, $socket);
 }
 
-export { defaults, install };
+export default { defaults, install };

@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
-import { createApp } from 'vue';
-import * as Main from '../plugin';
+import { createApp, inject } from 'vue';
+import { SocketExtensionKey } from '..';
+import Main from '../plugin';
 import io from '../__mocks__/socket.io-client';
 
 it('should be vue plugin (is an object with `install` method)', () => {
@@ -95,6 +96,17 @@ describe('.install()', () => {
       mixinListener,
       componentListener,
     });
+  });
+
+  it('provides $socket to be injectable via the SocketExtensionKey symbol within setup()', () => {
+    let injectedSocketExtension;
+    const wrapper = mount({
+      render: () => null,
+      setup() {
+        injectedSocketExtension = inject(SocketExtensionKey);
+      },
+    }, { global: { plugins: [[Main, io('ws://localhost')]] } });
+    expect(injectedSocketExtension).toBe(wrapper.vm.$socket);
   });
 });
 
