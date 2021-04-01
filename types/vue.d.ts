@@ -6,7 +6,7 @@ import { App } from "vue";
 import * as SocketIOClient from 'socket.io-client';
 
 type DefaultSocketHandlers = {
-  [key: string]: (this: App, ...args: any[]) => any
+  [key: string]: (...args: any[]) => any
 };
 
 import { ComponentCustomOptions } from 'vue';
