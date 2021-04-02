@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  Socket.io bindings for Vue.js and Vuex (inspired by Vue-Socket.io)
+  Socket.io bindings for Vue.js 2 and Vuex (inspired by Vue-Socket.io)
 </p>
 
 <p align="center">
@@ -22,6 +22,10 @@
 <p align="center">
   <a href='https://ko-fi.com/R5R1119O3' target='_blank'><img height='36' style='border:0;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 </p>
+
+
+> :warning: [The alpha version of v5](https://github.com/probil/vue-socket.io-extended/tree/alpha) (with Vue 3 support) has been released. Your feedback would be appreciated [here](https://github.com/probil/vue-socket.io-extended/issues/489) 
+
 
 ## :cherries: Features
 
@@ -332,6 +336,7 @@ Here they are:
 | `mutationPrefix` | `String` | `'SOCKET_'` | Prepend to event name while converting event to mutation. Empty string disables prefixing |
 | `eventToMutationTransformer` | `Function` `string => string` | uppercase function | Determines how event name converted to mutation |
 | `eventToActionTransformer` | `Function` `string => string` | camelcase function | Determines how event name converted to action |
+| eventMapping | `Function` `socket => string` | | Map your event from socket event data 
 
 *FYI:* You can always access default plugin options if you need it (e.g. re-use default `eventToActionTransformer` function):
 
