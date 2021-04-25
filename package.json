@@ -4,6 +4,7 @@
   "description": "Socket.io bindings for Vue.js and Vuex (inspired by Vue-Socket.io)",
   "main": "dist/vue-socket.io-ext.min.js",
   "module": "dist/vue-socket.io-ext.esm.js",
+  "sideEffects": false,
   "scripts": {
     "test": "jest",
     "lint": "eslint scripts src",
