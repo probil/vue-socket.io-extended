@@ -6,8 +6,8 @@ import {
   unwrapIfSingle,
   prefixWith,
   pipe,
-  augmentMethod,
 } from './utils';
+import subscribeToAny from './utils/subscribeToAny';
 
 export default (Socket, { store, ...otherOptions } = {}) => {
   const options = { ...defaults, ...otherOptions };
@@ -41,13 +41,10 @@ export default (Socket, { store, ...otherOptions } = {}) => {
   }
 
   function registerEventHandler() {
-    augmentMethod(Socket, 'onevent', (packet) => {
-      const [eventName, ...args] = packet.data;
-      let mappedEventName = eventName;
-
-      if (otherOptions.eventMapping) {
-        mappedEventName = otherOptions.eventMapping(eventName, args);
-      }
+    subscribeToAny(Socket, (eventName, ...args) => {
+      const mappedEventName = otherOptions.eventMapping
+        ? otherOptions.eventMapping(eventName, args)
+        : eventName;
 
       GlobalEmitter.emit(mappedEventName, ...args);
       passToStore(mappedEventName, args);
