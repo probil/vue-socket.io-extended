@@ -24,7 +24,7 @@
 </p>
 
 
-> :warning: [The alpha version of v5](https://github.com/probil/vue-socket.io-extended/tree/alpha) (with Vue 3 support) has been released. Your feedback would be appreciated [here](https://github.com/probil/vue-socket.io-extended/issues/489) 
+> :warning: [The alpha version of v5](https://github.com/probil/vue-socket.io-extended/tree/alpha) (with Vue 3 support) has been released. Your feedback would be appreciated [here](https://github.com/probil/vue-socket.io-extended/issues/489)
 
 
 ## :cherries: Features
@@ -43,12 +43,12 @@
 |![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png) |
 | --- | --- | --- | --- | --- | --- |
 | 38+ :heavy_check_mark: | 13+ :heavy_check_mark:  | 8+ :heavy_check_mark: | 25+ :heavy_check_mark: | 12+ :heavy_check_mark: | 11+ :heavy_check_mark: |
- 
-We support only browsers with global usage statistics greater then 1% and last 2 version of each browser (but not dead browsers). Library may work in older browser as well but we don't not guarantee that. You may need addition polyfills to make it work.
+
+We support only browsers with global usage statistics greater than 1% and last 2 version of each browser (but not dead browsers). Library may work in older browser as well, but we don't guarantee that. You may need addition polyfills to make it work.
 
 ## :seedling: Motivation
 
-I was using [`Vue-Socket.io`](https://github.com/MetinSeylan/Vue-Socket.io) for few months. I've liked the idea, but the more I used it the more I faced with bugs, outdated documentation, lack of support, absence of tests and a huge amount of issues :disappointed:. That slowed down development of the product I was working on. So I ended up with a decision to create my own fork with all the desirable stuff (features/fixes/tests/support/CI checks etc). That's how `vue-socket.io-extended` was born.
+I was using [`Vue-Socket.io`](https://github.com/MetinSeylan/Vue-Socket.io) for few months. I've liked the idea, but the more I used it the more I faced with bugs, outdated documentation, lack of support, absence of tests, and a huge amount of issues :disappointed:. That slowed down development of the product I was working on. So I ended up with a decision to create my own fork with all the desirable stuff (features/fixes/tests/support/CI checks etc). That's how `vue-socket.io-extended` was born.
 
 If you'd like to help - create an issue or PR. I will be glad to see any contribution.  Let's make the world a better place :heart:
 
@@ -97,7 +97,7 @@ Vue.use(VueSocketIOExt, socket);
 
 #### On Vue.js component
 
-Define your listeners under `sockets` section and they will listen corresponding `socket.io` events automatically.
+Define your listeners under `sockets` section, and they will listen corresponding `socket.io` events automatically.
 
 ```js
 new Vue({
@@ -122,16 +122,36 @@ new Vue({
 
 #### Dynamic socket event listeners (changed in v4)
 
-Create a new listener
-``` js
+There is a way to create listeners dynamically, in case you need to start listening only on some condition.
+```js
+// creating event listener
 this.$socket.$subscribe('event_name', payload => {
   console.log(payload)
 });
-```
-Remove existing listener
-``` js
+
+// removing existing listener
 this.$socket.$unsubscribe('event_name');
 ```
+As an alternative, feel free to attach events directly to socket.io client, but keep in mind that you'd need to pass the same function to `.off(event_name, fn)` that you passed to `.on(event_name, fn)` in order to unsubscribe properly. Otherwise, [it won't work as you expect](https://github.com/probil/vue-socket.io-extended/issues/431#issuecomment-714377402).
+```js
+export default {
+  methods: {
+    onEventName(params) {
+      console.log('`eventName` has fired with:', params)
+    },
+  },
+  mounted() {
+    // subscribe
+    this.$socket.client.on('eventName', this.onEventName) // <-- this.onEventName here
+  },
+  beforeDestroy() {
+    // unsubscribe
+    this.$socket.client.off('eventName', this.onEventName) // <-- this.onEventName here
+  },
+}
+```
+
+**Important**: Every dynamic subscription should have appropriate unsubscription. Or else, you'd experience [an event firing multiple times](https://github.com/probil/vue-socket.io-extended/issues/518). Moreover, unsubscribed leftovers might cause memory leaks.
 
 #### Reactive properties (new in v4)
 `$socket.connected` and `$socket.diconnected` are reactive. That means you can use them in expressions
@@ -145,8 +165,8 @@ this.$socket.$unsubscribe('event_name');
 Or conditions
 ```vue
 <template>
-  <span 
-    class="notification" 
+  <span
+    class="notification"
     v-if="$socket.disconnected"
   >
     You are disconnected
@@ -171,9 +191,9 @@ const socket = io('http://socketserver.com:1923');
 Vue.use(VueSocketIOExt, socket, { store });
 ```
 
-#### Receiving Events  
+#### Receiving Events
 
-Mutations and actions will be dispatched or committed automatically in the Vuex store when a socket event arrives.  A mutation or action must follow the naming convention below to recognize and handle a socket event. 
+Mutations and actions will be dispatched or committed automatically in the Vuex store when a socket event arrives.  A mutation or action must follow the naming convention below to recognize and handle a socket event.
 
 * A **mutation** should start with `SOCKET_` prefix and continue with an uppercase version of the event
 * An **action** should start with `socket_` prefix and continue with camelcase version of the event
@@ -223,7 +243,7 @@ export default new Vuex.Store({
 })
 ```
 
-#### Emitting Events  
+#### Emitting Events
 
 Events can be sent to the Socket.IO server by calling `this._vm.$socket.client.emit` from a Vuex mutation or action. Mutation or action names are not subject to the same naming requirements as above. More then one argument can be included. [All serializable data structures are supported](https://socket.io/docs/client-api/#socket-emit-eventName-%E2%80%A6args-ack), including Buffer.
 
@@ -306,11 +326,11 @@ import { Socket } from 'vue-socket.io-extended'
 
 @Component({})
 export default class App extends Vue {
-  @Socket() // --> listens to the event by method name, e.g. `connect` 
+  @Socket() // --> listens to the event by method name, e.g. `connect`
   connect () {
     console.log('connection established');
   }
-  
+
   @Socket('tweet')  // --> listens to the event with given name, e.g. `tweet`
   onTweet (tweetInfo) {
     // do something with `tweetInfo`
@@ -344,7 +364,7 @@ module.exports = {
   //...,
   plugins: [
     //...,
-    { 
+    {
       src: '~/plugins/socket.io.js',
       ssr: false,                    // <-- this line is required
     },
@@ -374,30 +394,31 @@ export default async ({ store, Vue }) => {
 // quasar.conf.js
 module.exports = function (ctx) {
   return {
-  //...,
-  boot: [
     //...,
-    { 
-      path: 'socket.io',
-      server: false,
-    },
-  ]
-}
+    boot: [
+      //...,
+      {
+        path: 'socket.io',
+        server: false,
+      },
+    ]
+  }
+};
 ```
 
 ## :gear: Configuration
 
-In addition to store instance, `vue-socket.io-extended` accepts other options. 
+In addition to store instance, `vue-socket.io-extended` accepts other options.
 Here they are:
 
 | Option | Type | Default | Description |
 | ---- | ---- | ------- | ------- |
 | `store` | `Object` | `undefined` | Vuex store instance, enables vuex integration |
 | `actionPrefix` | `String` | `'socket_'` | Prepend to event name while converting event to action. Empty string disables prefixing |
-| `mutationPrefix` | `String` | `'SOCKET_'` | Prepend to event name while converting event to mutation. Empty string disables prefixing |  
+| `mutationPrefix` | `String` | `'SOCKET_'` | Prepend to event name while converting event to mutation. Empty string disables prefixing |
 | `eventToMutationTransformer` | `Function` `string => string` | uppercase function | Determines how event name converted to mutation |
 | `eventToActionTransformer` | `Function` `string => string` | camelcase function | Determines how event name converted to action |
-| eventMapping | `Function` `socket => string` | | Map your event from socket event data 
+| eventMapping | `Function` `socket => string` | | Map your event from socket event data
 
 *FYI:* You can always access default plugin options if you need it (e.g. re-use default `eventToActionTransformer` function):
 
@@ -409,23 +430,22 @@ VueSocketIOExt.defaults // -> { actionPrefix: '...', mutationPrefix: '...', ... 
 ## :information_source: Migration from VueSocketIO
 
 For everyone who has migrated from old package VueSocketIO to this new one on existing project.
-You need to redefine 2 parameters so you will be able to use old store actions names like "SOCKET_EVENT_NAME".
+You need to re-define 2 parameters, in order to use existing store actions without changes (e.g. `SOCKET_EVENT_NAME`).
 
 ```js
 import VueSocketIO from 'vue-socket.io-extended';
 import { io } from 'socket.io-client';
 
-
 const ioInstance = io('https://hostname/path', {
-        reconnection: true,
-        reconnectionDelay: 500,
-        maxReconnectionAttempts: Infinity
+  reconnection: true,
+  reconnectionDelay: 500,
+  maxReconnectionAttempts: Infinity
 });
+
 Vue.use(VueSocketIO, ioInstance, {
-        store, // vuex store instance
-        actionPrefix: 'SOCKET_', // keep prefix in uppercase
-        eventToActionTransformer: (actionName) => actionName // cancel camel case
-    }
+  store, // vuex store instance
+  actionPrefix: 'SOCKET_', // (1) keep prefix in uppercase
+  eventToActionTransformer: (actionName) => actionName // (2) cancel camelcasing
 });
 ```
 
