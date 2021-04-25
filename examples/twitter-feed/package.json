@@ -10,12 +10,12 @@
   "dependencies": {
     "socket.io-client": "2.4.0",
     "vue": "2.6.12",
-    "vue-socket.io-extended": "4.0.6",
+    "vue-socket.io-extended": "4.2.0",
     "vue2-transitions": "0.3.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "4.5.10",
-    "@vue/cli-service": "4.5.10",
+    "@vue/cli-plugin-babel": "4.5.12",
+    "@vue/cli-service": "4.5.12",
     "stylus": "0.54.8",
     "stylus-loader": "3.0.2",
     "vue-template-compiler": "2.6.12"
