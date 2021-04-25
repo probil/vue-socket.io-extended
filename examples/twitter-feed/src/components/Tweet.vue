@@ -45,6 +45,7 @@ $image-size = 40px;
     flex-basis: $image-size;
     margin: 0 5px;
     display: flex;
+    flex-shrink 0;
   }
 
   &__body-wrap {
