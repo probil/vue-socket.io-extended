@@ -299,7 +299,7 @@ Check the example below:
 <!-- App.vue -->
 <script>
 import { Options, Vue } from 'vue-class-component';
-import { Socket } from 'vue-socket.io-extended'
+import Socket from 'vue-socket.io-extended/decorator';
 
 @Options({})
 export default class App extends Vue {

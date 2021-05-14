@@ -9,7 +9,7 @@
       "import": "./dist/vue-socket.io-ext.esm.js",
       "default": "./dist/vue-socket.io-ext.min.js"
     },
-    "./decorator/": "./dist/vue-socket.io-ext.decorator.esm.js"
+    "./decorator": "./dist/vue-socket.io-ext.decorator.esm.js"
   },
   "scripts": {
     "test": "jest",
@@ -27,6 +27,11 @@
     "types/"
   ],
   "typings": "types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "decorator": ["types/decorator.d.ts"]
+    }
+  },
   "keywords": [
     "vuejs",
     "socket",
