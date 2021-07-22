@@ -50,7 +50,7 @@
     "@babel/plugin-proposal-decorators": "7.14.5",
     "@babel/plugin-proposal-export-namespace-from": "7.14.5",
     "@babel/preset-env": "7.14.8",
-    "@vue/test-utils": "1.2.1",
+    "@vue/test-utils": "1.2.2",
     "babel-eslint": "10.1.0",
     "camelcase": "5.3.1",
     "conventional-changelog": "3.1.24",
