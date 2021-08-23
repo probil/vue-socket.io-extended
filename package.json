@@ -59,7 +59,7 @@
     "eslint-plugin-import": "2.24.1",
     "eslint-plugin-jest": "24.4.0",
     "jest": "27.0.6",
-    "rollup": "2.56.2",
+    "rollup": "2.56.3",
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-filesize": "9.1.1",
