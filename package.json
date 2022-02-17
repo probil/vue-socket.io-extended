@@ -45,7 +45,7 @@
     "@types/socket.io-client": "1.4.36"
   },
   "devDependencies": {
-    "@babel/core": "7.17.4",
+    "@babel/core": "7.17.5",
     "@babel/eslint-parser": "7.17.0",
     "@babel/plugin-external-helpers": "7.16.7",
     "@babel/plugin-proposal-decorators": "7.17.2",
