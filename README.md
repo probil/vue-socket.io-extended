@@ -1,3 +1,7 @@
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua)
+
+---
+
 <h1 align="center" style="text-align:center">Vue-Socket.io-Extended</h1>
 
 <p align="center">
